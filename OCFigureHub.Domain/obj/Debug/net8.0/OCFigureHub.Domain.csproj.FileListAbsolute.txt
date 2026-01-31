@@ -1,0 +1,11 @@
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\bin\Debug\net8.0\OCFigureHub.Domain.deps.json
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\bin\Debug\net8.0\OCFigureHub.Domain.dll
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\bin\Debug\net8.0\OCFigureHub.Domain.pdb
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\OCFigureHub.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\OCFigureHub.Domain.AssemblyInfoInputs.cache
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\OCFigureHub.Domain.AssemblyInfo.cs
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\OCFigureHub.Domain.csproj.CoreCompileInputs.cache
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\OCFigureHub.Domain.dll
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\refint\OCFigureHub.Domain.dll
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\OCFigureHub.Domain.pdb
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\ref\OCFigureHub.Domain.dll

@@ -1,0 +1,6 @@
+@OCFigureHub.API_HostAddress = http://localhost:5086
+
+GET {{OCFigureHub.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
