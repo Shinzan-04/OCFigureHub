@@ -9,3 +9,4 @@ D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\OCFigureHu
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\refint\OCFigureHub.Domain.dll
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\OCFigureHub.Domain.pdb
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\ref\OCFigureHub.Domain.dll
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Domain\obj\Debug\net8.0\OCFigureHub.Domain.sourcelink.json

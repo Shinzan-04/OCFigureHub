@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\storage\\azureblobstorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\storage\\azureblobstorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,12 +15,188 @@
       "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\dtos\\auth\\registerrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\dtos\\auth\\registerrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\persistence\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\persistence\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\isubscriptionplanrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\isubscriptionplanrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\subscriptionplanrepository .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\subscriptionplanrepository .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\iorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\iorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\controllers\\paymentscontroller .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\controllers\\paymentscontroller .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\controllers\\adminuserscontroller .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\controllers\\adminuserscontroller .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\subscriptionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\subscriptionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\reportrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\reportrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\downloadrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\downloadrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\subscription.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\subscription.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\idownloadrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\idownloadrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\services\\downloadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\services\\downloadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\productfilerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\productfilerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\ijwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\ijwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\services\\subscriptionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\services\\subscriptionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\isubscriptionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\isubscriptionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\backgroundjobs\\monthlyquotaresethostedservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\backgroundjobs\\monthlyquotaresethostedservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\controllers\\subscriptioncontroller .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\controllers\\subscriptioncontroller .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\payments\\vnpaygateway .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\payments\\vnpaygateway .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\payments\\vnpayoptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\payments\\vnpayoptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\istorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\istorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\quotarepository .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\quotarepository .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\services\\reportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\services\\reportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\jobs\\quotaresetjob.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\jobs\\quotaresetjob.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\payments\\ipaymentgateway.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\payments\\ipaymentgateway.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\ireportrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\ireportrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\iquotarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\iquotarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\dtos\\adminusers\\setuserstatusrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\dtos\\adminusers\\setuserstatusrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\dtos\\payments\\vnpaycallbackresultdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\dtos\\payments\\vnpaycallbackresultdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\dtos\\payments\\createpaymentresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\dtos\\payments\\createpaymentresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\dtos\\reports\\downloadsreportresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\dtos\\reports\\downloadsreportresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\dtos\\reports\\salesreportresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\dtos\\reports\\salesreportresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\dtos\\subscriptions\\subscriptionresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\dtos\\subscriptions\\subscriptionresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\dtos\\subscriptions\\subscriberequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\dtos\\subscriptions\\subscriberequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\downloadhistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\downloadhistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\downloadtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\downloadtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\quotausage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\quotausage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\subscriptionplan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\subscriptionplan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\security\\pbkdf2passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\security\\pbkdf2passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\security\\jwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,8 +207,36 @@
       "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\security\\jwtoptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\services\\adminproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\services\\adminproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\controllers\\downloadscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\controllers\\downloadscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\controllers\\adminproductscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\controllers\\adminproductscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\common\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\common\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\dtos\\auth\\registerrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\dtos\\auth\\registerrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\dtos\\auth\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -43,44 +251,8 @@
       "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\controllers\\adminproductscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\controllers\\adminproductscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\security\\pbkdf2passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\security\\pbkdf2passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\productfilerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\productfilerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\persistence\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\persistence\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\services\\adminproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\services\\adminproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\iorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\iorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\iproductfilerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -89,18 +261,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\istorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\istorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\ijwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\ijwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\ipasswordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -127,30 +287,6 @@
       "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\dtos\\products\\admincreateproductrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\common\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\common\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.infrastructure\\repositories\\downloadrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6954922E-C82C-48B4-AE59-34AF6BF7736A}|OCFigureHub.Infrastructure\\OCFigureHub.Infrastructure.csproj|solutionrelative:ocfigurehub.infrastructure\\repositories\\downloadrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\abstractions\\idownloadrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\abstractions\\idownloadrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\services\\downloadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\services\\downloadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\controllers\\downloadscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\controllers\\downloadscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.api\\ocfigurehub.api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
       "RelativeMoniker": "D:0:0:{5E702F8E-B5DD-4417-856B-B3756808F12D}|OCFigureHub.API\\OCFigureHub.API.csproj|solutionrelative:ocfigurehub.api\\ocfigurehub.api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     },
@@ -161,26 +297,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.application\\dtos\\downloadrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C1CB2F53-AE42-43F1-82EE-745935D1EF65}|OCFigureHub.Application\\OCFigureHub.Application.csproj|solutionrelative:ocfigurehub.application\\dtos\\downloadrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\downloadhistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\downloadhistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\quotausage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\quotausage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\downloadtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\downloadtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\subscription.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\subscription.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\subscriptionplan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\subscriptionplan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\productfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -197,14 +313,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\orderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\orderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|solutionrelative:ocfigurehub.domain\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0BFED988-99F5-4C3C-83E9-54FF111001AD}|OCFigureHub.Domain\\OCFigureHub.Domain.csproj|d:\\prn222_srccode\\exe\\ocfigurehub\\ocfigurehub.domain\\enums\\filetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -250,7 +358,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -259,38 +367,51 @@
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\UserRepository.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\UserRepository.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\UserRepository.cs",
-              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\UserRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Title": "ISubscriptionPlanRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\ISubscriptionPlanRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\ISubscriptionPlanRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\ISubscriptionPlanRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\ISubscriptionPlanRepository.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAADwvxIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:29:08.665Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "JwtOptions.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Security\\JwtOptions.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Security\\JwtOptions.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Security\\JwtOptions.cs",
-              "RelativeToolTip": "OCFigureHub.Infrastructure\\Security\\JwtOptions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:27:48.584Z",
+              "WhenOpened": "2026-02-06T07:38:18.001Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "AzureBlobStorageService.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Storage\\AzureBlobStorageService.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Storage\\AzureBlobStorageService.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Storage\\AzureBlobStorageService.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Storage\\AzureBlobStorageService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T16:24:50.128Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\appsettings.json",
+              "RelativeDocumentMoniker": "OCFigureHub.API\\appsettings.json",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\appsettings.json",
+              "RelativeToolTip": "OCFigureHub.API\\appsettings.json",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAYwBYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-31T16:30:38.12Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Program.cs",
               "RelativeDocumentMoniker": "OCFigureHub.API\\Program.cs",
               "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Program.cs",
               "RelativeToolTip": "OCFigureHub.API\\Program.cs",
-              "ViewState": "AgIAAH4AAAAAAAAAAADwv4cAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAJMAAAAAAAAAAAAAABkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-31T16:13:51.512Z",
               "EditorCaption": ""
@@ -298,318 +419,214 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "RegisterRequest.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Auth\\RegisterRequest.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Auth\\RegisterRequest.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Auth\\RegisterRequest.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Auth\\RegisterRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\UserRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\UserRepository.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwCMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:20:38.195Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "OrderRepository.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\OrderRepository.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\OrderRepository.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\OrderRepository.cs",
-              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\OrderRepository.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAADwvxgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:29:59.237Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Pbkdf2PasswordHasher.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Security\\Pbkdf2PasswordHasher.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Security\\Pbkdf2PasswordHasher.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Security\\Pbkdf2PasswordHasher.cs",
-              "RelativeToolTip": "OCFigureHub.Infrastructure\\Security\\Pbkdf2PasswordHasher.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAADwvx4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:30:30.759Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AzureBlobStorageService.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Storage\\AzureBlobStorageService.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Storage\\AzureBlobStorageService.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Storage\\AzureBlobStorageService.cs",
-              "RelativeToolTip": "OCFigureHub.Infrastructure\\Storage\\AzureBlobStorageService.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAgwBcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:24:50.128Z",
+              "WhenOpened": "2026-01-31T17:29:08.665Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "JwtTokenService.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Security\\JwtTokenService.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Security\\JwtTokenService.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Security\\JwtTokenService.cs",
-              "RelativeToolTip": "OCFigureHub.Infrastructure\\Security\\JwtTokenService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:28:08.117Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\AuthService.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\Services\\AuthService.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\AuthService.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\Services\\AuthService.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAUwCEAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:26:42.198Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "LoginRequest.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Auth\\LoginRequest.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Auth\\LoginRequest.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Auth\\LoginRequest.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Auth\\LoginRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:20:57.722Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "AuthResponse.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Auth\\AuthResponse.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Auth\\AuthResponse.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Auth\\AuthResponse.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Auth\\AuthResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:21:12.691Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.API\\Controllers\\AuthController.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "OCFigureHub.API\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAgwB8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:32:31.554Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "AdminProductsController.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\AdminProductsController.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.API\\Controllers\\AdminProductsController.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\AdminProductsController.cs",
-              "RelativeToolTip": "OCFigureHub.API\\Controllers\\AdminProductsController.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAADwv0EAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:32:56.527Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "OrdersController.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\OrdersController.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.API\\Controllers\\OrdersController.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\OrdersController.cs",
-              "RelativeToolTip": "OCFigureHub.API\\Controllers\\OrdersController.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:33:17.52Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "ProductFileRepository.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\ProductFileRepository.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\ProductFileRepository.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\ProductFileRepository.cs",
-              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\ProductFileRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:29:43.953Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "ProductRepository.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\ProductRepository.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\ProductRepository.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\ProductRepository.cs",
-              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\ProductRepository.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAADwvyEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:29:22.896Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "OrderService.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\OrderService.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\Services\\OrderService.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\OrderService.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\Services\\OrderService.cs",
-              "ViewState": "AgIAACAAAAAAAAAAAADwvzQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:27:11.831Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "AdminProductService.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\AdminProductService.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\Services\\AdminProductService.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\AdminProductService.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\Services\\AdminProductService.cs",
-              "ViewState": "AgIAAE4AAAAAAAAAAADwv2IAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:26:57.563Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "IOrderRepository.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IOrderRepository.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IOrderRepository.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IOrderRepository.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IOrderRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:26:22.025Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "IProductFileRepository.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IProductFileRepository.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IProductFileRepository.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IProductFileRepository.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IProductFileRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:25:54.902Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Persistence\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Persistence\\AppDbContext.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Persistence\\AppDbContext.cs",
-              "RelativeToolTip": "OCFigureHub.Infrastructure\\Persistence\\AppDbContext.cs",
-              "ViewState": "AgIAAC4AAAAAAAAAAAAUwEIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:21:27.68Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "IProductRepository.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IProductRepository.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IProductRepository.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IProductRepository.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IProductRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:25:34.38Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
               "Title": "IUserRepository.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IUserRepository.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IUserRepository.cs",
               "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IUserRepository.cs",
               "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IUserRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-31T17:25:20.421Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "IPasswordHasher.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IPasswordHasher.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IPasswordHasher.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IPasswordHasher.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IPasswordHasher.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Persistence\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Persistence\\AppDbContext.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Persistence\\AppDbContext.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Persistence\\AppDbContext.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAmwEIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:23:56.563Z",
+              "WhenOpened": "2026-01-31T16:21:27.68Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "OrderDto.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Orders\\OrderDto.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Orders\\OrderDto.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Orders\\OrderDto.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Orders\\OrderDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 7,
+              "Title": "SubscriptionPlanRepository .cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\SubscriptionPlanRepository .cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\SubscriptionPlanRepository .cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\SubscriptionPlanRepository .cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\SubscriptionPlanRepository .cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAkwD8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:23:20.049Z",
+              "WhenOpened": "2026-02-06T08:09:22.086Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "BuyNowRequest.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Orders\\BuyNowRequest.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Orders\\BuyNowRequest.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Orders\\BuyNowRequest.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Orders\\BuyNowRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "OrderRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\OrderRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\OrderRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\OrderRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\OrderRepository.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAswDUAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:22:54.237Z",
+              "WhenOpened": "2026-01-31T17:29:59.237Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "ProductDto.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Products\\ProductDto.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Products\\ProductDto.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Products\\ProductDto.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Products\\ProductDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "OrderService.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\OrderService.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Services\\OrderService.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\OrderService.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Services\\OrderService.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAYwEUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:22:21.258Z",
+              "WhenOpened": "2026-01-31T17:27:11.831Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 10,
+              "Title": "IOrderRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IOrderRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IOrderRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IOrderRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IOrderRepository.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAIwA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:26:22.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Order.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\Order.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\Order.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\Order.cs",
+              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\Order.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAgwBMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T16:18:59.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "PaymentsController .cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\PaymentsController .cs",
+              "RelativeDocumentMoniker": "OCFigureHub.API\\Controllers\\PaymentsController .cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\PaymentsController .cs",
+              "RelativeToolTip": "OCFigureHub.API\\Controllers\\PaymentsController .cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAqwGEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:59:29.918Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "SubscriptionRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\SubscriptionRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\SubscriptionRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\SubscriptionRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\SubscriptionRepository.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAA7wCMAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T08:12:03.657Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ReportRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\ReportRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\ReportRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\ReportRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\ReportRepository.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAIAxwBAAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:49:44.807Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "AdminUsersController .cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\AdminUsersController .cs",
+              "RelativeDocumentMoniker": "OCFigureHub.API\\Controllers\\AdminUsersController .cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\AdminUsersController .cs",
+              "RelativeToolTip": "OCFigureHub.API\\Controllers\\AdminUsersController .cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:58:54.19Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "DownloadRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\DownloadRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\DownloadRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\DownloadRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\DownloadRepository.cs",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAcwEEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:14:37.063Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Subscription.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\Subscription.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\Subscription.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\Subscription.cs",
+              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\Subscription.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAswA4AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T16:20:11.759Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "IDownloadRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IDownloadRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IDownloadRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IDownloadRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IDownloadRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T16:56:49.432Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "DownloadService.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\DownloadService.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Services\\DownloadService.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\DownloadService.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Services\\DownloadService.cs",
+              "ViewState": "AgIAAJUAAAAAAAAAAAAmwKcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T16:28:59.717Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
               "Title": "IJwtTokenService.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IJwtTokenService.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IJwtTokenService.cs",
@@ -622,7 +639,111 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "SubscriptionService.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\SubscriptionService.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Services\\SubscriptionService.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\SubscriptionService.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Services\\SubscriptionService.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwA8AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:41:00.906Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ProductFileRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\ProductFileRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\ProductFileRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\ProductFileRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\ProductFileRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:29:43.953Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 23,
+              "Title": "ISubscriptionRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\ISubscriptionRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\ISubscriptionRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\ISubscriptionRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\ISubscriptionRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwBAAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:38:50.304Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "MonthlyQuotaResetHostedService.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\BackgroundJobs\\MonthlyQuotaResetHostedService.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.API\\BackgroundJobs\\MonthlyQuotaResetHostedService.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\BackgroundJobs\\MonthlyQuotaResetHostedService.cs",
+              "RelativeToolTip": "OCFigureHub.API\\BackgroundJobs\\MonthlyQuotaResetHostedService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T08:00:54.696Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "ReportsController.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\ReportsController.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.API\\Controllers\\ReportsController.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\ReportsController.cs",
+              "RelativeToolTip": "OCFigureHub.API\\Controllers\\ReportsController.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAmwCAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:58:31.392Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "SubscriptionController .cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\SubscriptionController .cs",
+              "RelativeDocumentMoniker": "OCFigureHub.API\\Controllers\\SubscriptionController .cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\SubscriptionController .cs",
+              "RelativeToolTip": "OCFigureHub.API\\Controllers\\SubscriptionController .cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAcwBwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:58:00.526Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "VNPayGateway .cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Payments\\VNPayGateway .cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Payments\\VNPayGateway .cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Payments\\VNPayGateway .cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Payments\\VNPayGateway .cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAcwGMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:57:23.834Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "VNPayOptions.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Payments\\VNPayOptions.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Payments\\VNPayOptions.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Payments\\VNPayOptions.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Payments\\VNPayOptions.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:57:03.317Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
               "Title": "IStorageService.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IStorageService.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IStorageService.cs",
@@ -635,46 +756,319 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "AdminUpdateProductRequest.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Products\\AdminUpdateProductRequest.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Products\\AdminUpdateProductRequest.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Products\\AdminUpdateProductRequest.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Products\\AdminUpdateProductRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:22:05.293Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 30,
-              "Title": "AdminCreateProductRequest.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Products\\AdminCreateProductRequest.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Products\\AdminCreateProductRequest.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Products\\AdminCreateProductRequest.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Products\\AdminCreateProductRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Title": "QuotaRepository .cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\QuotaRepository .cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\QuotaRepository .cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\QuotaRepository .cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\QuotaRepository .cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAowAEAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:21:40.618Z",
+              "WhenOpened": "2026-02-06T07:48:45.518Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\appsettings.json",
-              "RelativeDocumentMoniker": "OCFigureHub.API\\appsettings.json",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\appsettings.json",
-              "RelativeToolTip": "OCFigureHub.API\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-01-31T16:30:38.12Z",
+              "DocumentIndex": 31,
+              "Title": "ReportService.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\ReportService.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Services\\ReportService.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\ReportService.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Services\\ReportService.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAwwC0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:44:24.264Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "QuotaResetJob.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\Jobs\\QuotaResetJob.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\Jobs\\QuotaResetJob.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\Jobs\\QuotaResetJob.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\Jobs\\QuotaResetJob.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:43:51.112Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "IPaymentGateway.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\Payments\\IPaymentGateway.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\Payments\\IPaymentGateway.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\Payments\\IPaymentGateway.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\Payments\\IPaymentGateway.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:40:28.757Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "IReportRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IReportRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IReportRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IReportRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IReportRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:39:36.242Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 35,
+              "Title": "IQuotaRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IQuotaRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IQuotaRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IQuotaRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IQuotaRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:39:14.011Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "SetUserStatusRequestDto.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\AdminUsers\\SetUserStatusRequestDto.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\AdminUsers\\SetUserStatusRequestDto.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\AdminUsers\\SetUserStatusRequestDto.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\AdminUsers\\SetUserStatusRequestDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:35:57.567Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "VNPayCallbackResultDto.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Payments\\VNPayCallbackResultDto.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Payments\\VNPayCallbackResultDto.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Payments\\VNPayCallbackResultDto.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Payments\\VNPayCallbackResultDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:35:14.577Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "CreatePaymentResponseDto.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Payments\\CreatePaymentResponseDto.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Payments\\CreatePaymentResponseDto.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Payments\\CreatePaymentResponseDto.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Payments\\CreatePaymentResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T07:34:57.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "DownloadsReportResponseDto.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Reports\\DownloadsReportResponseDto.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Reports\\DownloadsReportResponseDto.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Reports\\DownloadsReportResponseDto.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Reports\\DownloadsReportResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T06:57:58.11Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "SalesReportResponseDto.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Reports\\SalesReportResponseDto.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Reports\\SalesReportResponseDto.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Reports\\SalesReportResponseDto.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Reports\\SalesReportResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T06:57:30.23Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "SubscriptionResponseDto.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Subscriptions\\SubscriptionResponseDto.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Subscriptions\\SubscriptionResponseDto.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Subscriptions\\SubscriptionResponseDto.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Subscriptions\\SubscriptionResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T06:56:36.384Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "SubscribeRequestDto.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Subscriptions\\SubscribeRequestDto.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Subscriptions\\SubscribeRequestDto.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Subscriptions\\SubscribeRequestDto.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Subscriptions\\SubscribeRequestDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T06:56:16.359Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "DownloadToken.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\DownloadToken.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\DownloadToken.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\DownloadToken.cs",
+              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\DownloadToken.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwBMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T16:20:38.83Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "DownloadHistory.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\DownloadHistory.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\DownloadHistory.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\DownloadHistory.cs",
+              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\DownloadHistory.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAwAYAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T16:20:58.795Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\User.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\User.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\User.cs",
+              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T16:18:11.308Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "QuotaUsage.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\QuotaUsage.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\QuotaUsage.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\QuotaUsage.cs",
+              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\QuotaUsage.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABIAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T16:20:26.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "SubscriptionPlan.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\SubscriptionPlan.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\SubscriptionPlan.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\SubscriptionPlan.cs",
+              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\SubscriptionPlan.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T16:19:40.903Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "JwtOptions.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Security\\JwtOptions.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Security\\JwtOptions.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Security\\JwtOptions.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Security\\JwtOptions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T16:27:48.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "JwtTokenService.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Security\\JwtTokenService.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Security\\JwtTokenService.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Security\\JwtTokenService.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Security\\JwtTokenService.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAYwDAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T16:28:08.117Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "Pbkdf2PasswordHasher.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Security\\Pbkdf2PasswordHasher.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Security\\Pbkdf2PasswordHasher.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Security\\Pbkdf2PasswordHasher.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Security\\Pbkdf2PasswordHasher.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAADwvx4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:30:30.759Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\ProductRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\ProductRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\ProductRepository.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAADwvyEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:29:22.896Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "AdminProductService.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\AdminProductService.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Services\\AdminProductService.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\AdminProductService.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Services\\AdminProductService.cs",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAkwGIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:26:57.563Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Services\\AuthService.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\AuthService.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Services\\AuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:26:42.198Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
               "Title": "DownloadsController.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\DownloadsController.cs",
               "RelativeDocumentMoniker": "OCFigureHub.API\\Controllers\\DownloadsController.cs",
@@ -687,20 +1081,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "DownloadService.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\DownloadService.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\Services\\DownloadService.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Services\\DownloadService.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\Services\\DownloadService.cs",
-              "ViewState": "AgIAAHIAAAAAAAAAAAAswKcAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 55,
+              "Title": "AdminProductsController.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\AdminProductsController.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.API\\Controllers\\AdminProductsController.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\AdminProductsController.cs",
+              "RelativeToolTip": "OCFigureHub.API\\Controllers\\AdminProductsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:28:59.717Z",
+              "WhenOpened": "2026-01-31T17:32:56.527Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 56,
+              "Title": "WeatherForecastController.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\WeatherForecastController.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.API\\Controllers\\WeatherForecastController.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\WeatherForecastController.cs",
+              "RelativeToolTip": "OCFigureHub.API\\Controllers\\WeatherForecastController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T06:43:44.255Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
               "Title": "BaseEntity.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Common\\BaseEntity.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Domain\\Common\\BaseEntity.cs",
@@ -713,33 +1120,163 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "DownloadRepository.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\DownloadRepository.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Repositories\\DownloadRepository.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Repositories\\DownloadRepository.cs",
-              "RelativeToolTip": "OCFigureHub.Infrastructure\\Repositories\\DownloadRepository.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAADwv0kAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 58,
+              "Title": "RegisterRequest.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Auth\\RegisterRequest.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Auth\\RegisterRequest.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Auth\\RegisterRequest.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Auth\\RegisterRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T17:14:37.063Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T17:20:38.195Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "IDownloadRepository.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IDownloadRepository.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IDownloadRepository.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IDownloadRepository.cs",
-              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IDownloadRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
+              "DocumentIndex": 59,
+              "Title": "LoginRequest.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Auth\\LoginRequest.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Auth\\LoginRequest.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Auth\\LoginRequest.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Auth\\LoginRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:56:49.432Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T17:20:57.722Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 60,
+              "Title": "AuthResponse.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Auth\\AuthResponse.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Auth\\AuthResponse.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Auth\\AuthResponse.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Auth\\AuthResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:21:12.691Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 62,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.API\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "OCFigureHub.API\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:32:31.554Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 61,
+              "Title": "OrdersController.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\OrdersController.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.API\\Controllers\\OrdersController.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\Controllers\\OrdersController.cs",
+              "RelativeToolTip": "OCFigureHub.API\\Controllers\\OrdersController.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:33:17.52Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 63,
+              "Title": "IProductFileRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IProductFileRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IProductFileRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IProductFileRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IProductFileRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:25:54.902Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 64,
+              "Title": "IProductRepository.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IProductRepository.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IProductRepository.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IProductRepository.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IProductRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:25:34.38Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 65,
+              "Title": "IPasswordHasher.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IPasswordHasher.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\Abstractions\\IPasswordHasher.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Abstractions\\IPasswordHasher.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\Abstractions\\IPasswordHasher.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:23:56.563Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 66,
+              "Title": "OrderDto.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Orders\\OrderDto.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Orders\\OrderDto.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Orders\\OrderDto.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Orders\\OrderDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:23:20.049Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 67,
+              "Title": "BuyNowRequest.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Orders\\BuyNowRequest.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Orders\\BuyNowRequest.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Orders\\BuyNowRequest.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Orders\\BuyNowRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:22:54.237Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 68,
+              "Title": "ProductDto.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Products\\ProductDto.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Products\\ProductDto.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Products\\ProductDto.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Products\\ProductDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:22:21.258Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 69,
+              "Title": "AdminUpdateProductRequest.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Products\\AdminUpdateProductRequest.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Products\\AdminUpdateProductRequest.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Products\\AdminUpdateProductRequest.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Products\\AdminUpdateProductRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:22:05.293Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 70,
+              "Title": "AdminCreateProductRequest.cs",
+              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Products\\AdminCreateProductRequest.cs",
+              "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\Products\\AdminCreateProductRequest.cs",
+              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\Products\\AdminCreateProductRequest.cs",
+              "RelativeToolTip": "OCFigureHub.Application\\DTOs\\Products\\AdminCreateProductRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T17:21:40.618Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 71,
               "Title": "OCFigureHub.API.http",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.API\\OCFigureHub.API.http",
               "RelativeDocumentMoniker": "OCFigureHub.API\\OCFigureHub.API.http",
@@ -747,12 +1284,11 @@
               "RelativeToolTip": "OCFigureHub.API\\OCFigureHub.API.http",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2026-01-31T16:44:54.32Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:44:54.32Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 72,
               "Title": "DownloadResponseDto.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\DownloadResponseDto.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\DownloadResponseDto.cs",
@@ -760,12 +1296,11 @@
               "RelativeToolTip": "OCFigureHub.Application\\DTOs\\DownloadResponseDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:28:45.629Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:28:45.629Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 73,
               "Title": "DownloadRequestDto.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\DTOs\\DownloadRequestDto.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Application\\DTOs\\DownloadRequestDto.cs",
@@ -773,77 +1308,11 @@
               "RelativeToolTip": "OCFigureHub.Application\\DTOs\\DownloadRequestDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:28:31.93Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:28:31.93Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
-              "Title": "DownloadHistory.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\DownloadHistory.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\DownloadHistory.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\DownloadHistory.cs",
-              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\DownloadHistory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:20:58.795Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 42,
-              "Title": "DownloadToken.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\DownloadToken.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\DownloadToken.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\DownloadToken.cs",
-              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\DownloadToken.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:20:38.83Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 41,
-              "Title": "QuotaUsage.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\QuotaUsage.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\QuotaUsage.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\QuotaUsage.cs",
-              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\QuotaUsage.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:20:26.153Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 43,
-              "Title": "Subscription.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\Subscription.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\Subscription.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\Subscription.cs",
-              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\Subscription.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:20:11.759Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 44,
-              "Title": "SubscriptionPlan.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\SubscriptionPlan.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\SubscriptionPlan.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\SubscriptionPlan.cs",
-              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\SubscriptionPlan.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:19:40.903Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 76,
               "Title": "PaymentTransaction.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\PaymentTransaction.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\PaymentTransaction.cs",
@@ -851,12 +1320,11 @@
               "RelativeToolTip": "OCFigureHub.Domain\\Entities\\PaymentTransaction.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:19:30.997Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:19:30.997Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 77,
               "Title": "OrderItem.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\OrderItem.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\OrderItem.cs",
@@ -864,25 +1332,11 @@
               "RelativeToolTip": "OCFigureHub.Domain\\Entities\\OrderItem.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:19:15.294Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:19:15.294Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
-              "Title": "Order.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\Order.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\Order.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\Order.cs",
-              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\Order.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:18:59.142Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 74,
               "Title": "ProductFile.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\ProductFile.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\ProductFile.cs",
@@ -890,12 +1344,11 @@
               "RelativeToolTip": "OCFigureHub.Domain\\Entities\\ProductFile.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:18:37.961Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:18:37.961Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 75,
               "Title": "Product.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\Product.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\Product.cs",
@@ -903,25 +1356,11 @@
               "RelativeToolTip": "OCFigureHub.Domain\\Entities\\Product.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:18:23.61Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:18:23.61Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
-              "Title": "User.cs",
-              "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\User.cs",
-              "RelativeDocumentMoniker": "OCFigureHub.Domain\\Entities\\User.cs",
-              "ToolTip": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Entities\\User.cs",
-              "RelativeToolTip": "OCFigureHub.Domain\\Entities\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:18:11.308Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 78,
               "Title": "FileType.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Enums\\FileType.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Domain\\Enums\\FileType.cs",
@@ -929,12 +1368,11 @@
               "RelativeToolTip": "OCFigureHub.Domain\\Enums\\FileType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:17:19.899Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:17:19.899Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 79,
               "Title": "PaymentStatus.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Enums\\PaymentStatus.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Domain\\Enums\\PaymentStatus.cs",
@@ -942,12 +1380,11 @@
               "RelativeToolTip": "OCFigureHub.Domain\\Enums\\PaymentStatus.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:17:06.244Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:17:06.244Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 80,
               "Title": "OrderStatus.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Enums\\OrderStatus.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Domain\\Enums\\OrderStatus.cs",
@@ -955,12 +1392,11 @@
               "RelativeToolTip": "OCFigureHub.Domain\\Enums\\OrderStatus.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:16:51.384Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:16:51.384Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 81,
               "Title": "LicenseType.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Enums\\LicenseType.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Domain\\Enums\\LicenseType.cs",
@@ -968,12 +1404,11 @@
               "RelativeToolTip": "OCFigureHub.Domain\\Enums\\LicenseType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:16:37.242Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:16:37.242Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 82,
               "Title": "UserStatus.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Enums\\UserStatus.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Domain\\Enums\\UserStatus.cs",
@@ -981,12 +1416,11 @@
               "RelativeToolTip": "OCFigureHub.Domain\\Enums\\UserStatus.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:16:20.947Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:16:20.947Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 83,
               "Title": "Role.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Enums\\Role.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Domain\\Enums\\Role.cs",
@@ -994,12 +1428,11 @@
               "RelativeToolTip": "OCFigureHub.Domain\\Enums\\Role.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:16:04.7Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:16:04.7Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 84,
               "Title": "Class1.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Infrastructure\\Class1.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Infrastructure\\Class1.cs",
@@ -1007,12 +1440,11 @@
               "RelativeToolTip": "OCFigureHub.Infrastructure\\Class1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:10:19.256Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:10:19.256Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 85,
               "Title": "Class1.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Application\\Class1.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Application\\Class1.cs",
@@ -1020,12 +1452,11 @@
               "RelativeToolTip": "OCFigureHub.Application\\Class1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:09:18.78Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:09:18.78Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 86,
               "Title": "Class1.cs",
               "DocumentMoniker": "D:\\PRN222_srcCode\\EXE\\OCFigureHub\\OCFigureHub.Domain\\Class1.cs",
               "RelativeDocumentMoniker": "OCFigureHub.Domain\\Class1.cs",
@@ -1033,8 +1464,7 @@
               "RelativeToolTip": "OCFigureHub.Domain\\Class1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-31T16:08:19.141Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-31T16:08:19.141Z"
             }
           ]
         }

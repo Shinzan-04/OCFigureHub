@@ -11,5 +11,9 @@ public class Order : BaseEntity
     public OrderStatus Status { get; set; } = OrderStatus.Pending;
     public decimal TotalAmount { get; set; }
 
+    public DateTime CreatedAt { get; set; }
+    public DateTime? PaidAt { get; set; }
+
+    public string? PaymentRef { get; set; }
     public ICollection<OrderItem> Items { get; set; } = new List<OrderItem>();
 }

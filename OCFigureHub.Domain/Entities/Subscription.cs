@@ -3,7 +3,9 @@
 namespace OCFigureHub.Domain.Entities;
 
 public class Subscription : BaseEntity
+
 {
+    public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public User User { get; set; } = default!;
 
@@ -12,5 +14,5 @@ public class Subscription : BaseEntity
 
     public bool IsActive { get; set; } = true;
     public DateTime StartAt { get; set; } = DateTime.UtcNow;
-    public DateTime? EndAt { get; set; }
+    public DateTime EndAt { get; set; }
 }

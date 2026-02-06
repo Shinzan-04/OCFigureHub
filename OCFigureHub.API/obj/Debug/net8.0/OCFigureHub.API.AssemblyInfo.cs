@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OCFigureHub.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f6600033da503fc339a780f1870cd9cb07c9effb")]
 [assembly: System.Reflection.AssemblyProductAttribute("OCFigureHub.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OCFigureHub.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

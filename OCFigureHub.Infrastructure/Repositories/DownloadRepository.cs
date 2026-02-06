@@ -15,59 +15,107 @@ public class DownloadRepository : IDownloadRepository
         _db = db;
     }
 
-    public Task<User?> GetUserAsync(Guid userId, CancellationToken ct)
-        => _db.Users.FirstOrDefaultAsync(x => x.Id == userId, ct);
+    // ================= USER =================
 
-    public Task<bool> IsProductEnabledAsync(Guid productId, CancellationToken ct)
-        => _db.Products.AnyAsync(x => x.Id == productId && x.IsEnabled, ct);
+    public async Task<User?> GetUserAsync(Guid userId, CancellationToken ct)
+    {
+        return await _db.Users
+            .FirstOrDefaultAsync(x => x.Id == userId, ct);
+    }
 
-    public Task<bool> HasPaidOrderForProductAsync(Guid userId, Guid productId, CancellationToken ct)
-        => _db.OrderItems
+    // ================= PRODUCT =================
+
+    public async Task<bool> IsProductEnabledAsync(Guid productId, CancellationToken ct)
+    {
+        return await _db.Products
+            .AnyAsync(x => x.Id == productId && x.IsEnabled, ct);
+    }
+
+    // ================= ORDERS =================
+
+    public async Task<bool> HasPaidOrderForProductAsync(Guid userId, Guid productId, CancellationToken ct)
+    {
+        return await _db.OrderItems
             .Include(x => x.Order)
             .AnyAsync(x =>
                 x.ProductId == productId &&
                 x.Order.UserId == userId &&
-                x.Order.Status == OrderStatus.Paid, ct);
+                x.Order.Status == OrderStatus.Paid,
+                ct);
+    }
 
-    public Task<Guid?> GetAnyPaidOrderIdAsync(Guid userId, CancellationToken ct)
-        => _db.Orders
-            .Where(o => o.UserId == userId && o.Status == OrderStatus.Paid)
-            .Select(o => (Guid?)o.Id)
+    public async Task<Guid?> GetAnyPaidOrderIdAsync(Guid userId, CancellationToken ct)
+    {
+        return await _db.Orders
+            .Where(x => x.UserId == userId && x.Status == OrderStatus.Paid)
+            .Select(x => (Guid?)x.Id)
             .FirstOrDefaultAsync(ct);
+    }
 
-    public Task<Subscription?> GetActiveSubscriptionWithPlanAsync(Guid userId, CancellationToken ct)
-        => _db.Subscriptions
-            .Include(s => s.Plan)
-            .FirstOrDefaultAsync(s => s.UserId == userId && s.IsActive, ct);
+    // ================= SUBSCRIPTION =================
 
-    public Task<QuotaUsage?> GetQuotaUsageAsync(Guid userId, string yearMonth, CancellationToken ct)
-        => _db.QuotaUsages.FirstOrDefaultAsync(q => q.UserId == userId && q.YearMonth == yearMonth, ct);
+    public async Task<Subscription?> GetActiveSubscriptionWithPlanAsync(Guid userId, CancellationToken ct)
+    {
+        return await _db.Subscriptions
+            .Include(x => x.Plan)
+            .FirstOrDefaultAsync(x =>
+                x.UserId == userId &&
+                x.IsActive &&
+                x.EndAt> DateTime.UtcNow,
+                ct);
+    }
+
+    // ================= QUOTA =================
+
+    public async Task<QuotaUsage?> GetQuotaUsageAsync(Guid userId, string yearMonth, CancellationToken ct)
+    {
+        return await _db.QuotaUsages
+            .FirstOrDefaultAsync(x =>
+                x.UserId == userId &&
+                x.YearMonth == yearMonth,
+                ct);
+    }
 
     public async Task CreateQuotaUsageAsync(QuotaUsage quota, CancellationToken ct)
-        => await _db.QuotaUsages.AddAsync(quota, ct);
+    {
+        _db.QuotaUsages.Add(quota);
+        await _db.SaveChangesAsync(ct);
+    }
 
-    public Task IncreaseQuotaUsageAsync(QuotaUsage quota, int amount, CancellationToken ct)
+    public async Task IncreaseQuotaUsageAsync(QuotaUsage quota, int amount, CancellationToken ct)
     {
         quota.UsedDownloads += amount;
-        quota.UpdatedAt = DateTime.UtcNow;
-        return Task.CompletedTask;
+        _db.QuotaUsages.Update(quota);
+        await _db.SaveChangesAsync(ct);
     }
 
-    public Task<ProductFile?> GetModelFileAsync(Guid productId, string format, CancellationToken ct)
+    // ================= FILE =================
+
+    public async Task<ProductFile?> GetModelFileAsync(Guid productId, string format, CancellationToken ct)
     {
-        var fmt = format.ToUpper();
-        return _db.ProductFiles.FirstOrDefaultAsync(f =>
+        return await _db.ProductFiles.FirstOrDefaultAsync(f =>
             f.ProductId == productId &&
             f.FileType == FileType.Model &&
-            f.Format.ToUpper() == fmt, ct);
+            f.Format.ToUpper() == format.ToUpper(),
+            ct);
     }
 
+    // ================= DOWNLOAD SECURITY =================
+
     public async Task AddDownloadTokenAsync(DownloadToken token, CancellationToken ct)
-        => await _db.DownloadTokens.AddAsync(token, ct);
+    {
+        _db.DownloadTokens.Add(token);
+        await _db.SaveChangesAsync(ct);
+    }
 
     public async Task AddDownloadHistoryAsync(DownloadHistory history, CancellationToken ct)
-        => await _db.DownloadHistories.AddAsync(history, ct);
+    {
+        _db.DownloadHistories.Add(history);
+        await _db.SaveChangesAsync(ct);
+    }
 
-    public Task SaveChangesAsync(CancellationToken ct)
-        => _db.SaveChangesAsync(ct);
+    public async Task SaveChangesAsync(CancellationToken ct)
+    {
+        await _db.SaveChangesAsync(ct);
+    }
 }

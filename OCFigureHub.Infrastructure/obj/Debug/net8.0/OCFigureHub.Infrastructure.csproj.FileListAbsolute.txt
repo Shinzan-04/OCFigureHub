@@ -17,3 +17,4 @@ D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Infrastructure\obj\Debug\net8.0\re
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Infrastructure\obj\Debug\net8.0\OCFigureHub.Infrastructure.pdb
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Infrastructure\obj\Debug\net8.0\OCFigureHub.Infrastructure.genruntimeconfig.cache
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Infrastructure\obj\Debug\net8.0\ref\OCFigureHub.Infrastructure.dll
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.Infrastructure\obj\Debug\net8.0\OCFigureHub.Infrastructure.sourcelink.json

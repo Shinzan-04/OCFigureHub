@@ -84,3 +84,4 @@ D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\obj\Debug\net8.0\refint\OCFigu
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\obj\Debug\net8.0\OCFigureHub.API.pdb
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\obj\Debug\net8.0\OCFigureHub.API.genruntimeconfig.cache
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\obj\Debug\net8.0\ref\OCFigureHub.API.dll
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\obj\Debug\net8.0\OCFigureHub.API.sourcelink.json

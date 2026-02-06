@@ -2,8 +2,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OCFigureHub.API.BackgroundJobs;
 using OCFigureHub.Application.Abstractions;
+using OCFigureHub.Application.Abstractions.Payments;
 using OCFigureHub.Application.Services;
+using OCFigureHub.Infrastructure.Payments;
 using OCFigureHub.Infrastructure.Persistence;
 using OCFigureHub.Infrastructure.Repositories;
 using OCFigureHub.Infrastructure.Security;
@@ -12,9 +15,11 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Controllers + Swagger
+#region Controllers + Swagger
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -23,7 +28,6 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1"
     });
 
-    // ?? Add Bearer Auth
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -31,7 +35,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Nh?p JWT theo d?ng: Bearer {token}"
+        Description = "Bearer {token}"
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -50,41 +54,71 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// DbContext SQL Server
+#endregion
+
+#region DbContext
+
 builder.Services.AddDbContext<AppDbContext>(opt =>
-{
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
-builder.Services.AddScoped<IDownloadRepository, DownloadRepository>();
-builder.Services.AddScoped<DownloadService>();
-builder.Services.AddScoped<IStorageService, AzureBlobStorageService>();
+#endregion
 
-// DbContext (Infrastructure)
-builder.Services.AddDbContext<AppDbContext>(opt =>
-{
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+#region Repositories
 
-// DI - Application Services
-builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<AdminProductService>();
-builder.Services.AddScoped<OrderService>();
-
-// DI - Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductFileRepository, ProductFileRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+builder.Services.AddScoped<ISubscriptionPlanRepository, SubscriptionPlanRepository>();
+builder.Services.AddScoped<IQuotaRepository, QuotaRepository>();
+builder.Services.AddScoped<IDownloadRepository, DownloadRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
-// DI - Security
+#endregion
+
+#region Services
+
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<AdminProductService>();
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<SubscriptionService>();
+builder.Services.AddScoped<DownloadService>();
+builder.Services.AddScoped<ReportService>();
+
+#endregion
+
+#region Security
+
 builder.Services.AddScoped<IPasswordHasher, Pbkdf2PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
-// DI - Storage
+#endregion
+
+#region Storage (Azure Blob)
+
 builder.Services.AddScoped<IStorageService, AzureBlobStorageService>();
 
-// JWT Auth
+#endregion
+
+#region VNPay
+
+builder.Services.Configure<VNPayOptions>(
+    builder.Configuration.GetSection("VNPay"));
+
+builder.Services.AddScoped<IPaymentGateway, VNPayGateway>();
+
+#endregion
+
+#region Background Jobs
+
+builder.Services.AddHostedService<MonthlyQuotaResetHostedService>();
+
+#endregion
+
+#region JWT Auth
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
     {
@@ -102,43 +136,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// Options
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
-//builder.Services.Configure<AzureBlobStorageOptions>(builder.Configuration.GetSection("AzureBlob"));
-
-// DI services
-builder.Services.AddScoped<DownloadService>();
-builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-builder.Services.AddScoped<IStorageService, AzureBlobStorageService>();
-
-//// JWT Auth
-//var jwt = builder.Configuration.GetSection("Jwt").Get<JwtOptions>()!;
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddJwtBearer(opt =>
-//    {
-//        opt.TokenValidationParameters = new TokenValidationParameters
-//        {
-//            ValidateIssuer = true,
-//            ValidateAudience = true,
-//            ValidateLifetime = true,
-//            ValidateIssuerSigningKey = true,
-//            ValidIssuer = jwt.Issuer,
-//            ValidAudience = jwt.Audience,
-//            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key))
-//        };
-//    });
-
 builder.Services.AddAuthorization();
+
+#endregion
 
 var app = builder.Build();
 
-// Swagger
+#region Middleware
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 
 app.UseHttpsRedirection();
 
@@ -146,5 +156,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+#endregion
 
 app.Run();

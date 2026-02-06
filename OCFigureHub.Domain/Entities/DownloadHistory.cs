@@ -4,6 +4,8 @@ namespace OCFigureHub.Domain.Entities;
 
 public class DownloadHistory : BaseEntity
 {
+    public Guid Id { get; set; }
+
     public Guid UserId { get; set; }
     public Guid ProductId { get; set; }
 

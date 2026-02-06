@@ -84,6 +84,69 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "OCFigureHub.API.Controllers.ReportsController",
+    "Method": "Downloads",
+    "RelativePath": "api/admin/reports/downloads",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fromUtc",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "toUtc",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OCFigureHub.API.Controllers.ReportsController",
+    "Method": "Sales",
+    "RelativePath": "api/admin/reports/sales",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fromUtc",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "toUtc",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OCFigureHub.API.Controllers.AdminUsersController",
+    "Method": "SetStatus",
+    "RelativePath": "api/admin/users/{userId}/status",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "req",
+        "Type": "OCFigureHub.Application.DTOs.AdminUsers.SetUserStatusRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "OCFigureHub.API.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
@@ -142,6 +205,42 @@
       {
         "Name": "req",
         "Type": "OCFigureHub.Application.DTOs.Orders.BuyNowRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OCFigureHub.API.Controllers.PaymentsController",
+    "Method": "IPN",
+    "RelativePath": "api/payments/vnpay/ipn",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OCFigureHub.API.Controllers.PaymentsController",
+    "Method": "Return",
+    "RelativePath": "api/payments/vnpay/return",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OCFigureHub.API.Controllers.SubscriptionController",
+    "Method": "Subscribe",
+    "RelativePath": "api/subscriptions/subscribe",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "OCFigureHub.Application.DTOs.Subscriptions.SubscribeRequestDto",
         "IsRequired": true
       }
     ],

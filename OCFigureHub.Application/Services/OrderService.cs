@@ -49,4 +49,23 @@ public class OrderService
             TotalAmount = order.TotalAmount
         };
     }
+    public async Task MarkPaidAsync(
+    Guid orderId,
+    string paymentRef,
+    CancellationToken ct = default)
+    {
+        var order = await _orders.GetByIdAsync(orderId, ct)
+                    ?? throw new Exception("Order not found");
+
+        if (order.Status == OrderStatus.Paid)
+            return;
+
+        order.Status = OrderStatus.Paid;
+        order.PaidAt = DateTime.UtcNow;
+        order.PaymentRef = paymentRef;
+
+        await _orders.UpdateAsync(order, ct);
+        await _orders.SaveChangesAsync(ct);
+    }
+
 }
