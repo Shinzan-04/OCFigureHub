@@ -18,6 +18,23 @@ public class PaymentsController : ControllerBase
         _orders = orders;
     }
 
+    /// <summary>
+    /// Create a VNPay payment URL (redirect user to VNPay)
+    /// </summary>
+    [HttpPost("create")]
+    [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Customer,Admin")]
+    public async Task<IActionResult> Create(
+        [FromBody] CreatePaymentRequestDto req,
+        CancellationToken ct)
+    {
+        var url = await _vnpay.CreatePaymentUrlAsync(req.OrderId, req.Amount, ct);
+        return Ok(new CreatePaymentResponseDto
+        {
+            OrderId = req.OrderId,
+            PaymentUrl = url
+        });
+    }
+
     // Return URL (user browser redirect)
     [HttpGet("return")]
     public async Task<IActionResult> Return(CancellationToken ct)

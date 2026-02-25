@@ -27,5 +27,8 @@ public interface IDownloadRepository
     Task AddDownloadTokenAsync(DownloadToken token, CancellationToken ct);
     Task AddDownloadHistoryAsync(DownloadHistory history, CancellationToken ct);
 
+    // History listing
+    Task<List<DownloadHistory>> GetHistoryByUserAsync(Guid userId, CancellationToken ct);
+
     Task SaveChangesAsync(CancellationToken ct);
 }

@@ -18,6 +18,18 @@ public class SubscriptionController : ControllerBase
         _service = service;
     }
 
+    /// <summary>
+    /// Get current user's active subscription
+    /// </summary>
+    [HttpGet("me")]
+    public async Task<IActionResult> GetMy(CancellationToken ct)
+    {
+        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var res = await _service.GetCurrentAsync(userId, ct);
+        if (res == null) return NotFound("No active subscription");
+        return Ok(res);
+    }
+
     [HttpPost("subscribe")]
     public async Task<IActionResult> Subscribe([FromBody] SubscribeRequestDto req, CancellationToken ct)
     {

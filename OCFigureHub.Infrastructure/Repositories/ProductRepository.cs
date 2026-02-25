@@ -13,6 +13,17 @@ public class ProductRepository : IProductRepository
     public Task<Product?> GetByIdAsync(Guid id, CancellationToken ct)
         => _db.Products.FirstOrDefaultAsync(x => x.Id == id, ct);
 
+    public async Task<List<Product>> GetAllEnabledAsync(CancellationToken ct)
+        => await _db.Products
+              .Where(x => x.IsEnabled)
+              .OrderByDescending(x => x.CreatedAt)
+              .ToListAsync(ct);
+
+    public Task<Product?> GetByIdWithFilesAsync(Guid id, CancellationToken ct)
+        => _db.Products
+              .Include(x => x.Files)
+              .FirstOrDefaultAsync(x => x.Id == id, ct);
+
     public async Task AddAsync(Product product, CancellationToken ct)
         => await _db.Products.AddAsync(product, ct);
 

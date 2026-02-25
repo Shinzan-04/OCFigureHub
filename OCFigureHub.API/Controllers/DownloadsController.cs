@@ -35,4 +35,17 @@ public class DownloadsController : ControllerBase
         var result = await _downloadService.RequestSignedUrlAsync(userId, req, ip, userAgent, ct);
         return Ok(result);
     }
+
+    [Authorize(Roles = "Customer,Admin")]
+    [HttpGet("history")]
+    public async Task<IActionResult> History(CancellationToken ct)
+    {
+        var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrWhiteSpace(userIdStr))
+            return Unauthorized();
+
+        var userId = Guid.Parse(userIdStr);
+        var list = await _downloadService.GetHistoryAsync(userId, ct);
+        return Ok(list);
+    }
 }

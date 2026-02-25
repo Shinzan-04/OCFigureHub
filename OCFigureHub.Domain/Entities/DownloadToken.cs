@@ -5,8 +5,6 @@ namespace OCFigureHub.Domain.Entities;
 
 public class DownloadToken : BaseEntity
 {
-    public Guid Id { get; set; }
-
     public Guid UserId { get; set; }
     public Guid ProductId { get; set; }
 

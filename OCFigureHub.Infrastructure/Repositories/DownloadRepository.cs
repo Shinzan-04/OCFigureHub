@@ -114,6 +114,16 @@ public class DownloadRepository : IDownloadRepository
         await _db.SaveChangesAsync(ct);
     }
 
+    // ================= HISTORY =================
+
+    public async Task<List<DownloadHistory>> GetHistoryByUserAsync(Guid userId, CancellationToken ct)
+    {
+        return await _db.DownloadHistories
+            .Where(x => x.UserId == userId)
+            .OrderByDescending(x => x.DownloadedAt)
+            .ToListAsync(ct);
+    }
+
     public async Task SaveChangesAsync(CancellationToken ct)
     {
         await _db.SaveChangesAsync(ct);

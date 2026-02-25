@@ -11,11 +11,13 @@ public class DownloadService
 {
     private readonly IDownloadRepository _repo;
     private readonly IStorageService _storage;
+    private readonly IAntiLeakService _antiLeak;
 
-    public DownloadService(IDownloadRepository repo, IStorageService storage)
+    public DownloadService(IDownloadRepository repo, IStorageService storage, IAntiLeakService antiLeak)
     {
         _repo = repo;
         _storage = storage;
+        _antiLeak = antiLeak;
     }
 
     public async Task<DownloadResponseDto> RequestSignedUrlAsync(
@@ -25,6 +27,9 @@ public class DownloadService
         string? userAgent,
         CancellationToken ct)
     {
+        // Phase 3: Anti-leak rate limit check
+        await _antiLeak.CheckRateLimitAsync(userId, ct);
+
         var user = await _repo.GetUserAsync(userId, ct)
                    ?? throw new Exception("User not found");
 
@@ -134,6 +139,9 @@ public class DownloadService
 
         await _repo.SaveChangesAsync(ct);
 
+        // 7) Phase 3: Record watermark metadata for anti-leak tracing
+        await _antiLeak.RecordWatermarkAsync(userId, req.ProductId, token.Id, ct);
+
         return new DownloadResponseDto
         {
             SignedUrl = signedUrl,
@@ -163,5 +171,20 @@ public class DownloadService
     {
         var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(input));
         return Convert.ToHexString(bytes);
+    }
+
+    public async Task<List<DTOs.Downloads.DownloadHistoryDto>> GetHistoryAsync(Guid userId, CancellationToken ct)
+    {
+        var list = await _repo.GetHistoryByUserAsync(userId, ct);
+        return list.Select(h => new DTOs.Downloads.DownloadHistoryDto
+        {
+            Id = h.Id,
+            ProductId = h.ProductId,
+            OrderId = h.OrderId,
+            SubscriptionId = h.SubscriptionId,
+            Success = h.Success,
+            FailureReason = h.FailureReason,
+            DownloadedAt = h.DownloadedAt
+        }).ToList();
     }
 }

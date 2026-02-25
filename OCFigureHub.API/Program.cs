@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OCFigureHub.API.BackgroundJobs;
+using OCFigureHub.API.Middlewares;
 using OCFigureHub.Application.Abstractions;
+using OCFigureHub.Application.Abstractions.Jobs;
 using OCFigureHub.Application.Abstractions.Payments;
 using OCFigureHub.Application.Services;
 using OCFigureHub.Infrastructure.Payments;
@@ -56,6 +58,20 @@ builder.Services.AddSwaggerGen(c =>
 
 #endregion
 
+#region CORS
+
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+#endregion
+
 #region DbContext
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
@@ -82,10 +98,13 @@ builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<AdminProductService>();
+builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<SubscriptionService>();
 builder.Services.AddScoped<DownloadService>();
 builder.Services.AddScoped<ReportService>();
+builder.Services.AddScoped<QuotaResetJob>();
+builder.Services.AddScoped<IAntiLeakService, OCFigureHub.Infrastructure.Repositories.AntiLeakService>();
 
 #endregion
 
@@ -114,6 +133,7 @@ builder.Services.AddScoped<IPaymentGateway, VNPayGateway>();
 #region Background Jobs
 
 builder.Services.AddHostedService<MonthlyQuotaResetHostedService>();
+builder.Services.AddHostedService<SubscriptionExpiryHostedService>();
 
 #endregion
 
@@ -142,6 +162,17 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+#region Seed Data (demo)
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+    DbInitializer.Seed(db);
+}
+
+#endregion
+
 #region Middleware
 
 if (app.Environment.IsDevelopment())
@@ -150,7 +181,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<GlobalExceptionMiddleware>();
+
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();

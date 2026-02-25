@@ -20,6 +20,7 @@ public class AppDbContext : DbContext
     public DbSet<QuotaUsage> QuotaUsages => Set<QuotaUsage>();
     public DbSet<DownloadToken> DownloadTokens => Set<DownloadToken>();
     public DbSet<DownloadHistory> DownloadHistories => Set<DownloadHistory>();
+    public DbSet<WatermarkInfo> WatermarkInfos => Set<WatermarkInfo>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

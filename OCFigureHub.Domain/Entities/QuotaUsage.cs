@@ -5,8 +5,6 @@ namespace OCFigureHub.Domain.Entities;
 
 public class QuotaUsage : BaseEntity
 {
-    public Guid Id { get; set; }
-
     public Guid UserId { get; set; }
 
     // "yyyy-MM"

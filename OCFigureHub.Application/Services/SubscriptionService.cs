@@ -63,5 +63,20 @@ namespace OCFigureHub.Application.Services
                 IsActive = sub.IsActive
             };
         }
+
+        public async Task<SubscriptionResponseDto?> GetCurrentAsync(Guid userId, CancellationToken ct)
+        {
+            var sub = await _subs.GetActiveByUserIdAsync(userId, ct);
+            if (sub == null) return null;
+
+            return new SubscriptionResponseDto
+            {
+                SubscriptionId = sub.Id,
+                PlanId = sub.PlanId,
+                StartAtUtc = sub.StartAt,
+                EndAtUtc = sub.EndAt,
+                IsActive = sub.IsActive
+            };
+        }
     }
 }

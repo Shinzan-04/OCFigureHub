@@ -26,6 +26,7 @@ public class AdminUsersController : ControllerBase
 
         user.Status = req.Lock ? UserStatus.Locked : UserStatus.Active;
         await _users.UpdateAsync(user, ct);
+        await _users.SaveChangesAsync(ct);
 
         return Ok(new { user.Id, user.Email, user.Status });
     }

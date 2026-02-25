@@ -3,9 +3,7 @@
 namespace OCFigureHub.Domain.Entities;
 
 public class Subscription : BaseEntity
-
 {
-    public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public User User { get; set; } = default!;
 
