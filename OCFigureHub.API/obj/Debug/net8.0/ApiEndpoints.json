@@ -180,6 +180,16 @@
   },
   {
     "ContainingType": "OCFigureHub.API.Controllers.DownloadsController",
+    "Method": "History",
+    "RelativePath": "api/Downloads/history",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OCFigureHub.API.Controllers.DownloadsController",
     "Method": "Request01",
     "RelativePath": "api/Downloads/request",
     "HttpMethod": "POST",
@@ -212,6 +222,22 @@
   },
   {
     "ContainingType": "OCFigureHub.API.Controllers.PaymentsController",
+    "Method": "Create",
+    "RelativePath": "api/payments/vnpay/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "OCFigureHub.Application.DTOs.Payments.CreatePaymentRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OCFigureHub.API.Controllers.PaymentsController",
     "Method": "IPN",
     "RelativePath": "api/payments/vnpay/ipn",
     "HttpMethod": "GET",
@@ -224,6 +250,52 @@
     "ContainingType": "OCFigureHub.API.Controllers.PaymentsController",
     "Method": "Return",
     "RelativePath": "api/payments/vnpay/return",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OCFigureHub.API.Controllers.ProductsController",
+    "Method": "GetAll",
+    "RelativePath": "api/Products",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OCFigureHub.API.Controllers.ProductsController",
+    "Method": "GetDetail",
+    "RelativePath": "api/Products/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OCFigureHub.API.Controllers.SubscriptionPlansController",
+    "Method": "GetAll",
+    "RelativePath": "api/subscription-plans",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OCFigureHub.API.Controllers.SubscriptionController",
+    "Method": "GetMy",
+    "RelativePath": "api/subscriptions/me",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

@@ -291,6 +291,18 @@
         }
       }
     },
+    "/api/Downloads/history": {
+      "get": {
+        "tags": [
+          "Downloads"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Orders/buy-now": {
       "post": {
         "tags": [
@@ -322,6 +334,37 @@
         }
       }
     },
+    "/api/payments/vnpay/create": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/payments/vnpay/return": {
       "get": {
         "tags": [
@@ -338,6 +381,41 @@
       "get": {
         "tags": [
           "Payments"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -406,6 +484,18 @@
         }
       }
     },
+    "/api/subscriptions/me": {
+      "get": {
+        "tags": [
+          "Subscription"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/subscriptions/subscribe": {
       "post": {
         "tags": [
@@ -430,6 +520,18 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/subscription-plans": {
+      "get": {
+        "tags": [
+          "SubscriptionPlans"
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -535,6 +637,20 @@
           },
           "licenseType": {
             "$ref": "#/components/schemas/LicenseType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePaymentRequestDto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
