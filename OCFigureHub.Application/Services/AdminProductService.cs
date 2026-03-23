@@ -1,4 +1,4 @@
-﻿using OCFigureHub.Application.Abstractions;
+using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Application.DTOs.Products;
 using OCFigureHub.Domain.Entities;
 using OCFigureHub.Domain.Enums;
@@ -27,20 +27,33 @@ public class AdminProductService
             Description = req.Description.Trim(),
             Price = req.Price,
             Category = req.Category.Trim(),
+            Creator = req.Creator.Trim(),
+            IsPro = req.IsPro,
+            Tags = req.Tags.Trim(),
             IsEnabled = true
         };
 
         await _products.AddAsync(p, ct);
         await _products.SaveChangesAsync(ct);
 
-        return new ProductDto
+        var dto = new ProductDto
         {
             Id = p.Id,
             Name = p.Name,
             Category = p.Category,
+            Creator = p.Creator,
+            IsPro = p.IsPro,
             Price = p.Price,
-            IsEnabled = p.IsEnabled
+            IsEnabled = p.IsEnabled,
+            Tags = p.Tags
         };
+
+        if (!string.IsNullOrEmpty(p.ThumbnailUrl))
+        {
+            dto.ThumbnailUrl = _storage.GenerateReadSasUrl(p.ThumbnailUrl, TimeSpan.FromHours(24));
+        }
+
+        return dto;
     }
 
     public async Task<ProductDto> UpdateAsync(Guid id, AdminUpdateProductRequest req, CancellationToken ct)
@@ -51,20 +64,33 @@ public class AdminProductService
         p.Description = req.Description.Trim();
         p.Price = req.Price;
         p.Category = req.Category.Trim();
+        p.Creator = req.Creator.Trim();
+        p.IsPro = req.IsPro;
+        p.Tags = req.Tags.Trim();
         p.IsEnabled = req.IsEnabled;
         p.UpdatedAt = DateTime.UtcNow;
 
         await _products.UpdateAsync(p, ct);
         await _products.SaveChangesAsync(ct);
 
-        return new ProductDto
+        var dto = new ProductDto
         {
             Id = p.Id,
             Name = p.Name,
             Category = p.Category,
+            Creator = p.Creator,
+            IsPro = p.IsPro,
             Price = p.Price,
-            IsEnabled = p.IsEnabled
+            IsEnabled = p.IsEnabled,
+            Tags = p.Tags
         };
+
+        if (!string.IsNullOrEmpty(p.ThumbnailUrl))
+        {
+            dto.ThumbnailUrl = _storage.GenerateReadSasUrl(p.ThumbnailUrl, TimeSpan.FromHours(24));
+        }
+
+        return dto;
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken ct)
@@ -93,6 +119,13 @@ public class AdminProductService
         };
 
         await _files.AddAsync(pf, ct);
+
+        if (fileType == FileType.Thumbnail)
+        {
+            product.ThumbnailUrl = storageKey;
+            await _products.UpdateAsync(product, ct);
+        }
+
         await _files.SaveChangesAsync(ct);
     }
 }

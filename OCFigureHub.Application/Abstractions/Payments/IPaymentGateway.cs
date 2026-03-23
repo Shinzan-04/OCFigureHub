@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,7 @@ namespace OCFigureHub.Application.Abstractions.Payments
 {
     public interface IPaymentGateway
     {
-        Task<string> CreatePaymentUrlAsync(Guid orderId, decimal amount, CancellationToken ct);
+        Task<string> CreatePaymentUrlAsync(Guid orderId, decimal amount, string ipAddress, CancellationToken ct);
 
         // For Return URL and IPN verification
         bool VerifySignature(IDictionary<string, string> vnpParams);

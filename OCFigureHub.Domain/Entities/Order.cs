@@ -1,4 +1,4 @@
-﻿using OCFigureHub.Domain.Common;
+using OCFigureHub.Domain.Common;
 using OCFigureHub.Domain.Enums;
 
 namespace OCFigureHub.Domain.Entities;
@@ -13,6 +13,9 @@ public class Order : BaseEntity
 
     public DateTime CreatedAt { get; set; }
     public DateTime? PaidAt { get; set; }
+
+    public Guid? PlanId { get; set; }
+    public SubscriptionPlan? Plan { get; set; }
 
     public string? PaymentRef { get; set; }
     public ICollection<OrderItem> Items { get; set; } = new List<OrderItem>();

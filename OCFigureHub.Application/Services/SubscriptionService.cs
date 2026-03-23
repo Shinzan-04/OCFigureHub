@@ -1,4 +1,4 @@
-﻿using OCFigureHub.Application.Abstractions;
+using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Application.DTOs.Subscriptions;
 using OCFigureHub.Domain.Entities;
 
@@ -62,6 +62,34 @@ namespace OCFigureHub.Application.Services
                 EndAtUtc = sub.EndAt,
                 IsActive = sub.IsActive
             };
+        }
+
+        public async Task ActivateSubscriptionAsync(Guid userId, Guid planId, CancellationToken ct)
+        {
+            var plan = await _plans.GetEnabledByIdAsync(planId, ct)
+                       ?? throw new Exception("Plan not found/disabled");
+
+            var existing = await _subs.GetActiveByUserIdAsync(userId, ct);
+            if (existing != null)
+            {
+                existing.EndAt = existing.EndAt.AddDays(30);
+                existing.IsActive = true;
+                await _subs.UpdateAsync(existing, ct);
+            }
+            else
+            {
+                var now = DateTime.UtcNow;
+                var sub = new Subscription
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = userId,
+                    PlanId = plan.Id,
+                    StartAt = now,
+                    EndAt = now.AddDays(30),
+                    IsActive = true
+                };
+                await _subs.AddAsync(sub, ct);
+            }
         }
 
         public async Task<SubscriptionResponseDto?> GetCurrentAsync(Guid userId, CancellationToken ct)

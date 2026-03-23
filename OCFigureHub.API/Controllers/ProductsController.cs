@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using OCFigureHub.Application.Services;
 
@@ -30,7 +31,14 @@ public class ProductsController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetDetail(Guid id, CancellationToken ct)
     {
-        var detail = await _svc.GetDetailAsync(id, ct);
+        Guid? userId = null;
+        var sub = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (Guid.TryParse(sub, out var parsedId))
+        {
+            userId = parsedId;
+        }
+
+        var detail = await _svc.GetDetailAsync(id, userId, ct);
         if (detail == null) return NotFound("Product not found");
         return Ok(detail);
     }

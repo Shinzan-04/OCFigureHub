@@ -1,4 +1,4 @@
-﻿using OCFigureHub.Application.Abstractions;
+using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Application.DTOs.Orders;
 using OCFigureHub.Domain.Entities;
 using OCFigureHub.Domain.Enums;
@@ -49,7 +49,7 @@ public class OrderService
             TotalAmount = order.TotalAmount
         };
     }
-    public async Task MarkPaidAsync(
+    public async Task<Order> MarkPaidAsync(
     Guid orderId,
     string paymentRef,
     CancellationToken ct = default)
@@ -58,7 +58,7 @@ public class OrderService
                     ?? throw new Exception("Order not found");
 
         if (order.Status == OrderStatus.Paid)
-            return;
+            return order;
 
         order.Status = OrderStatus.Paid;
         order.PaidAt = DateTime.UtcNow;
@@ -66,6 +66,8 @@ public class OrderService
 
         await _orders.UpdateAsync(order, ct);
         await _orders.SaveChangesAsync(ct);
+        
+        return order;
     }
 
 }

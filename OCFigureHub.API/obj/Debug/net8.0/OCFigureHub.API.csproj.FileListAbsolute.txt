@@ -84,7 +84,6 @@ D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\obj\Debug\net8.0\OCFigureHub.A
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\obj\Debug\net8.0\OCFigureHub.API.genruntimeconfig.cache
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\obj\Debug\net8.0\ref\OCFigureHub.API.dll
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\obj\Debug\net8.0\OCFigureHub.API.sourcelink.json
-D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\bin\Debug\net8.0\Humanizer.dll
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll

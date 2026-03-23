@@ -167,8 +167,10 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureCreated();
+    Console.WriteLine("Applying migrations and seeding database...");
+    db.Database.Migrate();
     DbInitializer.Seed(db);
+    Console.WriteLine("Database initialization complete.");
 }
 
 #endregion
@@ -183,9 +185,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
-app.UseHttpsRedirection();
-
 app.UseCors("AllowAll");
+
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

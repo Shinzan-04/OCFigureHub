@@ -32,6 +32,13 @@ public class GlobalExceptionMiddleware
         }
         catch (Exception ex)
         {
+            if (ex.Message.Contains("Invalid credentials") || ex.Message.Contains("Unauthorized"))
+            {
+                _logger.LogWarning(ex, "Unauthorized access attempt: {Message}", ex.Message);
+                await WriteError(context, HttpStatusCode.Unauthorized, ex.Message);
+                return;
+            }
+
             _logger.LogError(ex, "Unhandled exception: {Message}", ex.Message);
             await WriteError(context, HttpStatusCode.InternalServerError, ex.Message);
         }
