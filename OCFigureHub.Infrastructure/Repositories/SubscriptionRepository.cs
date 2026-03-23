@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Domain.Entities;
 using OCFigureHub.Infrastructure.Persistence;
@@ -23,11 +23,12 @@ namespace OCFigureHub.Infrastructure.Repositories
         {
             return await _db.Subscriptions
                 .Include(x => x.Plan)
-                .FirstOrDefaultAsync(x =>
+                .Where(x =>
                     x.UserId == userId &&
                     x.IsActive &&
-                    x.EndAt > DateTime.UtcNow,
-                    ct);
+                    x.EndAt > DateTime.UtcNow)
+                .OrderByDescending(x => x.Plan.MonthlyPrice)
+                .FirstOrDefaultAsync(ct);
         }
 
         public async Task<List<Subscription>> GetExpiredAsync(DateTime utcNow, CancellationToken ct)

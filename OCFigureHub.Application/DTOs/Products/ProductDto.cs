@@ -7,6 +7,7 @@ public class ProductDto
     public string Category { get; set; } = default!;
     public string Creator { get; set; } = default!;
     public string? ThumbnailUrl { get; set; }
+    public string? PreviewModelUrl { get; set; }
     public bool IsPro { get; set; }
     public decimal Price { get; set; }
     public bool IsEnabled { get; set; }

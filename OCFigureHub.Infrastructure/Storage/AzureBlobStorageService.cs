@@ -1,4 +1,4 @@
-﻿using Azure.Storage;
+using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
@@ -43,14 +43,12 @@ public class AzureBlobStorageService : IStorageService
         return (key, props.Value.ContentLength);
     }
 
-    public string GenerateReadSasUrl(string storageKey, TimeSpan ttl)
+    public string GenerateReadSasUrl(string storageKey, TimeSpan ttl, string? ipAddress = null)
     {
         var blob = _container.GetBlobClient(storageKey);
 
         if (!blob.CanGenerateSasUri)
         {
-            // Nếu connection string không có quyền SAS
-            // -> bạn cần dùng StorageSharedKeyCredential
             throw new InvalidOperationException("Blob client cannot generate SAS URI. Use account key credential.");
         }
 
@@ -61,6 +59,14 @@ public class AzureBlobStorageService : IStorageService
             Resource = "b",
             ExpiresOn = DateTimeOffset.UtcNow.Add(ttl)
         };
+
+        if (!string.IsNullOrEmpty(ipAddress) && 
+            System.Net.IPAddress.TryParse(ipAddress, out var parsedIp) && 
+            parsedIp.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork && 
+            ipAddress != "127.0.0.1")
+        {
+            sasBuilder.IPRange = new SasIPRange(parsedIp, parsedIp);
+        }
 
         sasBuilder.SetPermissions(BlobSasPermissions.Read);
 

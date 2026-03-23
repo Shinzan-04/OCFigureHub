@@ -16,6 +16,8 @@ interface CurrentSub {
   planId: string;
   isActive: boolean;
   endAtUtc: string;
+  remainingDownloads: number;
+  limitDownloads: number;
 }
 
 const FEATURE_LISTS: Record<string, { text: string; included: boolean }[]> = {
@@ -177,6 +179,23 @@ export function MembershipPage() {
                 <span className="text-4xl font-black text-white">{formatPrice(plan.monthlyPrice)}</span>
                 <span className="text-sm font-semibold" style={{ color: '#A1A1A1' }}>₫/tháng</span>
               </div>
+
+              {isCurrent && (
+                <div className="p-3 rounded-lg bg-[#1A1A1A] border border-[#8B5CF640] mb-2">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs text-[#A1A1A1]">Lượt tải còn lại</span>
+                    <span className="text-sm font-bold text-white">
+                      {currentSub.remainingDownloads} / {currentSub.limitDownloads}
+                    </span>
+                  </div>
+                  <div className="w-full bg-[#111111] rounded-full h-1.5 mt-2 overflow-hidden">
+                    <div 
+                      className="bg-[#8B5CF6] h-1.5 rounded-full" 
+                      style={{ width: `${currentSub.limitDownloads > 0 ? (currentSub.remainingDownloads / currentSub.limitDownloads) * 100 : 0}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
 
               <button
                 onClick={() => handleSelectPlan(plan)}

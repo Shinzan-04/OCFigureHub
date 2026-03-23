@@ -1,4 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router';
+import '@google/model-viewer';
 import {
   Download,
   Heart,
@@ -19,6 +20,20 @@ import { ordersApi } from '../../api/orders';
 import { downloadsApi } from '../../api/downloads';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'model-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        src?: string;
+        alt?: string;
+        'auto-rotate'?: boolean;
+        'camera-controls'?: boolean;
+        poster?: string;
+      };
+    }
+  }
+}
 
 function formatPrice(price: number): string {
   if (price === 0) return 'Miễn phí';
@@ -131,7 +146,17 @@ export function ProductDetailPage() {
             className="rounded-2xl overflow-hidden border relative aspect-video flex items-center justify-center bg-[#111111]"
             style={{ borderColor: '#262626' }}
           >
-            {product.thumbnailUrl ? (
+            {product.previewModelUrl ? (
+              // @ts-ignore
+              <model-viewer
+                src={product.previewModelUrl}
+                poster={product.thumbnailUrl}
+                alt={product.name}
+                auto-rotate
+                camera-controls
+                style={{ width: '100%', height: '100%', backgroundColor: '#111111' }}
+              />
+            ) : product.thumbnailUrl ? (
               <img
                 src={product.thumbnailUrl}
                 alt={product.name}

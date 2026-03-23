@@ -10,6 +10,7 @@ public class Product : BaseEntity
     public string Category { get; set; } = "General";
     public string Creator { get; set; } = "Unknown";
     public string? ThumbnailUrl { get; set; }
+    public string? PreviewModelUrl { get; set; }
     public bool IsPro { get; set; } = false;
     public bool IsEnabled { get; set; } = true;
     public string Tags { get; set; } = string.Empty;

@@ -1,4 +1,4 @@
-﻿using OCFigureHub.Application.Abstractions;
+using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Application.DTOs.Downloads;
 using OCFigureHub.Domain.Entities;
 using OCFigureHub.Domain.Enums;
@@ -105,9 +105,9 @@ public class DownloadService
             throw new Exception("Model file not found");
         }
 
-        // 4) Generate SAS URL (TTL 5 minutes)
-        var expiresAt = DateTime.UtcNow.AddMinutes(5);
-        var signedUrl = _storage.GenerateReadSasUrl(file.StorageKey, TimeSpan.FromMinutes(5));
+        // 4) Generate SAS URL (TTL 3 minutes + IP Restricted)
+        var expiresAt = DateTime.UtcNow.AddMinutes(3);
+        var signedUrl = _storage.GenerateReadSasUrl(file.StorageKey, TimeSpan.FromMinutes(3), ip);
 
         // 5) Save token (hash only)
         var token = new DownloadToken
@@ -176,15 +176,32 @@ public class DownloadService
     public async Task<List<DTOs.Downloads.DownloadHistoryDto>> GetHistoryAsync(Guid userId, CancellationToken ct)
     {
         var list = await _repo.GetHistoryByUserAsync(userId, ct);
-        return list.Select(h => new DTOs.Downloads.DownloadHistoryDto
+        
+        var productIds = list.Select(x => x.ProductId).Distinct().ToList();
+        var products = await _repo.GetProductsByIdsAsync(productIds, ct);
+        var productDict = products.ToDictionary(x => x.Id, x => x);
+
+        return list.Select(h => 
         {
-            Id = h.Id,
-            ProductId = h.ProductId,
-            OrderId = h.OrderId,
-            SubscriptionId = h.SubscriptionId,
-            Success = h.Success,
-            FailureReason = h.FailureReason,
-            DownloadedAt = h.DownloadedAt
+            productDict.TryGetValue(h.ProductId, out var product);
+            var thumbUrl = product?.ThumbnailUrl;
+            if (!string.IsNullOrEmpty(thumbUrl))
+            {
+                thumbUrl = _storage.GenerateReadSasUrl(thumbUrl, TimeSpan.FromHours(24));
+            }
+
+            return new DTOs.Downloads.DownloadHistoryDto
+            {
+                Id = h.Id,
+                ProductId = h.ProductId,
+                ProductName = product?.Name ?? "Unknown Product",
+                ThumbnailUrl = thumbUrl,
+                OrderId = h.OrderId,
+                SubscriptionId = h.SubscriptionId,
+                Success = h.Success,
+                FailureReason = h.FailureReason,
+                DownloadedAt = h.DownloadedAt
+            };
         }).ToList();
     }
 }

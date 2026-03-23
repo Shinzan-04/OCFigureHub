@@ -40,6 +40,7 @@ export function AdminResources() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   
   const [modelFile, setModelFile] = useState<File | null>(null);
+  const [previewFile, setPreviewFile] = useState<File | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -75,7 +76,7 @@ export function AdminResources() {
   });
 
   const handleFileUploads = async (productId: string) => {
-    if (!modelFile && !thumbnailFile) {
+    if (!modelFile && !thumbnailFile && !previewFile) {
       toast.success(editingProduct ? 'Updated successfully' : 'Created successfully');
       finishSave();
       return;
@@ -86,6 +87,10 @@ export function AdminResources() {
       if (modelFile) {
         const ext = modelFile.name.split('.').pop() || 'STL';
         await adminApi.uploadFile(productId, 1, ext, modelFile); 
+      }
+      if (previewFile) {
+        const ext = previewFile.name.split('.').pop() || 'GLB';
+        await adminApi.uploadFile(productId, 2, ext, previewFile);
       }
       if (thumbnailFile) {
         const ext = thumbnailFile.name.split('.').pop() || 'JPG';
@@ -105,6 +110,7 @@ export function AdminResources() {
     setShowModal(false);
     setForm(defaultForm);
     setModelFile(null);
+    setPreviewFile(null);
     setThumbnailFile(null);
   };
 
@@ -119,6 +125,7 @@ export function AdminResources() {
     setEditingProduct(null);
     setForm(defaultForm);
     setModelFile(null);
+    setPreviewFile(null);
     setThumbnailFile(null);
     setShowModal(true);
   };
@@ -136,6 +143,7 @@ export function AdminResources() {
       description: '', 
     });
     setModelFile(null);
+    setPreviewFile(null);
     setThumbnailFile(null);
     setShowModal(true);
   };
@@ -392,18 +400,26 @@ export function AdminResources() {
                 />
               </div>
               
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <label className="flex flex-col items-center gap-2 cursor-pointer p-4 rounded-lg bg-zinc-900/50 border-2 border-dashed border-zinc-800 hover:border-violet-500 transition-all">
                   <Upload size={20} className={modelFile ? 'text-violet-500' : 'text-zinc-600'} />
-                  <span className="text-[10px] text-zinc-500 text-center truncate w-full">
-                    {modelFile ? modelFile.name : 'Upload File (.stl, .obj)'}
+                  <span className="text-[10px] text-zinc-500 text-center truncate w-full" title="Original File (.obj, .stl)">
+                    {modelFile ? modelFile.name : 'Original File (.obj, .stl)'}
                   </span>
                   <input type="file" className="hidden" accept=".stl,.obj,.zip" onChange={e => setModelFile(e.target.files?.[0] || null)} />
+                </label>
+
+                <label className="flex flex-col items-center gap-2 cursor-pointer p-4 rounded-lg bg-zinc-900/50 border-2 border-dashed border-zinc-800 hover:border-violet-500 transition-all">
+                  <Upload size={20} className={previewFile ? 'text-violet-500' : 'text-zinc-600'} />
+                  <span className="text-[10px] text-zinc-500 text-center truncate w-full" title="Web Preview (.glb)">
+                    {previewFile ? previewFile.name : 'Web Preview (.glb)'}
+                  </span>
+                  <input type="file" className="hidden" accept=".glb,.gltf" onChange={e => setPreviewFile(e.target.files?.[0] || null)} />
                 </label>
                 
                 <label className="flex flex-col items-center gap-2 cursor-pointer p-4 rounded-lg bg-zinc-900/50 border-2 border-dashed border-zinc-800 hover:border-violet-500 transition-all">
                   <Upload size={20} className={thumbnailFile ? 'text-violet-500' : 'text-zinc-600'} />
-                  <span className="text-[10px] text-zinc-500 text-center truncate w-full">
+                  <span className="text-[10px] text-zinc-500 text-center truncate w-full" title="Thumbnail Image">
                     {thumbnailFile ? thumbnailFile.name : 'Thumbnail Image'}
                   </span>
                   <input type="file" className="hidden" accept="image/*" onChange={e => setThumbnailFile(e.target.files?.[0] || null)} />

@@ -1,4 +1,4 @@
-﻿namespace OCFigureHub.Application.Abstractions;
+namespace OCFigureHub.Application.Abstractions;
 
 public interface IStorageService
 {
@@ -8,5 +8,5 @@ public interface IStorageService
         string contentType,
         CancellationToken ct);
 
-    string GenerateReadSasUrl(string storageKey, TimeSpan ttl);
+    string GenerateReadSasUrl(string storageKey, TimeSpan ttl, string? ipAddress = null);
 }

@@ -36,6 +36,10 @@ public class ProductService
             {
                 dto.ThumbnailUrl = _storage.GenerateReadSasUrl(p.ThumbnailUrl, TimeSpan.FromHours(24));
             }
+            if (!string.IsNullOrEmpty(p.PreviewModelUrl))
+            {
+                dto.PreviewModelUrl = _storage.GenerateReadSasUrl(p.PreviewModelUrl, TimeSpan.FromHours(24));
+            }
             return dto;
         }).ToList();
     }
@@ -68,6 +72,10 @@ public class ProductService
         if (!string.IsNullOrEmpty(p.ThumbnailUrl))
         {
             detail.ThumbnailUrl = _storage.GenerateReadSasUrl(p.ThumbnailUrl, TimeSpan.FromHours(24));
+        }
+        if (!string.IsNullOrEmpty(p.PreviewModelUrl))
+        {
+            detail.PreviewModelUrl = _storage.GenerateReadSasUrl(p.PreviewModelUrl, TimeSpan.FromHours(24));
         }
 
         if (userId.HasValue)

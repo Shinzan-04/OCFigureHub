@@ -1,4 +1,4 @@
-﻿using OCFigureHub.Domain.Entities;
+using OCFigureHub.Domain.Entities;
 
 namespace OCFigureHub.Application.Abstractions;
 
@@ -7,6 +7,7 @@ public interface IDownloadRepository
     // User / Product
     Task<User?> GetUserAsync(Guid userId, CancellationToken ct);
     Task<bool> IsProductEnabledAsync(Guid productId, CancellationToken ct);
+    Task<List<Product>> GetProductsByIdsAsync(IEnumerable<Guid> productIds, CancellationToken ct);
 
     // Orders
     Task<bool> HasPaidOrderForProductAsync(Guid userId, Guid productId, CancellationToken ct);

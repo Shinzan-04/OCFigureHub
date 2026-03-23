@@ -4,6 +4,7 @@ export interface Product {
   category: string;
   creator: string;
   price: number;
+  previewModelUrl?: string;
   isPro: boolean;
   isEnabled: boolean;
   thumbnailUrl?: string;

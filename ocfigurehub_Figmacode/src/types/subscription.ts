@@ -11,6 +11,8 @@ export interface Subscription {
   startAtUtc: string;
   endAtUtc: string;
   isActive: boolean;
+  remainingDownloads: number;
+  limitDownloads: number;
 }
 
 export interface SubscribeRequest {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +13,7 @@ namespace OCFigureHub.Application.DTOs.Subscriptions
         public DateTime StartAtUtc { get; set; }
         public DateTime EndAtUtc { get; set; }
         public bool IsActive { get; set; }
+        public int RemainingDownloads { get; set; }
+        public int LimitDownloads { get; set; }
     }
 }

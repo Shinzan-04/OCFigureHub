@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Domain.Entities;
 using OCFigureHub.Domain.Enums;
@@ -29,6 +29,13 @@ public class DownloadRepository : IDownloadRepository
     {
         return await _db.Products
             .AnyAsync(x => x.Id == productId && x.IsEnabled, ct);
+    }
+
+    public async Task<List<Product>> GetProductsByIdsAsync(IEnumerable<Guid> productIds, CancellationToken ct)
+    {
+        return await _db.Products
+            .Where(x => productIds.Contains(x.Id))
+            .ToListAsync(ct);
     }
 
     // ================= ORDERS =================
