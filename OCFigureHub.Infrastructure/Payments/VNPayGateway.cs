@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using OCFigureHub.Application.Abstractions.Payments;
 using System.Security.Cryptography;
 using System.Text;
-using System.Net;
 
 namespace OCFigureHub.Infrastructure.Payments;
 
@@ -21,7 +20,7 @@ public class VNPayGateway : IPaymentGateway
     public Task<string> CreatePaymentUrlAsync(Guid orderId, decimal amount, string ipAddress, CancellationToken ct)
     {
         var vnpAmount = ((long)(amount * 100)).ToString();
-        var now = DateTime.Now;
+        var now = DateTime.UtcNow.AddHours(7); // ✅ FIX timezone
         var txnRef = orderId.ToString("N");
 
         var vnpParams = new SortedDictionary<string, string>
@@ -32,39 +31,38 @@ public class VNPayGateway : IPaymentGateway
             ["vnp_Amount"] = vnpAmount,
             ["vnp_CurrCode"] = "VND",
             ["vnp_TxnRef"] = txnRef,
-            ["vnp_OrderInfo"] = "Thanh toan don hang " + txnRef,
+            ["vnp_OrderInfo"] = $"Thanh_toan_don_hang_{txnRef}", // ✅ tránh space
             ["vnp_OrderType"] = "other",
             ["vnp_Locale"] = "vn",
             ["vnp_ReturnUrl"] = _opt.ReturnUrl,
             ["vnp_IpAddr"] = !string.IsNullOrEmpty(ipAddress) && ipAddress != "::1" ? ipAddress : "127.0.0.1",
-            ["vnp_CreateDate"] = now.ToString("yyyyMMddHHmmss")
+            ["vnp_CreateDate"] = now.ToString("yyyyMMddHHmmss"),
+            ["vnp_ExpireDate"] = now.AddMinutes(15).ToString("yyyyMMddHHmmss")
         };
 
-        StringBuilder hashData = new StringBuilder();
-        StringBuilder query = new StringBuilder();
+        StringBuilder data = new StringBuilder();
 
         foreach (var kv in vnpParams)
         {
             if (!string.IsNullOrEmpty(kv.Value))
             {
-                // ❌ KHÔNG encode khi hash
-                hashData.Append(kv.Key).Append("=").Append(kv.Value).Append("&");
-
-                // ✅ encode khi build URL
-                query.Append(WebUtility.UrlEncode(kv.Key))
-                     .Append("=")
-                     .Append(WebUtility.UrlEncode(kv.Value))
-                     .Append("&");
+                data.Append(System.Net.WebUtility.UrlEncode(kv.Key))
+                    .Append("=")
+                    .Append(System.Net.WebUtility.UrlEncode(kv.Value))
+                    .Append("&");
             }
         }
 
-        string hashString = hashData.ToString().TrimEnd('&');
-        string queryString = query.ToString().TrimEnd('&');
+        string signData = data.ToString().TrimEnd('&');
+        string queryString = data.ToString(); // includes trailing &
 
-        _logger.LogInformation("VNPAY HashData: {HashData}", hashString);
-        string vnp_SecureHash = HmacSha512(_opt.HashSecret, hashString);
+        _logger.LogInformation("VNPAY HashData: {HashData}", signData);
 
-        string paymentUrl = _opt.BaseUrl + "?" + queryString + "&vnp_SecureHash=" + vnp_SecureHash;
+        string vnp_SecureHash = HmacSha512(_opt.HashSecret, signData);
+
+        _logger.LogInformation("VNPAY SecureHash: {Hash}", vnp_SecureHash);
+
+        string paymentUrl = _opt.BaseUrl + "?" + queryString + "vnp_SecureHash=" + vnp_SecureHash;
 
         return Task.FromResult(paymentUrl);
     }
@@ -84,17 +82,24 @@ public class VNPayGateway : IPaymentGateway
         {
             if (!string.IsNullOrEmpty(kv.Value))
             {
-                // ❌ KHÔNG encode ở đây
-                data.Append(kv.Key).Append("=").Append(kv.Value).Append("&");
+                data.Append(System.Net.WebUtility.UrlEncode(kv.Key))
+                    .Append("=")
+                    .Append(System.Net.WebUtility.UrlEncode(kv.Value))
+                    .Append("&");
             }
         }
 
-        string result = data.ToString().TrimEnd('&');
-        _logger.LogInformation("VNPAY Return HashData: {HashData}", result);
-        string expected = HmacSha512(_opt.HashSecret, result);
+        string hashData = data.ToString().TrimEnd('&');
+
+        _logger.LogInformation("VNPAY Return HashData: {HashData}", hashData);
+
+        string expected = HmacSha512(_opt.HashSecret, hashData);
 
         if (!vnpParams.TryGetValue("vnp_SecureHash", out var actual))
             return false;
+
+        _logger.LogInformation("VNPAY ExpectedHash: {Expected}", expected);
+        _logger.LogInformation("VNPAY ActualHash: {Actual}", actual);
 
         return string.Equals(expected, actual, StringComparison.OrdinalIgnoreCase);
     }

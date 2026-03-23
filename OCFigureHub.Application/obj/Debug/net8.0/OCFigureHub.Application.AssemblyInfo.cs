@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OCFigureHub.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b190adcd08205f50146507aa81c034e2508a2acc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0d4248dbe014ebb1914b8bb6cba9df5cc298b98b")]
 [assembly: System.Reflection.AssemblyProductAttribute("OCFigureHub.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OCFigureHub.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
