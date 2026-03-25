@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -20,6 +21,19 @@ var builder = WebApplication.CreateBuilder(args);
 #region Controllers + Swagger
 
 builder.Services.AddControllers();
+
+// Increase file upload limit for FormOptions
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 524288000; // 500 MB
+});
+
+// Increase file upload limit for Kestrel
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.Limits.MaxRequestBodySize = 524288000; // 500 MB
+});
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
@@ -118,6 +132,7 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 #region Storage (Azure Blob)
 
 builder.Services.AddScoped<IStorageService, AzureBlobStorageService>();
+builder.Services.AddScoped<IModelOptimizer, DracoModelOptimizer>();
 
 #endregion
 

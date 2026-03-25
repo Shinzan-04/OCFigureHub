@@ -10,12 +10,14 @@ public class AdminProductService
     private readonly IProductRepository _products;
     private readonly IProductFileRepository _files;
     private readonly IStorageService _storage;
+    private readonly IModelOptimizer _optimizer;
 
-    public AdminProductService(IProductRepository products, IProductFileRepository files, IStorageService storage)
+    public AdminProductService(IProductRepository products, IProductFileRepository files, IStorageService storage, IModelOptimizer optimizer)
     {
         _products = products;
         _files = files;
         _storage = storage;
+        _optimizer = optimizer;
     }
 
     public async Task<ProductDto> CreateAsync(AdminCreateProductRequest req, CancellationToken ct)
@@ -114,7 +116,13 @@ public class AdminProductService
         var product = await _products.GetByIdAsync(productId, ct);
         if (product == null) throw new Exception("Product not found");
 
-        var (storageKey, size) = await _storage.UploadAsync(stream, fileName, contentType, ct);
+        Stream finalStream = stream;
+        if (fileType == FileType.Preview && format.Trim().ToUpper() == "GLB")
+        {
+            finalStream = await _optimizer.OptimizeAsync(stream, format, ct);
+        }
+
+        var (storageKey, size) = await _storage.UploadAsync(finalStream, fileName, contentType, ct);
 
         var pf = new ProductFile
         {

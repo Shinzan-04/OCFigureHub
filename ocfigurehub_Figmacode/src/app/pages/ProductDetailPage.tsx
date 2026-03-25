@@ -1,4 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router';
+import { useEffect, useRef, useState } from 'react';
 import '@google/model-viewer';
 import {
   Download,
@@ -19,7 +20,6 @@ import { SkeletonProductCard } from '../components/SkeletonProductCard';
 import { ordersApi } from '../../api/orders';
 import { downloadsApi } from '../../api/downloads';
 import toast from 'react-hot-toast';
-import { useState } from 'react';
 
 declare global {
   namespace JSX {
@@ -58,8 +58,44 @@ export function ProductDetailPage() {
   const { toggleSaved, isSaved } = useSaved();
   const { user, isLoggedIn } = useAuthStore();
   const { data: product, isLoading } = useProductDetail(id);
+  const [isModelLoading, setIsModelLoading] = useState(true);
+  const [loadPercentage, setLoadPercentage] = useState(0);
   const [buying, setBuying] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const modelViewerRef = useRef<any>(null);
+
+  useEffect(() => {
+    const viewer = modelViewerRef.current;
+    if (!viewer) return;
+
+    const handleLoad = () => {
+      console.log('Model loaded');
+      setIsModelLoading(false);
+    };
+    
+    const handleError = (e: any) => {
+      console.error('Model load error', e);
+      setIsModelLoading(false);
+      // toast.error('Không thể tải mô hình 3D');
+    };
+
+    const handleProgress = (e: any) => {
+      const progress = e.detail.totalProgress;
+      setLoadPercentage(Math.round(progress * 100));
+      const bar = document.getElementById('progress-bar');
+      if (bar) bar.style.transform = `scaleX(${progress})`;
+    };
+
+    viewer.addEventListener('load', handleLoad);
+    viewer.addEventListener('error', handleError);
+    viewer.addEventListener('progress', handleProgress);
+
+    return () => {
+      viewer.removeEventListener('load', handleLoad);
+      viewer.removeEventListener('error', handleError);
+      viewer.removeEventListener('progress', handleProgress);
+    };
+  }, [product?.previewModelUrl]);
 
   if (isLoading) {
     return (
@@ -147,15 +183,36 @@ export function ProductDetailPage() {
             style={{ borderColor: '#262626' }}
           >
             {product.previewModelUrl ? (
-              // @ts-ignore
-              <model-viewer
-                src={product.previewModelUrl}
-                poster={product.thumbnailUrl}
-                alt={product.name}
-                auto-rotate
-                camera-controls
-                style={{ width: '100%', height: '100%', backgroundColor: '#111111' }}
-              />
+              <div className="w-full h-full relative">
+                {/* @ts-ignore */}
+                <model-viewer
+                  ref={modelViewerRef}
+                  src={product.previewModelUrl}
+                  poster={product.thumbnailUrl}
+                  alt={product.name}
+                  auto-rotate
+                  camera-controls
+                  style={{ width: '100%', height: '100%', backgroundColor: '#111111' }}
+                >
+                  <div slot="progress-bar" className="absolute inset-x-0 top-0 h-1 bg-[#8B5CF6] origin-left transition-transform duration-300 transform scale-x-0 z-50" id="progress-bar" />
+                </model-viewer>
+
+                {/* Loading Overlay */}
+                {isModelLoading && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm z-40 transition-opacity duration-500">
+                    <div className="relative w-20 h-20 mb-4">
+                      <div className="absolute inset-0 border-4 border-[#8B5CF620] rounded-full"></div>
+                      <div className="absolute inset-0 border-4 border-t-[#8B5CF6] rounded-full animate-spin"></div>
+                      <div className="absolute inset-x-0 bottom-0 top-0 flex items-center justify-center">
+                        <span className="text-white text-[10px] font-bold">{loadPercentage}%</span>
+                      </div>
+                    </div>
+                    <p className="text-[#8B5CF6] font-bold text-xs tracking-widest animate-pulse">
+                      LOADING 3D MODEL...
+                    </p>
+                  </div>
+                )}
+              </div>
             ) : product.thumbnailUrl ? (
               <img
                 src={product.thumbnailUrl}

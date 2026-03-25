@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OCFigureHub.Application.DTOs.Products;
 using OCFigureHub.Application.Services;
@@ -40,6 +40,7 @@ public class AdminProductsController : ControllerBase
     }
 
     [HttpPost("{id:guid}/upload")]
+    [DisableRequestSizeLimit]
     public async Task<IActionResult> Upload(
         Guid id,
         [FromQuery] FileType fileType,

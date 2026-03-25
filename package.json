@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "gltf-pipeline": "^4.3.0"
+  }
+}
