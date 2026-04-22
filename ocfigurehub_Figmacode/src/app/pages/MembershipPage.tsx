@@ -62,7 +62,15 @@ export function MembershipPage() {
           API.get('/subscriptions/plans'),
           isLoggedIn ? API.get('/subscriptions/status') : Promise.resolve({ data: null })
         ]);
-        setPlans(plansRes.data);
+
+        const order: Record<string, number> = { 'FREE': 0, 'PRO': 1, 'ULTIMATE': 2 };
+        const sortedPlans = (plansRes.data as Plan[]).sort((a, b) => {
+          const aKey = a.name.toUpperCase();
+          const bKey = b.name.toUpperCase();
+          return (order[aKey] ?? 99) - (order[bKey] ?? 99);
+        });
+
+        setPlans(sortedPlans);
         setCurrentSub(statusRes.data);
       } catch (err) {
         console.error('Failed to fetch membership data', err);

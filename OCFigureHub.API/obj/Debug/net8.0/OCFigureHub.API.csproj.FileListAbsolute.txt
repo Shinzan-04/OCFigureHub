@@ -150,3 +150,4 @@ D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\bin\Debug\net8.0\ru\Microsoft.
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\PRN222_srcCode\EXE\OCFigureHub\OCFigureHub.API\bin\Debug\net8.0\appsettings.Production.json

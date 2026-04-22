@@ -21,19 +21,7 @@ import { ordersApi } from '../../api/orders';
 import { downloadsApi } from '../../api/downloads';
 import toast from 'react-hot-toast';
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'model-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        src?: string;
-        alt?: string;
-        'auto-rotate'?: boolean;
-        'camera-controls'?: boolean;
-        poster?: string;
-      };
-    }
-  }
-}
+
 
 function formatPrice(price: number): string {
   if (price === 0) return 'Miễn phí';
@@ -152,8 +140,15 @@ export function ProductDetailPage() {
       const modelFile = product.files.find(f => f.fileType === 1);
       const format = modelFile?.format || 'STL';
       const res = await downloadsApi.request({ productId: product.id, format });
-      window.open(res.signedUrl, '_blank');
-      toast.success('Đang tải xuống...');
+      
+      // Construct the secure download URL
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const downloadUrl = `${apiUrl}/downloads/file/${res.tokenId}`;
+      
+      // Trigger download
+      window.location.href = downloadUrl;
+      
+      toast.success('Đang chuẩn bị file...');
     } catch (err: any) {
       toast.error(err.response?.data?.error || 'Tải xuống thất bại. Bạn cần mua sản phẩm trước.');
     } finally {
