@@ -1,0 +1,39 @@
+# Build output
+bin/
+**/bin/
+obj/
+**/obj/
+
+# .NET compiled/debug files
+*.dll
+*.exe
+*.pdb
+
+# Node / Frontend
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# App settings chứa secret
+appsettings.json
+appsettings.*.json
+!appsettings.Example.json
+!appsettings.Development.example.json
+
+# IDE local
+.vs/
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
