@@ -61,6 +61,26 @@ public static class DbInitializer
             old.IsEnabled = false;
         }
 
+        // Seed products with mix of Personal and Commercial licenses
+        if (!db.Products.Any())
+        {
+            Console.WriteLine("Seed: Creating sample products...");
+            var products = new List<Product>
+            {
+                new Product { Id = Guid.NewGuid(), Name = "Samurai Warrior Figure", Description = "Detailed samurai warrior model for 3D printing", Price = 150000, Category = "Anime", Creator = "Creator A", IsPro = false, IsEnabled = true, Tags = "samurai,warrior,anime", License = LicenseType.Personal },
+                new Product { Id = Guid.NewGuid(), Name = "Dragon Monster Model", Description = "Epic dragon creature with detailed scales", Price = 200000, Category = "Monster", Creator = "Creator B", IsPro = false, IsEnabled = true, Tags = "dragon,monster,fantasy", License = LicenseType.Commercial },
+                new Product { Id = Guid.NewGuid(), Name = "Chibi Character Set", Description = "Cute chibi character collection", Price = 0, Category = "Chibi", Creator = "Creator C", IsPro = false, IsEnabled = true, Tags = "chibi,cute,anime", License = LicenseType.Personal },
+                new Product { Id = Guid.NewGuid(), Name = "Mecha Robot Kit", Description = "Advanced mecha robot parts", Price = 250000, Category = "Robot", Creator = "Creator D", IsPro = true, IsEnabled = true, Tags = "mecha,robot,sci-fi", License = LicenseType.Commercial },
+                new Product { Id = Guid.NewGuid(), Name = "Fantasy Weapon Pack", Description = "Collection of fantasy weapons", Price = 100000, Category = "Weapon", Creator = "Creator E", IsPro = false, IsEnabled = true, Tags = "weapon,fantasy,sword", License = LicenseType.Personal },
+                new Product { Id = Guid.NewGuid(), Name = "Game Character Model", Description = "High-poly game character", Price = 180000, Category = "Game", Creator = "Creator F", IsPro = true, IsEnabled = true, Tags = "game,character,3d", License = LicenseType.Commercial },
+                new Product { Id = Guid.NewGuid(), Name = "Anime Girl Figure", Description = "Beautiful anime girl figure", Price = 120000, Category = "Figure", Creator = "Creator G", IsPro = false, IsEnabled = true, Tags = "anime,girl,figure", License = LicenseType.Personal },
+                new Product { Id = Guid.NewGuid(), Name = "Accessory Pack Vol.1", Description = "Various accessories for figures", Price = 50000, Category = "Accessory", Creator = "Creator H", IsPro = false, IsEnabled = true, Tags = "accessory,parts", License = LicenseType.Personal },
+                new Product { Id = Guid.NewGuid(), Name = "Commercial Dragon Set", Description = "Professional dragon model set", Price = 300000, Category = "Monster", Creator = "Creator I", IsPro = true, IsEnabled = true, Tags = "dragon,commercial,pro", License = LicenseType.Commercial },
+                new Product { Id = Guid.NewGuid(), Name = "Free Starter Pack", Description = "Free starter pack for beginners", Price = 0, Category = "Figure", Creator = "Creator J", IsPro = false, IsEnabled = true, Tags = "free,starter,beginner", License = LicenseType.Personal }
+            };
+            db.Products.AddRange(products);
+        }
+
         db.SaveChanges();
     }
 

@@ -69,6 +69,17 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
               Free
             </span>
           )}
+          {product.license && (
+            <span
+              className="text-xs font-semibold px-2 py-1 rounded-full uppercase tracking-wider"
+              style={{
+                backgroundColor: product.license === 'Commercial' ? '#F59E0B' : '#3B82F6',
+                color: '#fff'
+              }}
+            >
+              {product.license}
+            </span>
+          )}
         </div>
 
         {/* Heart */}

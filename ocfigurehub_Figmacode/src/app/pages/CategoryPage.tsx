@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router';
-import { PRODUCTS } from '../data/products';
+import { useProducts } from '../../hooks/useProducts';
 import { ProductCard } from '../components/ProductCard';
+import { SkeletonProductCard } from '../components/SkeletonProductCard';
 
 const CATEGORY_CONFIG: Record<string, { title: string; subtitle: string; emoji: string }> = {
   free: {
@@ -23,16 +24,21 @@ const CATEGORY_CONFIG: Record<string, { title: string; subtitle: string; emoji: 
 export function CategoryPage() {
   const location = useLocation();
   const category = location.pathname.replace('/', '') as 'free' | 'anime' | 'monsters';
+  
   const config = CATEGORY_CONFIG[category] ?? {
     title: 'Danh mục',
     subtitle: 'Khám phá các mô hình 3D',
     emoji: '📦',
   };
 
-  const products = PRODUCTS.filter((p) => {
-    if (category === 'free') return p.isFree;
-    return p.category === category;
+  // Fetch from real API
+  const { data, isLoading } = useProducts({
+    category: category === 'free' ? undefined : category,
+    maxPrice: category === 'free' ? 0 : undefined,
+    pageSize: 50 // Show many on category pages
   });
+
+  const products = data?.items || [];
 
   return (
     <div className="max-w-[1440px] mx-auto px-6 md:px-8 py-10 md:py-14">
@@ -57,7 +63,13 @@ export function CategoryPage() {
       </div>
 
       {/* Grid */}
-      {products.length > 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          {[...Array(6)].map((_, i) => (
+            <SkeletonProductCard key={i} />
+          ))}
+        </div>
+      ) : products.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />

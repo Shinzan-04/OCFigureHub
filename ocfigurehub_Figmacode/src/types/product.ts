@@ -9,6 +9,7 @@ export interface Product {
   isEnabled: boolean;
   thumbnailUrl?: string;
   tags?: string;
+  license: string;
 }
 
 export interface ProductFile {

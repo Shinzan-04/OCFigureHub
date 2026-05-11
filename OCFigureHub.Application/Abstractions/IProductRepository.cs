@@ -1,4 +1,5 @@
-﻿using OCFigureHub.Domain.Entities;
+﻿using OCFigureHub.Application.DTOs.Products;
+using OCFigureHub.Domain.Entities;
 
 namespace OCFigureHub.Application.Abstractions;
 
@@ -6,6 +7,7 @@ public interface IProductRepository
 {
     Task<Product?> GetByIdAsync(Guid id, CancellationToken ct);
     Task<List<Product>> GetAllEnabledAsync(CancellationToken ct);
+    Task<(List<Product> items, int totalCount)> GetPagedAsync(ProductQueryRequest request, CancellationToken ct);
     Task<Product?> GetByIdWithFilesAsync(Guid id, CancellationToken ct);
     Task AddAsync(Product product, CancellationToken ct);
     Task UpdateAsync(Product product, CancellationToken ct);

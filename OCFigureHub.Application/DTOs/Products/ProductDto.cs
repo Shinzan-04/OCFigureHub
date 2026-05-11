@@ -12,4 +12,5 @@ public class ProductDto
     public decimal Price { get; set; }
     public bool IsEnabled { get; set; }
     public string Tags { get; set; } = string.Empty;
+    public string License { get; set; } = default!;
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OCFigureHub.Domain.Entities;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -61,6 +61,12 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<QuotaUsage>()
             .HasIndex(x => new { x.UserId, x.YearMonth })
             .IsUnique();
+
+        modelBuilder.Entity<DownloadHistory>()
+            .HasOne<Product>()
+            .WithMany(p => p.DownloadHistories)
+            .HasForeignKey(dh => dh.ProductId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         base.OnModelCreating(modelBuilder);
     }

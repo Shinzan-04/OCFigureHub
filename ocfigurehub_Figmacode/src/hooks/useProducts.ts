@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { productsApi } from '../api/products';
 import toast from 'react-hot-toast';
+import type { ProductQueryParams } from '../types/pagination';
 
-export function useProducts() {
+export function useProducts(params?: ProductQueryParams) {
   const query = useQuery({
-    queryKey: ['products'],
-    queryFn: () => productsApi.getAll(),
+    queryKey: ['products', params],
+    queryFn: () => productsApi.getAll(params),
     staleTime: 60_000,
     retry: 1,
     refetchOnWindowFocus: false,

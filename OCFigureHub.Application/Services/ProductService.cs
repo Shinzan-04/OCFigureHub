@@ -1,4 +1,5 @@
 using OCFigureHub.Application.Abstractions;
+using OCFigureHub.Application.DTOs.Common;
 using OCFigureHub.Application.DTOs.Products;
 using OCFigureHub.Domain.Enums;
 
@@ -20,28 +21,77 @@ public class ProductService
     public async Task<List<ProductDto>> GetAllAsync(CancellationToken ct)
     {
         var list = await _products.GetAllEnabledAsync(ct);
-        return list.Select(p => {
-            var dto = new ProductDto
+        return list.Select(p => MapToDto(p)).ToList();
+    }
+
+    public async Task<PagedResult<ProductDto>> GetPagedAsync(ProductQueryRequest request, CancellationToken ct)
+    {
+        // Validate search length
+        if (!string.IsNullOrWhiteSpace(request.Search) && request.Search.Length > 200)
+        {
+            throw new ArgumentException("Search query too long (max 200 characters)");
+        }
+
+        // Validate format if provided
+        if (!string.IsNullOrWhiteSpace(request.Format))
+        {
+            var validFormats = new[] { "GLB", "GLTF", "STL", "OBJ", "FBX", "ZIP" };
+            if (!validFormats.Contains(request.Format.ToUpper()))
             {
-                Id = p.Id,
-                Name = p.Name,
-                Category = p.Category,
-                Creator = p.Creator,
-                IsPro = p.IsPro,
-                Price = p.Price,
-                IsEnabled = p.IsEnabled,
-                Tags = p.Tags
-            };
-            if (!string.IsNullOrEmpty(p.ThumbnailUrl))
-            {
-                dto.ThumbnailUrl = _storage.GenerateReadSasUrl(p.ThumbnailUrl, TimeSpan.FromHours(24));
+                throw new ArgumentException($"Invalid format. Valid formats: {string.Join(", ", validFormats)}");
             }
-            if (!string.IsNullOrEmpty(p.PreviewModelUrl))
+        }
+
+        // Validate license if provided
+        if (!string.IsNullOrWhiteSpace(request.License))
+        {
+            if (!Enum.TryParse<Domain.Enums.LicenseType>(request.License, true, out _))
             {
-                dto.PreviewModelUrl = _storage.GenerateReadSasUrl(p.PreviewModelUrl, TimeSpan.FromHours(24));
+                throw new ArgumentException("Invalid license. Valid values: Personal, Commercial");
             }
-            return dto;
-        }).ToList();
+        }
+
+        var (items, totalCount) = await _products.GetPagedAsync(request, ct);
+
+        var page = request.Page < 1 ? 1 : request.Page;
+        var pageSize = request.PageSize < 1 ? 20 : (request.PageSize > 100 ? 100 : request.PageSize);
+        var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+        return new PagedResult<ProductDto>
+        {
+            Items = items.Select(p => MapToDto(p)).ToList(),
+            Page = page,
+            PageSize = pageSize,
+            TotalItems = totalCount,
+            TotalPages = totalPages,
+            HasNextPage = page < totalPages,
+            HasPreviousPage = page > 1
+        };
+    }
+
+    private ProductDto MapToDto(Domain.Entities.Product p)
+    {
+        var dto = new ProductDto
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Category = p.Category,
+            Creator = p.Creator,
+            IsPro = p.IsPro,
+            Price = p.Price,
+            IsEnabled = p.IsEnabled,
+            Tags = p.Tags,
+            License = p.License.ToString()
+        };
+        if (!string.IsNullOrEmpty(p.ThumbnailUrl))
+        {
+            dto.ThumbnailUrl = _storage.GenerateReadSasUrl(p.ThumbnailUrl, TimeSpan.FromHours(24));
+        }
+        if (!string.IsNullOrEmpty(p.PreviewModelUrl))
+        {
+            dto.PreviewModelUrl = _storage.GenerateReadSasUrl(p.PreviewModelUrl, TimeSpan.FromHours(24));
+        }
+        return dto;
     }
 
     public async Task<ProductDetailDto?> GetDetailAsync(Guid id, Guid? userId, CancellationToken ct)
@@ -60,6 +110,7 @@ public class ProductService
             Price = p.Price,
             IsEnabled = p.IsEnabled,
             Tags = p.Tags,
+            License = p.License.ToString(),
             Files = p.Files.Select(f => new ProductFileDto
             {
                 Id = f.Id,
