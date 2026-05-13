@@ -25,13 +25,13 @@ public class AdminProductService
         var p = new Product
         {
             Id = Guid.NewGuid(),
-            Name = req.Name.Trim(),
-            Description = req.Description.Trim(),
+            Name = (req.Name ?? "").Trim(),
+            Description = (req.Description ?? "").Trim(),
             Price = req.Price,
-            Category = req.Category.Trim(),
-            Creator = req.Creator.Trim(),
+            Category = (req.Category ?? "General").Trim(),
+            Creator = (req.Creator ?? "Unknown").Trim(),
             IsPro = req.IsPro,
-            Tags = req.Tags.Trim(),
+            Tags = (req.Tags ?? "").Trim(),
             IsEnabled = true
         };
 
@@ -66,13 +66,13 @@ public class AdminProductService
     {
         var p = await _products.GetByIdAsync(id, ct) ?? throw new Exception("Product not found");
 
-        p.Name = req.Name.Trim();
-        p.Description = req.Description.Trim();
+        p.Name = (req.Name ?? "").Trim();
+        p.Description = (req.Description ?? "").Trim();
         p.Price = req.Price;
-        p.Category = req.Category.Trim();
-        p.Creator = req.Creator.Trim();
+        p.Category = (req.Category ?? "General").Trim();
+        p.Creator = (req.Creator ?? "Unknown").Trim();
         p.IsPro = req.IsPro;
-        p.Tags = req.Tags.Trim();
+        p.Tags = (req.Tags ?? "").Trim();
         p.IsEnabled = req.IsEnabled;
         p.UpdatedAt = DateTime.UtcNow;
 

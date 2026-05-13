@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using OCFigureHub.Application.DTOs.Products;
 using OCFigureHub.Application.Services;
 
 namespace OCFigureHub.API.Controllers;
@@ -16,13 +17,45 @@ public class ProductsController : ControllerBase
     }
 
     /// <summary>
-    /// Browse all enabled products (public, no auth required)
+    /// Browse products with search, filter, sort, and pagination (public, no auth required)
     /// </summary>
     [HttpGet]
-    public async Task<IActionResult> GetAll(CancellationToken ct)
+    public async Task<IActionResult> GetAll(
+        [FromQuery] string? search,
+        [FromQuery] string? category,
+        [FromQuery] decimal? minPrice,
+        [FromQuery] decimal? maxPrice,
+        [FromQuery] string? format,
+        [FromQuery] string? license,
+        [FromQuery] string? sort,
+        [FromQuery] bool smart = true,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20,
+        CancellationToken ct = default)
     {
-        var list = await _svc.GetAllAsync(ct);
-        return Ok(list);
+        try
+        {
+            var request = new ProductQueryRequest
+            {
+                Search = search,
+                Category = category,
+                MinPrice = minPrice,
+                MaxPrice = maxPrice,
+                Format = format,
+                License = license,
+                Sort = sort,
+                Smart = smart,
+                Page = page,
+                PageSize = pageSize
+            };
+
+            var result = await _svc.GetPagedAsync(request, ct);
+            return Ok(result);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
     }
 
     /// <summary>

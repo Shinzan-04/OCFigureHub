@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { productsApi } from '../../api/products';
 import { adminApi } from '../../api/admin';
@@ -33,7 +33,16 @@ const defaultForm: ResourceFormData = {
 export function AdminResources() {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [search]);
+
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [form, setForm] = useState<ResourceFormData>(defaultForm);
@@ -44,25 +53,41 @@ export function AdminResources() {
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
-  const { data: products = [], isLoading } = useQuery({
-    queryKey: ['admin-products'],
-    queryFn: productsApi.getAll
+  const { data, isLoading } = useQuery({
+    queryKey: ['admin-products', debouncedSearch, categoryFilter],
+    queryFn: () => productsApi.getAll({ 
+      search: debouncedSearch || undefined,
+      category: (categoryFilter === 'all' || categoryFilter === 'free') ? undefined : categoryFilter,
+      maxPrice: categoryFilter === 'free' ? 0 : undefined,
+      pageSize: 100 
+    })
   });
+
+  const products = data?.items || [];
+  const filtered = products;
 
   const createMutation = useMutation({
     mutationFn: adminApi.createProduct,
     onSuccess: (newProduct) => {
+      toast.success('Product created. Starting file uploads...');
       handleFileUploads(newProduct.id);
     },
-    onError: () => toast.error('Failed to create product')
+    onError: (err: any) => {
+      console.error('Create error:', err);
+      toast.error(err.response?.data?.error || 'Failed to create product');
+    }
   });
 
   const updateMutation = useMutation({
     mutationFn: (data: { id: string, req: any }) => adminApi.updateProduct(data.id, data.req),
     onSuccess: (updatedProduct) => {
+      toast.success('Product info updated. Starting file uploads...');
       handleFileUploads(updatedProduct.id);
     },
-    onError: () => toast.error('Failed to update product')
+    onError: (err: any) => {
+      console.error('Update error:', err);
+      toast.error(err.response?.data?.error || 'Failed to update product');
+    }
   });
 
   const deleteMutation = useMutation({
@@ -85,20 +110,27 @@ export function AdminResources() {
     setIsUploading(true);
     try {
       if (modelFile) {
+        toast.loading(`Uploading original file (${(modelFile.size / 1024 / 1024).toFixed(1)}MB)...`, { id: 'upload-model' });
         const ext = modelFile.name.split('.').pop() || 'STL';
-        await adminApi.uploadFile(productId, 1, ext, modelFile); 
+        await adminApi.uploadFile(productId, 1, ext, modelFile);
+        toast.success('Original file uploaded', { id: 'upload-model' });
       }
       if (previewFile) {
+        toast.loading('Uploading web preview...', { id: 'upload-preview' });
         const ext = previewFile.name.split('.').pop() || 'GLB';
         await adminApi.uploadFile(productId, 2, ext, previewFile);
+        toast.success('Web preview uploaded', { id: 'upload-preview' });
       }
       if (thumbnailFile) {
+        toast.loading('Uploading thumbnail...', { id: 'upload-thumb' });
         const ext = thumbnailFile.name.split('.').pop() || 'JPG';
         await adminApi.uploadFile(productId, 3, ext, thumbnailFile);
+        toast.success('Thumbnail uploaded', { id: 'upload-thumb' });
       }
-      toast.success('Completed successfully');
-    } catch (err) {
-      toast.error('Product saved but file upload failed');
+      toast.success('All tasks completed successfully!');
+    } catch (err: any) {
+      console.error('Upload error:', err);
+      toast.error(err.response?.data?.error || 'Product saved but file upload failed');
     } finally {
       setIsUploading(false);
       finishSave();
@@ -113,13 +145,6 @@ export function AdminResources() {
     setPreviewFile(null);
     setThumbnailFile(null);
   };
-
-  const filtered = products.filter((p) => {
-    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.creator.toLowerCase().includes(search.toLowerCase());
-    const matchCat = categoryFilter === 'all' || p.category === categoryFilter || (categoryFilter === 'free' && p.price === 0);
-    return matchSearch && matchCat;
-  });
 
   const openAdd = () => {
     setEditingProduct(null);
@@ -170,7 +195,7 @@ export function AdminResources() {
       <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
         <div>
           <h2 style={{ color: '#fff', fontWeight: 700, fontSize: 18 }}>Resource Management</h2>
-          <p style={{ color: '#666', fontSize: 13 }}>{filtered.length} of {products.length} resources</p>
+          <p style={{ color: '#666', fontSize: 13 }}>{filtered.length} of {data?.totalItems || 0} resources</p>
         </div>
         <button
           onClick={openAdd}
@@ -406,7 +431,7 @@ export function AdminResources() {
                   <span className="text-[10px] text-zinc-500 text-center truncate w-full" title="Original File (.obj, .stl)">
                     {modelFile ? modelFile.name : 'Original File (.obj, .stl)'}
                   </span>
-                  <input type="file" className="hidden" accept=".stl,.obj,.zip" onChange={e => setModelFile(e.target.files?.[0] || null)} />
+                  <input type="file" className="hidden" accept=".stl,.obj,.zip,.fbx" onChange={e => setModelFile(e.target.files?.[0] || null)} />
                 </label>
 
                 <label className="flex flex-col items-center gap-2 cursor-pointer p-4 rounded-lg bg-zinc-900/50 border-2 border-dashed border-zinc-800 hover:border-violet-500 transition-all">

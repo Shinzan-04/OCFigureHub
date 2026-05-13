@@ -1,4 +1,5 @@
 using OCFigureHub.Domain.Common;
+using OCFigureHub.Domain.Enums;
 
 namespace OCFigureHub.Domain.Entities;
 
@@ -14,6 +15,8 @@ public class Product : BaseEntity
     public bool IsPro { get; set; } = false;
     public bool IsEnabled { get; set; } = true;
     public string Tags { get; set; } = string.Empty;
+    public LicenseType License { get; set; } = LicenseType.Personal;
 
     public ICollection<ProductFile> Files { get; set; } = new List<ProductFile>();
+    public ICollection<DownloadHistory> DownloadHistories { get; set; } = new List<DownloadHistory>();
 }
