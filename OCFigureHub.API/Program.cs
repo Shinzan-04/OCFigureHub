@@ -6,13 +6,16 @@ using Microsoft.OpenApi.Models;
 using OCFigureHub.API.BackgroundJobs;
 using OCFigureHub.API.Middlewares;
 using OCFigureHub.Application.Abstractions;
+using OCFigureHub.Application.Abstractions.AI;
 using OCFigureHub.Application.Abstractions.Jobs;
 using OCFigureHub.Application.Abstractions.Payments;
 using OCFigureHub.Application.Services;
+using OCFigureHub.Infrastructure.AI;
 using OCFigureHub.Infrastructure.Payments;
 using OCFigureHub.Infrastructure.Persistence;
 using OCFigureHub.Infrastructure.Repositories;
 using OCFigureHub.Infrastructure.Security;
+using OCFigureHub.Infrastructure.Services;
 using OCFigureHub.Infrastructure.Storage;
 using System.Text;
 
@@ -119,6 +122,50 @@ builder.Services.AddScoped<DownloadService>();
 builder.Services.AddScoped<ReportService>();
 builder.Services.AddScoped<QuotaResetJob>();
 builder.Services.AddScoped<IAntiLeakService, OCFigureHub.Infrastructure.Repositories.AntiLeakService>();
+
+#endregion
+
+#region Chat Services
+
+builder.Services.AddSingleton<IChatRateLimiter, InMemoryChatRateLimiter>();
+
+builder.Services.AddHttpClient<GeminiFreeChatProvider>();
+builder.Services.AddHttpClient<GeminiCheapChatProvider>();
+
+builder.Services.AddScoped<GeminiFreeChatProvider>(sp =>
+{
+    var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
+    var httpClient = httpClientFactory.CreateClient(nameof(GeminiFreeChatProvider));
+    var logger = sp.GetRequiredService<ILogger<GeminiFreeChatProvider>>();
+    var apiKey = builder.Configuration["GeminiFree:ApiKey"] ?? "";
+    return new GeminiFreeChatProvider(httpClient, logger, apiKey);
+});
+
+builder.Services.AddScoped<GeminiCheapChatProvider>(sp =>
+{
+    var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
+    var httpClient = httpClientFactory.CreateClient(nameof(GeminiCheapChatProvider));
+    var logger = sp.GetRequiredService<ILogger<GeminiCheapChatProvider>>();
+    var apiKey = builder.Configuration["GeminiCheap:ApiKey"] ?? "";
+    return new GeminiCheapChatProvider(httpClient, logger, apiKey);
+});
+
+builder.Services.AddScoped<RuleBasedChatProvider>();
+
+builder.Services.AddScoped<IChatRepository, ChatRepository>();
+
+builder.Services.AddScoped<IEnumerable<IAiChatProvider>>(sp =>
+{
+    var providers = new List<IAiChatProvider>
+    {
+        sp.GetRequiredService<GeminiFreeChatProvider>(),
+        sp.GetRequiredService<GeminiCheapChatProvider>(),
+        sp.GetRequiredService<RuleBasedChatProvider>()
+    };
+    return providers;
+});
+
+builder.Services.AddScoped<AiChatRouterService>();
 
 #endregion
 
