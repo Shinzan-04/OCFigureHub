@@ -21,6 +21,8 @@ public class AppDbContext : DbContext
     public DbSet<DownloadToken> DownloadTokens => Set<DownloadToken>();
     public DbSet<DownloadHistory> DownloadHistories => Set<DownloadHistory>();
     public DbSet<WatermarkInfo> WatermarkInfos => Set<WatermarkInfo>();
+    public DbSet<ChatSession> ChatSessions => Set<ChatSession>();
+    public DbSet<ChatMessage> ChatMessages => Set<ChatMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -67,6 +69,29 @@ public class AppDbContext : DbContext
             .WithMany(p => p.DownloadHistories)
             .HasForeignKey(dh => dh.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // Chat relationships
+        modelBuilder.Entity<ChatSession>()
+            .HasOne(x => x.User)
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<ChatSession>()
+            .HasIndex(x => x.GuestKey);
+
+        modelBuilder.Entity<ChatMessage>()
+            .HasOne(x => x.Session)
+            .WithMany(x => x.Messages)
+            .HasForeignKey(x => x.SessionId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Precision for decimals
+        modelBuilder.Entity<Product>().Property(x => x.Price).HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<Order>().Property(x => x.TotalAmount).HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<OrderItem>().Property(x => x.UnitPrice).HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<PaymentTransaction>().Property(x => x.Amount).HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<SubscriptionPlan>().Property(x => x.MonthlyPrice).HasColumnType("decimal(18,2)");
 
         base.OnModelCreating(modelBuilder);
     }

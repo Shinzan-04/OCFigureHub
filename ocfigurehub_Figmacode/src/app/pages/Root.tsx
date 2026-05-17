@@ -1,6 +1,7 @@
 import { Outlet, ScrollRestoration } from 'react-router';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
+import { ChatbotWidget } from '../components/ChatbotWidget';
 import { SavedProvider } from '../context/SavedContext';
 
 export function Root() {
@@ -12,6 +13,7 @@ export function Root() {
           <Outlet />
         </main>
         <Footer />
+        <ChatbotWidget />
         <ScrollRestoration />
       </div>
     </SavedProvider>
