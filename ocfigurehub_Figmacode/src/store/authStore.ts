@@ -17,6 +17,8 @@ interface AuthState {
   user: AuthUser | null;
   isLoggedIn: boolean;
   login: (email: string, password: string) => Promise<boolean>;
+  googleLogin: (credential: string) => Promise<boolean>;
+  facebookLogin: (accessToken: string) => Promise<boolean>;
   register: (email: string, password: string, displayName: string) => Promise<boolean>;
   logout: () => void;
   hydrate: () => void;
@@ -51,6 +53,58 @@ export const useAuthStore = create<AuthState>()(
         } catch (err: any) {
           const msg = err.response?.data?.error || err.response?.data || 'Đăng nhập thất bại';
           toast.error(typeof msg === 'string' ? msg : 'Đăng nhập thất bại');
+          return false;
+        }
+      },
+
+      googleLogin: async (credential: string): Promise<boolean> => {
+        try {
+          const res = await authApi.googleLogin(credential);
+          try {
+            const payload = jwtDecode<JwtPayload>(res.accessToken);
+            const user: AuthUser = {
+              userId: res.userId,
+              email: res.email,
+              displayName: res.displayName,
+              role: res.role as 'Customer' | 'Admin',
+            };
+            set({ token: res.accessToken, user, isLoggedIn: true });
+            toast.success(`Xin chào, ${user.displayName}!`);
+            return true;
+          } catch {
+            set({ token: null, user: null, isLoggedIn: false });
+            toast.error('Token không hợp lệ');
+            return false;
+          }
+        } catch (err: any) {
+          const msg = err.response?.data?.error || err.response?.data || 'Đăng nhập Google thất bại';
+          toast.error(typeof msg === 'string' ? msg : 'Đăng nhập Google thất bại');
+          return false;
+        }
+      },
+
+      facebookLogin: async (accessToken: string): Promise<boolean> => {
+        try {
+          const res = await authApi.facebookLogin(accessToken);
+          try {
+            const payload = jwtDecode<JwtPayload>(res.accessToken);
+            const user: AuthUser = {
+              userId: res.userId,
+              email: res.email,
+              displayName: res.displayName,
+              role: res.role as 'Customer' | 'Admin',
+            };
+            set({ token: res.accessToken, user, isLoggedIn: true });
+            toast.success(`Xin chào, ${user.displayName}!`);
+            return true;
+          } catch {
+            set({ token: null, user: null, isLoggedIn: false });
+            toast.error('Token không hợp lệ');
+            return false;
+          }
+        } catch (err: any) {
+          const msg = err.response?.data?.error || err.response?.data || 'Đăng nhập Facebook thất bại';
+          toast.error(typeof msg === 'string' ? msg : 'Đăng nhập Facebook thất bại');
           return false;
         }
       },

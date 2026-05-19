@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -12,6 +12,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OCFigureHub.Domain\OCFigureHub.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.67.0" />
   </ItemGroup>
 
 </Project>
