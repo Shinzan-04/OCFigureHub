@@ -73,4 +73,11 @@ public class AzureBlobStorageService : IStorageService
         var sasUri = blob.GenerateSasUri(sasBuilder);
         return sasUri.ToString();
     }
+
+    public async Task<Stream> DownloadFileAsync(string storageKey, CancellationToken ct)
+    {
+        var blob = _container.GetBlobClient(storageKey);
+        var res = await blob.DownloadStreamingAsync(cancellationToken: ct);
+        return res.Value.Content;
+    }
 }

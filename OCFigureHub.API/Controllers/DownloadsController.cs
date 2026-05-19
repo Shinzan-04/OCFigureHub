@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OCFigureHub.Application.DTOs.Downloads;
@@ -19,7 +19,7 @@ public class DownloadsController : ControllerBase
 
     [Authorize(Roles = "Customer,Admin")]
     [HttpPost("request")]
-    public async Task<IActionResult> Request01([FromBody] DownloadRequestDto req, CancellationToken ct)
+    public async Task<IActionResult> RequestDownload([FromBody] DownloadRequestDto req, CancellationToken ct)
     {
         var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (string.IsNullOrWhiteSpace(userIdStr))
@@ -30,10 +30,27 @@ public class DownloadsController : ControllerBase
         var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
         var userAgent = Request.Headers.UserAgent.ToString();
 
-
-
-        var result = await _downloadService.RequestSignedUrlAsync(userId, req, ip, userAgent, ct);
+        var result = await _downloadService.RequestTokenAsync(userId, req, ip, userAgent, ct);
         return Ok(result);
+    }
+
+    [AllowAnonymous] // Token itself is the security bearer
+    [HttpGet("file/{tokenId}")]
+    public async Task<IActionResult> DownloadFile(Guid tokenId, CancellationToken ct)
+    {
+        try
+        {
+            var (stream, fileName, contentType) = await _downloadService.GetDownloadFileAsync(tokenId, ct);
+            return File(stream, contentType, fileName);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return StatusCode(403, new { error = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
     }
 
     [Authorize(Roles = "Customer,Admin")]

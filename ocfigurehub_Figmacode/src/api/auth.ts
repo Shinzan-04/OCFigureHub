@@ -11,4 +11,14 @@ export const authApi = {
     const res = await API.post<AuthResponse>('/auth/register', data);
     return res.data;
   },
+
+  googleLogin: async (credential: string): Promise<AuthResponse> => {
+    const res = await API.post<AuthResponse>('/auth/google', { credential });
+    return res.data;
+  },
+
+  facebookLogin: async (accessToken: string): Promise<AuthResponse> => {
+    const res = await API.post<AuthResponse>('/auth/facebook', { accessToken });
+    return res.data;
+  },
 };

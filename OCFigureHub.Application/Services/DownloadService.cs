@@ -20,7 +20,7 @@ public class DownloadService
         _antiLeak = antiLeak;
     }
 
-    public async Task<DownloadResponseDto> RequestSignedUrlAsync(
+    public async Task<DownloadResponseDto> RequestTokenAsync(
         Guid userId,
         DownloadRequestDto req,
         string? ip,
@@ -105,24 +105,21 @@ public class DownloadService
             throw new Exception("Model file not found");
         }
 
-        // 4) Generate SAS URL (TTL 3 minutes + IP Restricted)
-        var expiresAt = DateTime.UtcNow.AddMinutes(3);
-        var signedUrl = _storage.GenerateReadSasUrl(file.StorageKey, TimeSpan.FromMinutes(3), ip);
-
-        // 5) Save token (hash only)
+        // 4) Save token (Valid for 5 minutes)
+        var expiresAt = DateTime.UtcNow.AddMinutes(5);
         var token = new DownloadToken
         {
             Id = Guid.NewGuid(),
             UserId = userId,
             ProductId = req.ProductId,
+            ProductFileId = file.Id,
             ExpiresAt = expiresAt,
             Used = false,
-            SignedUrlHash = Sha256(signedUrl),
             CreatedAt = DateTime.UtcNow
         };
         await _repo.AddDownloadTokenAsync(token, ct);
 
-        // 6) Log success
+        // 5) Log history (Mark as initial request)
         await _repo.AddDownloadHistoryAsync(new DownloadHistory
         {
             Id = Guid.NewGuid(),
@@ -139,14 +136,43 @@ public class DownloadService
 
         await _repo.SaveChangesAsync(ct);
 
-        // 7) Phase 3: Record watermark metadata for anti-leak tracing
+        // 6) Phase 3: Record watermark metadata for anti-leak tracing
         await _antiLeak.RecordWatermarkAsync(userId, req.ProductId, token.Id, ct);
 
         return new DownloadResponseDto
         {
-            SignedUrl = signedUrl,
-            ExpiresAtUtc = expiresAt
+            TokenId = token.Id,
+            ExpiresAtUtc = expiresAt,
+            ExpireInSeconds = 300
         };
+    }
+
+    public async Task<(Stream Stream, string FileName, string ContentType)> GetDownloadFileAsync(Guid tokenId, CancellationToken ct)
+    {
+        var token = await _repo.GetDownloadTokenAsync(tokenId, ct);
+        if (token == null || token.Used || token.ExpiresAt < DateTime.UtcNow)
+        {
+            throw new UnauthorizedAccessException("Token invalid, expired or already used.");
+        }
+
+        var file = await _repo.GetProductFileByIdAsync(token.ProductFileId, ct);
+        if (file == null)
+        {
+            throw new Exception("File not found.");
+        }
+
+        // Mark token as used
+        token.Used = true;
+        await _repo.SaveChangesAsync(ct);
+
+        var stream = await _storage.DownloadFileAsync(file.StorageKey, ct);
+        
+        // Phase 3: Watermarking will be applied here in future steps
+        
+        var fileName = $"{Path.GetFileNameWithoutExtension(file.StorageKey)}_{token.UserId.ToString().Substring(0, 8)}{Path.GetExtension(file.StorageKey)}";
+        var contentType = "application/octet-stream";
+
+        return (stream, fileName, contentType);
     }
 
     private async Task LogFail(Guid userId, Guid productId, string reason, string? ip, string? ua, CancellationToken ct)

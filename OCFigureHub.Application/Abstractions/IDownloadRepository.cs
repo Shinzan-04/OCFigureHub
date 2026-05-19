@@ -23,9 +23,11 @@ public interface IDownloadRepository
 
     // Files
     Task<ProductFile?> GetModelFileAsync(Guid productId, string format, CancellationToken ct);
+    Task<ProductFile?> GetProductFileByIdAsync(Guid fileId, CancellationToken ct);
 
     // Download security
     Task AddDownloadTokenAsync(DownloadToken token, CancellationToken ct);
+    Task<DownloadToken?> GetDownloadTokenAsync(Guid tokenId, CancellationToken ct);
     Task AddDownloadHistoryAsync(DownloadHistory history, CancellationToken ct);
 
     // History listing

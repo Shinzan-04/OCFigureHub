@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OCFigureHub.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using OCFigureHub.Infrastructure.Persistence;
 namespace OCFigureHub.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260422031313_UpdateDownloadTokenFlow")]
+    partial class UpdateDownloadTokenFlow
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,69 +24,6 @@ namespace OCFigureHub.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("OCFigureHub.Domain.Entities.ChatMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Provider")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("SessionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SessionId");
-
-                    b.ToTable("ChatMessages");
-                });
-
-            modelBuilder.Entity("OCFigureHub.Domain.Entities.ChatSession", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("GuestKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GuestKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ChatSessions");
-                });
 
             modelBuilder.Entity("OCFigureHub.Domain.Entities.DownloadHistory", b =>
                 {
@@ -125,8 +65,6 @@ namespace OCFigureHub.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("DownloadHistories");
                 });
@@ -297,9 +235,6 @@ namespace OCFigureHub.Infrastructure.Migrations
 
                     b.Property<bool>("IsPro")
                         .HasColumnType("bit");
-
-                    b.Property<int>("License")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -537,36 +472,6 @@ namespace OCFigureHub.Infrastructure.Migrations
                     b.ToTable("WatermarkInfos");
                 });
 
-            modelBuilder.Entity("OCFigureHub.Domain.Entities.ChatMessage", b =>
-                {
-                    b.HasOne("OCFigureHub.Domain.Entities.ChatSession", "Session")
-                        .WithMany("Messages")
-                        .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Session");
-                });
-
-            modelBuilder.Entity("OCFigureHub.Domain.Entities.ChatSession", b =>
-                {
-                    b.HasOne("OCFigureHub.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("OCFigureHub.Domain.Entities.DownloadHistory", b =>
-                {
-                    b.HasOne("OCFigureHub.Domain.Entities.Product", null)
-                        .WithMany("DownloadHistories")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("OCFigureHub.Domain.Entities.Order", b =>
                 {
                     b.HasOne("OCFigureHub.Domain.Entities.SubscriptionPlan", "Plan")
@@ -644,11 +549,6 @@ namespace OCFigureHub.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OCFigureHub.Domain.Entities.ChatSession", b =>
-                {
-                    b.Navigation("Messages");
-                });
-
             modelBuilder.Entity("OCFigureHub.Domain.Entities.Order", b =>
                 {
                     b.Navigation("Items");
@@ -656,8 +556,6 @@ namespace OCFigureHub.Infrastructure.Migrations
 
             modelBuilder.Entity("OCFigureHub.Domain.Entities.Product", b =>
                 {
-                    b.Navigation("DownloadHistories");
-
                     b.Navigation("Files");
                 });
 #pragma warning restore 612, 618

@@ -107,12 +107,22 @@ public class DownloadRepository : IDownloadRepository
             ct);
     }
 
+    public async Task<ProductFile?> GetProductFileByIdAsync(Guid fileId, CancellationToken ct)
+    {
+        return await _db.ProductFiles.FirstOrDefaultAsync(f => f.Id == fileId, ct);
+    }
+
     // ================= DOWNLOAD SECURITY =================
 
     public async Task AddDownloadTokenAsync(DownloadToken token, CancellationToken ct)
     {
         _db.DownloadTokens.Add(token);
         await _db.SaveChangesAsync(ct);
+    }
+
+    public async Task<DownloadToken?> GetDownloadTokenAsync(Guid tokenId, CancellationToken ct)
+    {
+        return await _db.DownloadTokens.FirstOrDefaultAsync(x => x.Id == tokenId, ct);
     }
 
     public async Task AddDownloadHistoryAsync(DownloadHistory history, CancellationToken ct)

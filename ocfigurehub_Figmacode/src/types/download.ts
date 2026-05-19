@@ -4,8 +4,10 @@ export interface DownloadRequest {
 }
 
 export interface DownloadResponse {
-  signedUrl: string;
+  tokenId: string;
   expiresAtUtc: string;
+  expireInSeconds: number;
+  requiresDownloadStep: boolean;
 }
 
 export interface DownloadHistory {

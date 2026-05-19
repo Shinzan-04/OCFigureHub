@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router';
+import { useEffect, useRef, useState } from 'react';
 import '@google/model-viewer';
 import {
   Download,
@@ -21,16 +21,7 @@ import { ordersApi } from '../../api/orders';
 import { downloadsApi } from '../../api/downloads';
 import toast from 'react-hot-toast';
 
-// Fix for model-viewer custom element
-declare global {
-  namespace React {
-    namespace JSX {
-      interface IntrinsicElements {
-        'model-viewer': any;
-      }
-    }
-  }
-}
+
 
 function formatPrice(price: number): string {
   if (price === 0) return 'Miễn phí';
@@ -149,8 +140,15 @@ export function ProductDetailPage() {
       const modelFile = product.files.find(f => f.fileType === 1);
       const format = modelFile?.format || 'STL';
       const res = await downloadsApi.request({ productId: product.id, format });
-      window.open(res.signedUrl, '_blank');
-      toast.success('Đang tải xuống...');
+      
+      // Construct the secure download URL
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const downloadUrl = `${apiUrl}/downloads/file/${res.tokenId}`;
+      
+      // Trigger download
+      window.location.href = downloadUrl;
+      
+      toast.success('Đang chuẩn bị file...');
     } catch (err: any) {
       toast.error(err.response?.data?.error || 'Tải xuống thất bại. Bạn cần mua sản phẩm trước.');
     } finally {
@@ -181,6 +179,7 @@ export function ProductDetailPage() {
           >
             {product.previewModelUrl ? (
               <div className="w-full h-full relative">
+                {/* @ts-ignore */}
                 <model-viewer
                   ref={modelViewerRef}
                   src={product.previewModelUrl}
@@ -305,17 +304,6 @@ export function ProductDetailPage() {
                 <span className="text-xs font-semibold px-2.5 py-1 rounded-full capitalize" style={{ backgroundColor: '#262626', color: '#A1A1A1' }}>
                   {product.category}
                 </span>
-                {product.license && (
-                  <span
-                    className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                    style={{
-                      backgroundColor: product.license === 'Commercial' ? '#F59E0B20' : '#3B82F620',
-                      color: product.license === 'Commercial' ? '#F59E0B' : '#3B82F6'
-                    }}
-                  >
-                    {product.license}
-                  </span>
-                )}
               </div>
 
               {/* Price */}

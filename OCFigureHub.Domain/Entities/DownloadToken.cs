@@ -1,4 +1,4 @@
-﻿using OCFigureHub.Domain.Common;
+using OCFigureHub.Domain.Common;
 using System.ComponentModel.DataAnnotations;
 
 namespace OCFigureHub.Domain.Entities;
@@ -11,8 +11,7 @@ public class DownloadToken : BaseEntity
     public DateTime ExpiresAt { get; set; }
     public bool Used { get; set; }
 
-    [MaxLength(128)]
-    public string SignedUrlHash { get; set; } = "";
-
+    public Guid ProductFileId { get; set; }
+    
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

@@ -9,4 +9,6 @@ public interface IStorageService
         CancellationToken ct);
 
     string GenerateReadSasUrl(string storageKey, TimeSpan ttl, string? ipAddress = null);
+
+    Task<Stream> DownloadFileAsync(string storageKey, CancellationToken ct);
 }
