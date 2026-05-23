@@ -10,8 +10,13 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { PRODUCTS, formatPrice } from '../data/products';
+import { useProductDetail } from '../../hooks/useProductDetail';
 import { FakeQRCode } from '../components/FakeQRCode';
+
+function formatPrice(price: number): string {
+  if (price === 0) return 'Miễn phí';
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+}
 
 const BANK_INFO = {
   bankName: 'Vietcombank',
@@ -28,13 +33,21 @@ export function PaymentProductPage() {
   const [success, setSuccess] = useState(false);
 
   const productId = searchParams.get('id') || '';
-  const product = PRODUCTS.find((p) => p.id === productId);
+  const { data: product, isLoading: productLoading } = useProductDetail(productId || undefined);
 
   useEffect(() => {
     if (!user) {
       navigate('/sign-in');
     }
   }, [user, navigate]);
+
+  if (productLoading) {
+    return (
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
+        <Loader2 size={32} className="animate-spin" style={{ color: '#8B5CF6' }} />
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -83,7 +96,7 @@ export function PaymentProductPage() {
           </div>
           <h2 className="text-2xl font-black text-white mb-3">Thanh toán thành công!</h2>
           <p className="text-base mb-2" style={{ color: '#A1A1A1' }}>
-            Bạn đã mua thành công <span className="text-white font-semibold">{product.title}</span>
+            Bạn đã mua thành công <span className="text-white font-semibold">{product.name}</span>
           </p>
           <p className="text-sm mb-8" style={{ color: '#A1A1A1' }}>
             Đang chuyển đến trang sản phẩm để tải xuống...
@@ -128,12 +141,21 @@ export function PaymentProductPage() {
                 className="w-24 h-24 rounded-xl overflow-hidden shrink-0 border"
                 style={{ borderColor: '#262626' }}
               >
-                <img src={product.image} alt={product.title} className="w-full h-full object-cover" />
+                {product.thumbnailUrl ? (
+                  <img src={product.thumbnailUrl} alt={product.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div
+                    className="w-full h-full flex items-center justify-center text-2xl font-black"
+                    style={{ background: 'linear-gradient(135deg, #1a1a2e, #16213e)', color: '#8B5CF640' }}
+                  >
+                    {product.name.charAt(0)}
+                  </div>
+                )}
               </div>
               <div className="flex flex-col justify-between py-1 flex-1 min-w-0">
                 <div>
                   <h3 className="text-base font-bold text-white leading-tight mb-1 line-clamp-2">
-                    {product.title}
+                    {product.name}
                   </h3>
                   <p className="text-sm" style={{ color: '#A1A1A1' }}>by {product.creator}</p>
                   <div className="flex gap-2 mt-2">
@@ -246,7 +268,7 @@ export function PaymentProductPage() {
                 className="p-4 rounded-2xl"
                 style={{ backgroundColor: '#fff', border: '4px solid #f0f0f0' }}
               >
-                <FakeQRCode size={180} seed={parseInt(product.id) * 13 + 5} />
+                <FakeQRCode size={180} seed={product.id.length * 13 + 5} />
               </div>
 
               <div

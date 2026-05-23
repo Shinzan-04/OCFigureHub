@@ -21,4 +21,14 @@ export const authApi = {
     const res = await API.post<AuthResponse>('/auth/facebook', { accessToken });
     return res.data;
   },
+
+  forgotPassword: async (email: string): Promise<{ message: string }> => {
+    const res = await API.post<{ message: string }>('/auth/forgot-password', { email });
+    return res.data;
+  },
+
+  resetPassword: async (data: { token: string; email: string; newPassword: string }): Promise<{ message: string }> => {
+    const res = await API.post<{ message: string }>('/auth/reset-password', data);
+    return res.data;
+  },
 };

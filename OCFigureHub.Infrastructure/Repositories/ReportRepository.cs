@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Application.Abstractions.Jobs;
 using OCFigureHub.Domain.Enums;
@@ -30,5 +30,17 @@ public class ReportRepository : IReportRepository
         var uniqueUsers = await q.Select(x => x.UserId).Distinct().CountAsync(ct);
 
         return (success, fail, uniqueUsers);
+    }
+
+    public async Task<(int totalProducts, int totalUsers, int totalDownloads, decimal totalRevenue)> GetDashboardStatsAsync(CancellationToken ct)
+    {
+        var totalProducts = await _db.Products.CountAsync(p => p.IsEnabled, ct);
+        var totalUsers = await _db.Users.CountAsync(ct);
+        var totalDownloads = await _db.DownloadHistories.CountAsync(d => d.Success, ct);
+        var totalRevenue = await _db.Orders
+            .Where(o => o.Status == OrderStatus.Paid)
+            .SumAsync(o => o.TotalAmount, ct);
+
+        return (totalProducts, totalUsers, totalDownloads, totalRevenue);
     }
 }

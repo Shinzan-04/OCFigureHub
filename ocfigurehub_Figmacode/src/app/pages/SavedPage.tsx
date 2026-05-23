@@ -1,12 +1,16 @@
 import { Link } from 'react-router';
-import { Heart } from 'lucide-react';
-import { PRODUCTS } from '../data/products';
+import { Heart, Loader2 } from 'lucide-react';
 import { useSaved } from '../context/SavedContext';
 import { ProductCard } from '../components/ProductCard';
+import { useProducts } from '../../hooks/useProducts';
 
 export function SavedPage() {
   const { savedIds } = useSaved();
-  const savedProducts = PRODUCTS.filter((p) => savedIds.includes(p.id));
+
+  // Fetch all products from API, then filter by savedIds on frontend
+  const { data, isLoading } = useProducts({ pageSize: 200 });
+  const allProducts = data?.items || [];
+  const savedProducts = allProducts.filter((p) => savedIds.includes(p.id));
 
   return (
     <div className="max-w-[1440px] mx-auto px-6 md:px-8 py-10 md:py-14">
@@ -21,11 +25,15 @@ export function SavedPage() {
         </div>
         <h1 className="text-3xl md:text-5xl font-black text-white mb-2">Đã lưu</h1>
         <p className="text-sm" style={{ color: '#A1A1A1' }}>
-          {savedProducts.length} items đã lưu
+          {isLoading ? '...' : `${savedProducts.length} items đã lưu`}
         </p>
       </div>
 
-      {savedProducts.length > 0 ? (
+      {isLoading ? (
+        <div className="flex items-center justify-center py-20">
+          <Loader2 size={32} className="animate-spin" style={{ color: '#8B5CF6' }} />
+        </div>
+      ) : savedProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {savedProducts.map((product) => (
             <ProductCard key={product.id} product={product} />

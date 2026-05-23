@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OCFigureHub.Application.Services;
 
@@ -27,6 +27,13 @@ public class ReportsController : ControllerBase
     public async Task<IActionResult> Downloads([FromQuery] DateTime fromUtc, [FromQuery] DateTime toUtc, CancellationToken ct)
     {
         var res = await _reports.GetDownloadsAsync(fromUtc, toUtc, ct);
+        return Ok(res);
+    }
+
+    [HttpGet("dashboard")]
+    public async Task<IActionResult> Dashboard(CancellationToken ct)
+    {
+        var res = await _reports.GetDashboardAsync(ct);
         return Ok(res);
     }
 }

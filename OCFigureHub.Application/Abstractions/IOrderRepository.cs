@@ -1,4 +1,4 @@
-﻿using OCFigureHub.Domain.Entities;
+using OCFigureHub.Domain.Entities;
 
 namespace OCFigureHub.Application.Abstractions;
 
@@ -12,4 +12,7 @@ public interface IOrderRepository
     Task<Order?> GetByIdAsync(Guid id, CancellationToken ct);
     Task UpdateAsync(Order order, CancellationToken ct);
     Task SaveChangesAsync(CancellationToken ct);
+
+    Task<List<Order>> GetAllOrdersAsync(int page, int pageSize, CancellationToken ct);
+    Task<int> GetOrderCountAsync(CancellationToken ct);
 }

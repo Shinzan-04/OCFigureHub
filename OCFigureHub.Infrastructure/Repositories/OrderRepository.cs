@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Domain.Entities;
 using OCFigureHub.Infrastructure.Persistence;
@@ -52,4 +52,21 @@ public class OrderRepository : IOrderRepository
 
     public Task SaveChangesAsync(CancellationToken ct)
         => _db.SaveChangesAsync(ct);
+
+    // ==============================
+    // ADMIN: LIST ALL ORDERS
+    // ==============================
+
+    public async Task<List<Order>> GetAllOrdersAsync(int page, int pageSize, CancellationToken ct)
+        => await _db.Orders
+                .Include(o => o.User)
+                .Include(o => o.Items)
+                .Include(o => o.Plan)
+                .OrderByDescending(o => o.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(ct);
+
+    public Task<int> GetOrderCountAsync(CancellationToken ct)
+        => _db.Orders.CountAsync(ct);
 }

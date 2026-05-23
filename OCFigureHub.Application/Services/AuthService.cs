@@ -12,12 +12,45 @@ public class AuthService
     private readonly IUserRepository _users;
     private readonly IPasswordHasher _hasher;
     private readonly IJwtTokenService _jwt;
+    private readonly IEmailService _email;
 
-    public AuthService(IUserRepository users, IPasswordHasher hasher, IJwtTokenService jwt)
+    public AuthService(
+        IUserRepository users, 
+        IPasswordHasher hasher, 
+        IJwtTokenService jwt,
+        IEmailService email)
     {
         _users = users;
         _hasher = hasher;
         _jwt = jwt;
+        _email = email;
+    }
+
+    public async Task ForgotPasswordAsync(ForgotPasswordRequest req, CancellationToken ct)
+    {
+        var user = await _users.GetByEmailAsync(req.Email.Trim().ToLower(), ct);
+        if (user == null) return; // Silent success to prevent email enumeration
+
+        var token = _jwt.GenerateResetToken(user);
+        
+        // Ensure this URL matches your frontend config
+        var resetLink = $"http://localhost:5173/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(user.Email)}";
+
+        await _email.SendPasswordResetEmailAsync(user.Email, resetLink, ct);
+    }
+
+    public async Task ResetPasswordAsync(ResetPasswordRequest req, CancellationToken ct)
+    {
+        var userId = _jwt.ValidateResetToken(req.Token);
+        if (userId == null) throw new Exception("Invalid or expired reset token.");
+
+        var user = await _users.GetByIdAsync(userId.Value, ct);
+        if (user == null || user.Email.ToLower() != req.Email.ToLower()) 
+            throw new Exception("Invalid request.");
+
+        user.PasswordHash = _hasher.Hash(req.NewPassword);
+        
+        await _users.SaveChangesAsync(ct);
     }
 
     public async Task<AuthResponse> RegisterAsync(RegisterRequest req, CancellationToken ct)

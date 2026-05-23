@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +10,6 @@ namespace OCFigureHub.Application.Abstractions
     {
         Task<(decimal revenue, int paidOrders)> GetSalesAsync(DateTime fromUtc, DateTime toUtc, CancellationToken ct);
         Task<(int success, int fail, int uniqueUsers)> GetDownloadsAsync(DateTime fromUtc, DateTime toUtc, CancellationToken ct);
+        Task<(int totalProducts, int totalUsers, int totalDownloads, decimal totalRevenue)> GetDashboardStatsAsync(CancellationToken ct);
     }
 }

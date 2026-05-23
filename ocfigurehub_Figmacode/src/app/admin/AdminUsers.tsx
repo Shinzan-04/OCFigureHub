@@ -1,90 +1,78 @@
-import React, { useState } from 'react';
-import { Search, Shield, User, Star, Ban, CheckCircle, Trash2, Filter } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, Shield, User, Star, Ban, CheckCircle, Trash2, Loader2 } from 'lucide-react';
+import { adminApi, type AdminUser } from '../../api/admin';
+import { toast } from 'react-hot-toast';
 
-type Role = 'Admin' | 'User' | 'Creator';
-type Status = 'Active' | 'Banned' | 'Pending';
-
-interface AdminUser {
-  id: string;
-  username: string;
-  email: string;
-  role: Role;
-  status: Status;
-  avatar: string;
-  joinDate: string;
-  downloads: number;
-  purchases: number;
-}
-
-const MOCK_USERS: AdminUser[] = [
-  { id: '1', username: 'AdminMain', email: 'admin@ocfigurehub.com', role: 'Admin', status: 'Active', avatar: 'AM', joinDate: '2024-01-15', downloads: 0, purchases: 0 },
-  { id: '2', username: 'DigiMaster3D', email: 'digimaster@email.com', role: 'Creator', status: 'Active', avatar: 'DM', joinDate: '2024-02-20', downloads: 23, purchases: 8 },
-  { id: '3', username: 'HeroSculpts', email: 'herosculpts@email.com', role: 'Creator', status: 'Active', avatar: 'HS', joinDate: '2024-03-01', downloads: 45, purchases: 12 },
-  { id: '4', username: 'DarkChainWorks', email: 'darkchain@email.com', role: 'Creator', status: 'Active', avatar: 'DC', joinDate: '2024-01-28', downloads: 67, purchases: 19 },
-  { id: '5', username: 'CursedForge', email: 'cursedforge@email.com', role: 'Creator', status: 'Active', avatar: 'CF', joinDate: '2024-04-10', downloads: 89, purchases: 25 },
-  { id: '6', username: 'tanaka_kun', email: 'tanaka@gmail.com', role: 'User', status: 'Active', avatar: 'TK', joinDate: '2024-05-12', downloads: 34, purchases: 5 },
-  { id: '7', username: 'anime_lover_vn', email: 'animelover@gmail.com', role: 'User', status: 'Active', avatar: 'AL', joinDate: '2024-06-03', downloads: 78, purchases: 9 },
-  { id: '8', username: 'spammer123', email: 'spam@fake.com', role: 'User', status: 'Banned', avatar: 'SP', joinDate: '2024-07-14', downloads: 2, purchases: 0 },
-  { id: '9', username: 'MahouAtelier', email: 'mahou@email.com', role: 'Creator', status: 'Active', avatar: 'MA', joinDate: '2024-02-14', downloads: 56, purchases: 14 },
-  { id: '10', username: 'BeastForge', email: 'beastforge@email.com', role: 'Creator', status: 'Active', avatar: 'BF', joinDate: '2024-03-22', downloads: 34, purchases: 8 },
-  { id: '11', username: 'fig_collector', email: 'figcollector@gmail.com', role: 'User', status: 'Active', avatar: 'FC', joinDate: '2024-08-01', downloads: 120, purchases: 18 },
-  { id: '12', username: 'new_user_pending', email: 'newuser@gmail.com', role: 'User', status: 'Pending', avatar: 'NU', joinDate: '2025-03-10', downloads: 0, purchases: 0 },
-];
-
-const ROLE_COLORS: Record<Role, { bg: string; text: string }> = {
+const ROLE_COLORS: Record<string, { bg: string; text: string }> = {
   Admin: { bg: 'rgba(239,68,68,0.15)', text: '#EF4444' },
   Creator: { bg: 'rgba(139,92,246,0.15)', text: '#8B5CF6' },
-  User: { bg: 'rgba(100,100,100,0.15)', text: '#999' },
+  Customer: { bg: 'rgba(100,100,100,0.15)', text: '#999' },
 };
 
-const STATUS_COLORS: Record<Status, { bg: string; text: string }> = {
+const STATUS_COLORS: Record<string, { bg: string; text: string }> = {
   Active: { bg: 'rgba(16,185,129,0.15)', text: '#10B981' },
-  Banned: { bg: 'rgba(239,68,68,0.15)', text: '#EF4444' },
+  Locked: { bg: 'rgba(239,68,68,0.15)', text: '#EF4444' },
   Pending: { bg: 'rgba(245,158,11,0.15)', text: '#F59E0B' },
 };
 
-const ROLE_ICONS: Record<Role, React.ElementType> = {
+const ROLE_ICONS: Record<string, React.ElementType> = {
   Admin: Shield,
   Creator: Star,
-  User: User,
+  Customer: User,
 };
 
 export function AdminUsers() {
-  const [users, setUsers] = useState<AdminUser[]>(MOCK_USERS);
+  const [users, setUsers] = useState<AdminUser[]>([]);
   const [search, setSearch] = useState('');
-  const [roleFilter, setRoleFilter] = useState<string>('all');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [roleFilter, setRoleFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const data = await adminApi.getUsers(page, 20, search || undefined);
+      setUsers(data.items);
+      setTotalPages(data.totalPages);
+      setTotalItems(data.totalItems);
+    } catch {
+      toast.error('Không tải được danh sách users');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [page, search]);
+
+  const toggleBan = async (u: AdminUser) => {
+    const newStatus = u.status === 'Locked' ? 'Active' : 'Locked';
+    try {
+      await adminApi.updateUserStatus(u.id, newStatus);
+      toast.success(`User ${u.displayName} → ${newStatus}`);
+      fetchUsers();
+    } catch {
+      toast.error('Cập nhật thất bại');
+    }
+  };
 
   const filtered = users.filter(u => {
-    const matchSearch = u.username.toLowerCase().includes(search.toLowerCase()) ||
-      u.email.toLowerCase().includes(search.toLowerCase());
     const matchRole = roleFilter === 'all' || u.role === roleFilter;
     const matchStatus = statusFilter === 'all' || u.status === statusFilter;
-    return matchSearch && matchRole && matchStatus;
+    return matchRole && matchStatus;
   });
 
-  const toggleBan = (id: string) => {
-    setUsers(prev => prev.map(u => u.id === id ? {
-      ...u,
-      status: u.status === 'Banned' ? 'Active' : 'Banned'
-    } : u));
-  };
-
-  const deleteUser = (id: string) => {
-    setUsers(prev => prev.filter(u => u.id !== id));
-  };
-
-  const changeRole = (id: string, role: Role) => {
-    setUsers(prev => prev.map(u => u.id === id ? { ...u, role } : u));
-  };
-
-  const statCounts = {
-    all: users.length,
-    Active: users.filter(u => u.status === 'Active').length,
-    Banned: users.filter(u => u.status === 'Banned').length,
-    Admin: users.filter(u => u.role === 'Admin').length,
-    Creator: users.filter(u => u.role === 'Creator').length,
-  };
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <Loader2 className="animate-spin" size={36} style={{ color: '#8B5CF6' }} />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 pb-20 md:pb-0">
@@ -92,24 +80,8 @@ export function AdminUsers() {
       <div className="flex items-center justify-between">
         <div>
           <h2 style={{ color: '#fff', fontWeight: 700, fontSize: 18 }}>User Management</h2>
-          <p style={{ color: '#666', fontSize: 13 }}>{filtered.length} of {users.length} users</p>
+          <p style={{ color: '#666', fontSize: 13 }}>{totalItems} users total</p>
         </div>
-      </div>
-
-      {/* Stat Chips */}
-      <div className="flex flex-wrap gap-2">
-        {[
-          { label: 'All Users', count: statCounts.all, color: '#8B5CF6' },
-          { label: 'Active', count: statCounts.Active, color: '#10B981' },
-          { label: 'Banned', count: statCounts.Banned, color: '#EF4444' },
-          { label: 'Creators', count: statCounts.Creator, color: '#F59E0B' },
-          { label: 'Admins', count: statCounts.Admin, color: '#06B6D4' },
-        ].map(s => (
-          <div key={s.label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: '#111111', border: '1px solid #262626' }}>
-            <span style={{ color: s.color, fontSize: 14, fontWeight: 700 }}>{s.count}</span>
-            <span style={{ color: '#888', fontSize: 12 }}>{s.label}</span>
-          </div>
-        ))}
       </div>
 
       {/* Filters */}
@@ -118,7 +90,7 @@ export function AdminUsers() {
           <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: '#666' }} />
           <input
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => { setSearch(e.target.value); setPage(1); }}
             placeholder="Search users..."
             className="w-full pl-9 pr-4 py-2 rounded-lg outline-none"
             style={{ background: '#1A1A1A', border: '1px solid #262626', color: '#fff', fontSize: 13 }}
@@ -133,7 +105,7 @@ export function AdminUsers() {
           <option value="all">All Roles</option>
           <option value="Admin">Admin</option>
           <option value="Creator">Creator</option>
-          <option value="User">User</option>
+          <option value="Customer">Customer</option>
         </select>
         <select
           value={statusFilter}
@@ -143,8 +115,7 @@ export function AdminUsers() {
         >
           <option value="all">All Status</option>
           <option value="Active">Active</option>
-          <option value="Banned">Banned</option>
-          <option value="Pending">Pending</option>
+          <option value="Locked">Locked</option>
         </select>
       </div>
 
@@ -153,14 +124,16 @@ export function AdminUsers() {
         <table className="w-full">
           <thead>
             <tr style={{ borderBottom: '1px solid #262626' }}>
-              {['User', 'Email', 'Role', 'Status', 'Joined', 'Downloads', 'Actions'].map(col => (
+              {['User', 'Email', 'Role', 'Status', 'Joined', 'Actions'].map(col => (
                 <th key={col} className="text-left px-4 py-3" style={{ color: '#666', fontSize: 12, fontWeight: 600 }}>{col}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {filtered.map((u) => {
-              const RoleIcon = ROLE_ICONS[u.role];
+              const RoleIcon = ROLE_ICONS[u.role] || User;
+              const roleColor = ROLE_COLORS[u.role] || ROLE_COLORS.Customer;
+              const statusColor = STATUS_COLORS[u.status] || STATUS_COLORS.Active;
               return (
                 <tr key={u.id} style={{ borderBottom: '1px solid #1A1A1A' }}>
                   <td className="px-4 py-3">
@@ -169,63 +142,40 @@ export function AdminUsers() {
                         className="w-9 h-9 rounded-full flex items-center justify-center text-xs flex-shrink-0"
                         style={{ background: 'rgba(139,92,246,0.2)', color: '#8B5CF6', fontWeight: 700 }}
                       >
-                        {u.avatar}
+                        {u.displayName.substring(0, 2).toUpperCase()}
                       </div>
-                      <span style={{ color: '#fff', fontSize: 13, fontWeight: 500 }}>{u.username}</span>
+                      <span style={{ color: '#fff', fontSize: 13, fontWeight: 500 }}>{u.displayName}</span>
                     </div>
                   </td>
                   <td className="px-4 py-3" style={{ color: '#888', fontSize: 13 }}>{u.email}</td>
                   <td className="px-4 py-3">
                     <span className="flex items-center gap-1 w-fit px-2 py-0.5 rounded-full text-xs"
-                      style={{ background: ROLE_COLORS[u.role].bg, color: ROLE_COLORS[u.role].text }}>
+                      style={{ background: roleColor.bg, color: roleColor.text }}>
                       <RoleIcon size={11} />
                       {u.role}
                     </span>
                   </td>
                   <td className="px-4 py-3">
                     <span className="px-2 py-0.5 rounded-full text-xs"
-                      style={{ background: STATUS_COLORS[u.status].bg, color: STATUS_COLORS[u.status].text }}>
+                      style={{ background: statusColor.bg, color: statusColor.text }}>
                       {u.status}
                     </span>
                   </td>
                   <td className="px-4 py-3" style={{ color: '#666', fontSize: 12 }}>
-                    {new Date(u.joinDate).toLocaleDateString('vi-VN')}
-                  </td>
-                  <td className="px-4 py-3" style={{ color: '#06B6D4', fontSize: 13, fontWeight: 600 }}>
-                    {u.downloads}
+                    {new Date(u.createdAt).toLocaleDateString('vi-VN')}
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={() => toggleBan(u.id)}
-                        className="p-1.5 rounded-lg text-xs transition-all"
-                        style={{
-                          background: u.status === 'Banned' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)',
-                          color: u.status === 'Banned' ? '#10B981' : '#EF4444',
-                        }}
-                        title={u.status === 'Banned' ? 'Activate' : 'Ban'}
-                      >
-                        {u.status === 'Banned' ? <CheckCircle size={14} /> : <Ban size={14} />}
-                      </button>
-                      <select
-                        value={u.role}
-                        onChange={e => changeRole(u.id, e.target.value as Role)}
-                        className="px-1 py-1 rounded text-xs outline-none"
-                        style={{ background: '#1A1A1A', color: '#ccc', border: '1px solid #262626' }}
-                      >
-                        <option>Admin</option>
-                        <option>Creator</option>
-                        <option>User</option>
-                      </select>
-                      <button
-                        onClick={() => deleteUser(u.id)}
-                        className="p-1.5 rounded-lg transition-all"
-                        style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444' }}
-                        title="Delete"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
+                    <button
+                      onClick={() => toggleBan(u)}
+                      className="p-1.5 rounded-lg text-xs transition-all"
+                      style={{
+                        background: u.status === 'Locked' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)',
+                        color: u.status === 'Locked' ? '#10B981' : '#EF4444',
+                      }}
+                      title={u.status === 'Locked' ? 'Activate' : 'Lock'}
+                    >
+                      {u.status === 'Locked' ? <CheckCircle size={14} /> : <Ban size={14} />}
+                    </button>
                   </td>
                 </tr>
               );
@@ -240,7 +190,9 @@ export function AdminUsers() {
       {/* Mobile Card Layout */}
       <div className="md:hidden space-y-3">
         {filtered.map((u) => {
-          const RoleIcon = ROLE_ICONS[u.role];
+          const RoleIcon = ROLE_ICONS[u.role] || User;
+          const roleColor = ROLE_COLORS[u.role] || ROLE_COLORS.Customer;
+          const statusColor = STATUS_COLORS[u.status] || STATUS_COLORS.Active;
           return (
             <div key={u.id} className="rounded-xl p-4" style={{ background: '#111111', border: '1px solid #262626' }}>
               <div className="flex items-center gap-3 mb-3">
@@ -248,48 +200,59 @@ export function AdminUsers() {
                   className="w-10 h-10 rounded-full flex items-center justify-center text-sm flex-shrink-0"
                   style={{ background: 'rgba(139,92,246,0.2)', color: '#8B5CF6', fontWeight: 700 }}
                 >
-                  {u.avatar}
+                  {u.displayName.substring(0, 2).toUpperCase()}
                 </div>
                 <div className="flex-1">
-                  <p style={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>{u.username}</p>
+                  <p style={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>{u.displayName}</p>
                   <p style={{ color: '#666', fontSize: 12 }}>{u.email}</p>
                 </div>
                 <div className="flex flex-col gap-1 items-end">
                   <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs"
-                    style={{ background: ROLE_COLORS[u.role].bg, color: ROLE_COLORS[u.role].text }}>
+                    style={{ background: roleColor.bg, color: roleColor.text }}>
                     <RoleIcon size={10} />
                     {u.role}
                   </span>
                   <span className="px-2 py-0.5 rounded-full text-xs"
-                    style={{ background: STATUS_COLORS[u.status].bg, color: STATUS_COLORS[u.status].text }}>
+                    style={{ background: statusColor.bg, color: statusColor.text }}>
                     {u.status}
                   </span>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => toggleBan(u.id)}
-                  className="flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 text-xs"
-                  style={{
-                    background: u.status === 'Banned' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)',
-                    color: u.status === 'Banned' ? '#10B981' : '#EF4444',
-                  }}
-                >
-                  {u.status === 'Banned' ? <CheckCircle size={13} /> : <Ban size={13} />}
-                  {u.status === 'Banned' ? 'Activate' : 'Ban'}
-                </button>
-                <button
-                  onClick={() => deleteUser(u.id)}
-                  className="flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 text-xs"
-                  style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444' }}
-                >
-                  <Trash2 size={13} /> Delete
-                </button>
-              </div>
+              <button
+                onClick={() => toggleBan(u)}
+                className="w-full py-1.5 rounded-lg flex items-center justify-center gap-1 text-xs"
+                style={{
+                  background: u.status === 'Locked' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)',
+                  color: u.status === 'Locked' ? '#10B981' : '#EF4444',
+                }}
+              >
+                {u.status === 'Locked' ? <CheckCircle size={13} /> : <Ban size={13} />}
+                {u.status === 'Locked' ? 'Activate' : 'Lock'}
+              </button>
             </div>
           );
         })}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 pt-4">
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => setPage(i + 1)}
+              className="w-8 h-8 rounded-lg text-xs font-semibold"
+              style={{
+                background: page === i + 1 ? '#8B5CF6' : '#1A1A1A',
+                color: page === i + 1 ? '#fff' : '#888',
+                border: '1px solid #262626',
+              }}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

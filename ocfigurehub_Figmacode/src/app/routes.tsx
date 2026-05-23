@@ -7,6 +7,7 @@ import { SignInPage } from './pages/SignInPage';
 import { SignUpPage } from './pages/SignUpPage';
 import { SavedPage } from './pages/SavedPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import { ResetPasswordPage } from './pages/ResetPasswordPage';
 import { CategoryPage } from './pages/CategoryPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { PaymentMembershipPage } from './pages/PaymentMembershipPage';
@@ -43,6 +44,7 @@ export const router = createBrowserRouter([
       { path: 'sign-in', Component: SignInPage },
       { path: 'sign-up', Component: SignUpPage },
       { path: 'forgot-password', Component: ForgotPasswordPage },
+      { path: 'reset-password', Component: ResetPasswordPage },
       { path: 'free', Component: CategoryPage },
       { path: 'anime', Component: CategoryPage },
       { path: 'monsters', Component: CategoryPage },

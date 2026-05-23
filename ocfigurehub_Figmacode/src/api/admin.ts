@@ -1,47 +1,97 @@
 import API from './client';
-import type { Product, ProductDetail } from '../types/product';
 
-export interface AdminCreateProductRequest {
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  creator: string;
-  isPro: boolean;
-  tags: string;
+export interface AdminUser {
+  id: string;
+  email: string;
+  displayName: string;
+  role: string;
+  status: string;
+  createdAt: string;
 }
 
-export interface AdminUpdateProductRequest extends AdminCreateProductRequest {
-  isEnabled: boolean;
+export interface AdminOrder {
+  id: string;
+  userId: string;
+  userEmail: string;
+  userName: string;
+  status: string;
+  totalAmount: number;
+  planName?: string;
+  createdAt: string;
+  paidAt?: string;
+  itemCount: number;
+}
+
+export interface PagedResponse<T> {
+  items: T[];
+  page: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
+}
+
+export interface DashboardStats {
+  totalProducts: number;
+  totalUsers: number;
+  totalDownloads: number;
+  totalRevenue: number;
 }
 
 export const adminApi = {
-  createProduct: async (req: AdminCreateProductRequest): Promise<Product> => {
-    const res = await API.post<Product>('/admin/products', req);
+  // Products (existing)
+  createProduct: async (req: any) => {
+    const res = await API.post('/admin/products', req);
     return res.data;
   },
-
-  updateProduct: async (id: string, req: AdminUpdateProductRequest): Promise<Product> => {
-    const res = await API.put<Product>(`/admin/products/${id}`, req);
+  updateProduct: async (id: string, req: any) => {
+    const res = await API.put(`/admin/products/${id}`, req);
     return res.data;
   },
-
-  deleteProduct: async (id: string): Promise<void> => {
+  deleteProduct: async (id: string) => {
     await API.delete(`/admin/products/${id}`);
   },
-
-  uploadFile: async (
-    productId: string,
-    fileType: number, // 1=Model, 2=Preview, 3=Thumbnail
-    format: string,
-    file: File
-  ): Promise<void> => {
+  uploadFile: async (productId: string, fileType: number, format: string, file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    
     await API.post(`/admin/products/${productId}/upload`, formData, {
       params: { fileType, format },
       headers: { 'Content-Type': 'multipart/form-data' },
     });
+  },
+
+  // Users
+  getUsers: async (page = 1, pageSize = 20, search?: string): Promise<PagedResponse<AdminUser>> => {
+    const res = await API.get<PagedResponse<AdminUser>>('/admin/users', {
+      params: { page, pageSize, search },
+    });
+    return res.data;
+  },
+  updateUserStatus: async (userId: string, status: string) => {
+    const res = await API.put(`/admin/users/${userId}/status`, { status });
+    return res.data;
+  },
+
+  // Orders
+  getOrders: async (page = 1, pageSize = 20): Promise<PagedResponse<AdminOrder>> => {
+    const res = await API.get<PagedResponse<AdminOrder>>('/admin/orders', {
+      params: { page, pageSize },
+    });
+    return res.data;
+  },
+
+  // Dashboard
+  getDashboard: async (): Promise<DashboardStats> => {
+    const res = await API.get<DashboardStats>('/admin/reports/dashboard');
+    return res.data;
+  },
+
+  // Reports
+  getSalesReport: async (fromUtc: string, toUtc: string) => {
+    const res = await API.get('/admin/reports/sales', { params: { fromUtc, toUtc } });
+    return res.data;
+  },
+  getDownloadsReport: async (fromUtc: string, toUtc: string) => {
+    const res = await API.get('/admin/reports/downloads', { params: { fromUtc, toUtc } });
+    return res.data;
   },
 };
