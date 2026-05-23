@@ -8,12 +8,12 @@ export const ordersApi = {
   },
 
   createPayment: async (data: CreatePaymentRequest): Promise<CreatePaymentResponse> => {
-    const res = await API.post<CreatePaymentResponse>('/payments/vnpay-create', data);
+    const res = await API.post<CreatePaymentResponse>('/payments/payos-create', data);
     return res.data;
   },
 
   verifyPayment: async (queryString: string): Promise<{ success: boolean; orderId?: string; message: string }> => {
-    const res = await API.get(`/payments/vnpay-return${queryString}`);
+    const res = await API.get(`/payments/payos-return${queryString}`);
     return res.data;
   },
 };
