@@ -21,15 +21,8 @@ export function PaymentResultPage() {
           setMessage(result.message || 'Thanh toán thất bại.');
         }
       } catch {
-        // Fallback: check vnp_ResponseCode directly
-        const responseCode = searchParams.get('vnp_ResponseCode');
-        if (responseCode === '00') {
-          setStatus('success');
-          setMessage('Thanh toán thành công!');
-        } else {
-          setStatus('fail');
-          setMessage(`Thanh toán thất bại. Mã lỗi: ${responseCode || 'unknown'}`);
-        }
+        setStatus('fail');
+        setMessage('Không thể xác minh thanh toán. Vui lòng kiểm tra lịch sử đơn hàng.');
       }
     };
 

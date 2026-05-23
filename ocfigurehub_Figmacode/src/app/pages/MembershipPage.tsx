@@ -100,7 +100,7 @@ export function MembershipPage() {
 
     try {
       setProcessingId(plan.id);
-      const res = await API.post('/subscriptions/vnpay-create', {
+      const res = await API.post('/subscriptions/payos-create', {
         planId: plan.id
       });
       if (res.data.paymentUrl) {

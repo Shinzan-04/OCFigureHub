@@ -1,16 +1,16 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OCFigureHub.Application.Abstractions.Payments
+namespace OCFigureHub.Application.Abstractions.Payments;
+
+public record PayOSPaymentResult(string CheckoutUrl, string OrderCode);
+
+public interface IPaymentGateway
 {
-    public interface IPaymentGateway
-    {
-        Task<string> CreatePaymentUrlAsync(Guid orderId, decimal amount, string ipAddress, CancellationToken ct);
+    Task<PayOSPaymentResult> CreatePaymentUrlAsync(Guid orderId, decimal amount, string ipAddress, CancellationToken ct);
 
-        // For Return URL and IPN verification
-        bool VerifySignature(IDictionary<string, string> vnpParams);
-    }
+    // For Return URL and IPN verification (VNPay-style, kept for compat)
+    bool VerifySignature(IDictionary<string, string> vnpParams);
+
+    // For PayOS webhook signature verification
+    bool VerifyWebhookSignature(string body, string? signatureFromHeader);
 }
