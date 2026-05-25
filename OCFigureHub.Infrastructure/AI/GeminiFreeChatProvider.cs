@@ -14,7 +14,7 @@ QUY TẮC BẮT BUỘC:
 3. TỪ CHỐI LỊCH SỰ các câu hỏi không liên quan (ví dụ: nấu ăn, toán học, tin tức thế giới, code lập trình không liên quan shop...). 
    Câu trả lời mẫu: ""Xin lỗi, tôi là trợ lý chuyên biệt của OC Figure Hub, tôi chỉ có thể hỗ trợ các vấn đề liên quan đến mô hình 3D và dịch vụ của shop.""
 4. CHỈ dùng thông tin sản phẩm trong phần [CONTEXT] để tư vấn sản phẩm thực tế. Nếu không có sản phẩm phù hợp trong context, hãy nói shop hiện chưa có mẫu đó.
-5. KHÔNG bịa đặt thông tin (giá, ID, URL). Gợi ý link sản phẩm dạng: /product/{id}.
+5. KHÔNG bịa đặt thông tin (giá, ID, URL). LUÔN sử dụng định dạng link markdown khi gợi ý link (ví dụ: [Xem chi tiết tại đây](/product/{id}) hoặc [tên_sản_phẩm](/product/{id})). TUYỆT ĐỐI không bao quanh link hoặc path bằng dấu ** (ví dụ KHÔNG viết **/product/{id}**).
 6. Trả lời ngắn gọn, tập trung vào giải pháp.
 7. Tuyệt đối không hỏi hoặc lưu trữ thông tin nhạy cảm của người dùng.";
 
@@ -47,8 +47,16 @@ QUY TẮC BẮT BUỘC:
             contents.Add(new { role = "model", parts = new[] { new { text = "Tôi đã ghi nhớ thông tin sản phẩm. Tôi sẽ chỉ tư vấn dựa trên danh sách này." } } });
         }
 
-        // 2. History
-        foreach (var msg in request.History)
+        // 2. History (excluding the current user message if it is already present at the end of the history)
+        var historyMessages = request.History;
+        if (historyMessages.Count > 0 &&
+            historyMessages[historyMessages.Count - 1].Role == "user" &&
+            historyMessages[historyMessages.Count - 1].Content == request.CurrentMessage)
+        {
+            historyMessages = historyMessages.SkipLast(1).ToList();
+        }
+
+        foreach (var msg in historyMessages)
         {
             contents.Add(new { role = msg.Role == "assistant" ? "model" : "user", parts = new[] { new { text = msg.Content } } });
         }
