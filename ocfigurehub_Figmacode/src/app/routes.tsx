@@ -48,6 +48,7 @@ export const router = createBrowserRouter([
       { path: 'monsters', Component: CategoryPage },
       { path: 'product/:id', Component: ProductDetailPage },
       { path: 'vnpay-return', Component: PaymentResultPage },
+      { path: 'payos-return', Component: PaymentResultPage },
       // Protected routes (require login)
       {
         Component: ProtectedRoute,

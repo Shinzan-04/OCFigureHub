@@ -1,4 +1,4 @@
-﻿using OCFigureHub.Domain.Enums;
+using OCFigureHub.Domain.Enums;
 
 namespace OCFigureHub.Application.DTOs.Auth;
 

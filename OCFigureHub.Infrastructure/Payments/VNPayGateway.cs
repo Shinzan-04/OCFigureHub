@@ -17,55 +17,8 @@ public class VNPayGateway : IPaymentGateway
         _logger = logger;
     }
 
-    public Task<string> CreatePaymentUrlAsync(Guid orderId, decimal amount, string ipAddress, CancellationToken ct)
-    {
-        var vnpAmount = ((long)(amount * 100)).ToString();
-        var now = DateTime.UtcNow.AddHours(7); // ✅ FIX timezone
-        var txnRef = orderId.ToString("N");
-
-        var vnpParams = new SortedDictionary<string, string>
-        {
-            ["vnp_Version"] = "2.1.0",
-            ["vnp_Command"] = "pay",
-            ["vnp_TmnCode"] = _opt.TmnCode,
-            ["vnp_Amount"] = vnpAmount,
-            ["vnp_CurrCode"] = "VND",
-            ["vnp_TxnRef"] = txnRef,
-            ["vnp_OrderInfo"] = $"Thanh_toan_don_hang_{txnRef}", // ✅ tránh space
-            ["vnp_OrderType"] = "other",
-            ["vnp_Locale"] = "vn",
-            ["vnp_ReturnUrl"] = _opt.ReturnUrl,
-            ["vnp_IpAddr"] = !string.IsNullOrEmpty(ipAddress) && ipAddress != "::1" ? ipAddress : "127.0.0.1",
-            ["vnp_CreateDate"] = now.ToString("yyyyMMddHHmmss"),
-            ["vnp_ExpireDate"] = now.AddMinutes(15).ToString("yyyyMMddHHmmss")
-        };
-
-        StringBuilder data = new StringBuilder();
-
-        foreach (var kv in vnpParams)
-        {
-            if (!string.IsNullOrEmpty(kv.Value))
-            {
-                data.Append(System.Net.WebUtility.UrlEncode(kv.Key))
-                    .Append("=")
-                    .Append(System.Net.WebUtility.UrlEncode(kv.Value))
-                    .Append("&");
-            }
-        }
-
-        string signData = data.ToString().TrimEnd('&');
-        string queryString = data.ToString(); // includes trailing &
-
-        _logger.LogInformation("VNPAY HashData: {HashData}", signData);
-
-        string vnp_SecureHash = HmacSha512(_opt.HashSecret, signData);
-
-        _logger.LogInformation("VNPAY SecureHash: {Hash}", vnp_SecureHash);
-
-        string paymentUrl = _opt.BaseUrl + "?" + queryString + "vnp_SecureHash=" + vnp_SecureHash;
-
-        return Task.FromResult(paymentUrl);
-    }
+    public Task<PayOSPaymentResult> CreatePaymentUrlAsync(Guid orderId, decimal amount, string ipAddress, CancellationToken ct)
+        => throw new NotSupportedException("VNPayGateway is deprecated; PayOSGateway is active.");
 
     public bool VerifySignature(IDictionary<string, string> vnpParams)
     {
@@ -113,4 +66,7 @@ public class VNPayGateway : IPaymentGateway
         var hashBytes = hmac.ComputeHash(dataBytes);
         return Convert.ToHexString(hashBytes).ToUpper();
     }
+
+    // Interface stub — not used since PayOSGateway replaced VNPayGateway in DI
+    public bool VerifyWebhookSignature(string body, string? signatureFromHeader) => true;
 }

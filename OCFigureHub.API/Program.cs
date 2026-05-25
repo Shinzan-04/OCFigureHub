@@ -103,6 +103,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductFileRepository, ProductFileRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IPaymentTransactionRepository, PaymentTransactionRepository>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddScoped<ISubscriptionPlanRepository, SubscriptionPlanRepository>();
 builder.Services.AddScoped<IQuotaRepository, QuotaRepository>();
@@ -183,12 +184,13 @@ builder.Services.AddScoped<IModelOptimizer, DracoModelOptimizer>();
 
 #endregion
 
-#region VNPay
+#region PayOS
 
-builder.Services.Configure<VNPayOptions>(
-    builder.Configuration.GetSection("VNPay"));
+builder.Services.Configure<PayOSOptions>(
+    builder.Configuration.GetSection("PayOS"));
 
-builder.Services.AddScoped<IPaymentGateway, VNPayGateway>();
+builder.Services.AddHttpClient<PayOSGateway>();
+builder.Services.AddScoped<IPaymentGateway, PayOSGateway>();
 
 #endregion
 
