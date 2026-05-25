@@ -8,6 +8,8 @@ public class User : BaseEntity
     public string Email { get; set; } = default!;
     public string PasswordHash { get; set; } = default!;
     public string DisplayName { get; set; } = default!;
+    public string? AvatarUrl { get; set; }
+    public string? Bio { get; set; }
 
     public Role Role { get; set; } = Role.Customer;
     public UserStatus Status { get; set; } = UserStatus.Active;

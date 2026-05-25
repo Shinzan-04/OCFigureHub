@@ -13,6 +13,7 @@ import { PaymentMembershipPage } from './pages/PaymentMembershipPage';
 import { PaymentProductPage } from './pages/PaymentProductPage';
 import { PaymentResultPage } from './pages/PaymentResultPage';
 import { DownloadHistoryPage } from './pages/DownloadHistoryPage';
+import { SettingsPage } from './pages/SettingsPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 // Route guards
@@ -57,6 +58,7 @@ export const router = createBrowserRouter([
           { path: 'payment-membership', Component: PaymentMembershipPage },
           { path: 'payment-product', Component: PaymentProductPage },
           { path: 'download-history', Component: DownloadHistoryPage },
+          { path: 'settings', Component: SettingsPage },
         ],
       },
       { path: '*', Component: NotFoundPage },

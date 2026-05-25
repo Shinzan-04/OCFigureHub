@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import toast from 'react-hot-toast';
 import { authApi } from '../api/auth';
 import { useSavedStore } from './savedStore';
+import { usersApi } from '../api/users';
 import type { JwtPayload } from '../types/auth';
 
 interface AuthUser {
@@ -11,6 +12,8 @@ interface AuthUser {
   email: string;
   displayName: string;
   role: 'Customer' | 'Admin';
+  avatarUrl?: string | null;
+  bio?: string | null;
 }
 
 interface AuthState {
@@ -23,6 +26,9 @@ interface AuthState {
   register: (email: string, password: string, displayName: string) => Promise<boolean>;
   logout: () => void;
   hydrate: () => void;
+  updateProfile: (displayName: string, bio?: string) => Promise<boolean>;
+  updateAvatar: (avatarUrl: string) => void;
+  refreshProfile: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -126,6 +132,7 @@ export const useAuthStore = create<AuthState>()(
             };
             set({ token: res.accessToken, user, isLoggedIn: true });
             toast.success('Đăng ký thành công!');
+            useSavedStore.getState().fetchSaved();
             return true;
           } catch {
             set({ token: null, user: null, isLoggedIn: false });
@@ -158,6 +165,49 @@ export const useAuthStore = create<AuthState>()(
           // Token is still valid — user is already restored by persist
         } catch {
           set({ token: null, user: null, isLoggedIn: false });
+        }
+      },
+
+      updateProfile: async (displayName: string, bio?: string): Promise<boolean> => {
+        try {
+          const updated = await usersApi.updateProfile({ displayName, bio });
+          set((state) => ({
+            user: state.user
+              ? { ...state.user, displayName: updated.displayName, bio: updated.bio }
+              : null,
+          }));
+          toast.success('Cập nhật thông tin thành công!');
+          return true;
+        } catch (err: any) {
+          const msg = err.response?.data?.error || err.response?.data || 'Cập nhật thất bại';
+          toast.error(typeof msg === 'string' ? msg : 'Cập nhật thất bại');
+          return false;
+        }
+      },
+
+      updateAvatar: (avatarUrl: string) => {
+        set((state) => ({
+          user: state.user ? { ...state.user, avatarUrl } : null,
+        }));
+      },
+
+      refreshProfile: async () => {
+        const { isLoggedIn } = get();
+        if (!isLoggedIn) return;
+        try {
+          const profile = await usersApi.getMyProfile();
+          set((state) => ({
+            user: state.user
+              ? {
+                  ...state.user,
+                  displayName: profile.displayName,
+                  avatarUrl: profile.avatarUrl,
+                  bio: profile.bio,
+                }
+              : null,
+          }));
+        } catch {
+          // Silent fail on refresh — don't bother user
         }
       },
     }),

@@ -121,7 +121,9 @@ builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<SubscriptionService>();
 builder.Services.AddScoped<DownloadService>();
+builder.Services.AddScoped<ReportService>();
 builder.Services.AddScoped<ISavedItemService, SavedItemService>();
+builder.Services.AddScoped<UserProfileService>();
 builder.Services.AddScoped<QuotaResetJob>();
 builder.Services.AddScoped<IAntiLeakService, OCFigureHub.Infrastructure.Repositories.AntiLeakService>();
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
-import { Menu, X, Heart, LayoutDashboard, LogOut, Crown, ChevronDown, Download } from 'lucide-react';
+import { Menu, X, Heart, LayoutDashboard, LogOut, Crown, ChevronDown, Download, User, Settings } from 'lucide-react';
 import { useSaved } from '../context/SavedContext';
 import { useAuthStore } from '../../store/authStore';
 
@@ -32,6 +32,7 @@ export function Navbar() {
 
   const userInitial = user?.displayName?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase() || 'U';
   const isAdmin = user?.role === 'Admin';
+  const avatarUrl = user?.avatarUrl;
 
   return (
     <nav
@@ -113,12 +114,23 @@ export function Navbar() {
                 className="flex items-center gap-2 px-3 py-1.5 rounded-xl border transition-colors hover:border-[#8B5CF6]"
                 style={{ borderColor: '#262626', color: '#A1A1A1' }}
               >
-                <div
-                  className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
-                  style={{ background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)', color: '#fff' }}
-                >
-                  {userInitial}
-                </div>
+                {avatarUrl ? (
+                  <img
+                    src={avatarUrl}
+                    alt={user.displayName}
+                    className="w-6 h-6 rounded-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <div
+                    className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+                    style={{ background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)', color: '#fff' }}
+                  >
+                    {userInitial}
+                  </div>
+                )}
                 <span className="text-sm text-white hidden lg:block max-w-[120px] truncate">
                   {user.displayName}
                 </span>
@@ -132,17 +144,36 @@ export function Navbar() {
                     className="absolute right-0 top-full mt-2 w-56 rounded-2xl border p-2 z-20"
                     style={{ backgroundColor: '#111111', borderColor: '#262626' }}
                   >
-                    <div className="px-3 py-2.5 mb-1">
-                      <p className="text-sm font-medium text-white truncate">{user.displayName}</p>
-                      <p className="text-xs truncate" style={{ color: '#A1A1A1' }}>{user.email}</p>
-                      {isAdmin && (
-                        <span
-                          className="text-xs font-semibold px-2 py-0.5 rounded-full mt-1 inline-block"
-                          style={{ backgroundColor: '#8B5CF620', color: '#8B5CF6' }}
+                    <div className="px-3 py-2.5 mb-1 flex items-center gap-3">
+                      {avatarUrl ? (
+                        <img
+                          src={avatarUrl}
+                          alt={user.displayName}
+                          className="w-8 h-8 rounded-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      ) : (
+                        <div
+                          className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0"
+                          style={{ background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)', color: '#fff' }}
                         >
-                          Admin
-                        </span>
+                          {userInitial}
+                        </div>
                       )}
+                      <div className="flex flex-col min-w-0">
+                        <p className="text-sm font-medium text-white truncate">{user.displayName}</p>
+                        <p className="text-xs truncate" style={{ color: '#A1A1A1' }}>{user.email}</p>
+                        {isAdmin && (
+                          <span
+                            className="text-xs font-semibold px-2 py-0.5 rounded-full mt-0.5 inline-block w-fit"
+                            style={{ backgroundColor: '#8B5CF620', color: '#8B5CF6' }}
+                          >
+                            Admin
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <div className="h-px my-1" style={{ backgroundColor: '#262626' }} />
                     <Link
@@ -162,12 +193,12 @@ export function Navbar() {
                       <Download size={15} /> Lịch sử download
                     </Link>
                     <Link
-                      to="/saved"
+                      to="/settings"
                       onClick={() => setUserMenuOpen(false)}
                       className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors hover:bg-[#1A1A1A]"
                       style={{ color: '#A1A1A1' }}
                     >
-                      <Heart size={15} /> Đã lưu
+                      <Settings size={15} /> Cài đặt
                     </Link>
                     <div className="h-px my-1" style={{ backgroundColor: '#262626' }} />
                     <button
@@ -252,20 +283,39 @@ export function Navbar() {
             {isLoggedIn && user ? (
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-3 px-4 py-3">
-                  <div
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
-                    style={{ background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)', color: '#fff' }}
-                  >
-                    {userInitial}
-                  </div>
+                  {avatarUrl ? (
+                    <img
+                      src={avatarUrl}
+                      alt={user.displayName}
+                      className="w-8 h-8 rounded-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <div
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0"
+                      style={{ background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)', color: '#fff' }}
+                    >
+                      {userInitial}
+                    </div>
+                  )}
                   <div>
                     <p className="text-sm text-white truncate">{user.displayName}</p>
                     <p className="text-xs" style={{ color: '#A1A1A1' }}>{user.email}</p>
                   </div>
                 </div>
+                <Link
+                  to="/settings"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium"
+                  style={{ color: '#A1A1A1' }}
+                >
+                  <Settings size={15} /> Cài đặt tài khoản
+                </Link>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium"
                   style={{ color: '#EF4444' }}
                 >
                   <LogOut size={15} /> Đăng xuất
