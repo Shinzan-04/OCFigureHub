@@ -49,7 +49,7 @@ public class RuleBasedChatProvider : IAiChatProvider
 - Tất cả quyền lợi của Pro
 - Quyền sử dụng thương mại cho sản phẩm
 
-Bạn có thể xem chi tiết và đăng ký tại: /upgrade";
+Bạn có thể xem chi tiết và đăng ký tại: [trang nâng cấp](/upgrade)";
         }
 
         if (ContainsAny(message, "tải", "download", "stl", "glb", "gltf", "obj", "file", "lấy file"))
@@ -87,9 +87,9 @@ Mỗi sản phẩm sẽ có license được ghi rõ trên trang sản phẩm. N
             {
                 var topProducts = productContext.Take(3).ToList();
                 var productList = string.Join("\n", topProducts.Select(p =>
-                    $"- **{p.Name}** (ID: {p.Id})\n  Giá: {(p.Price == 0 ? "Miễn phí" : p.Price + "đ")} | License: {p.License}"));
+                    $"- **[{p.Name}](/product/{p.Id})** (ID: {p.Id})\n  Giá: {(p.Price == 0 ? "Miễn phí" : p.Price + "đ")} | License: {p.License}"));
 
-                return $"Dựa trên yêu cầu của bạn, đây là một số gợi ý:\n\n{productList}\n\nXem thêm tại: /";
+                return $"Dựa trên yêu cầu của bạn, đây là một số gợi ý:\n\n{productList}\n\nXem thêm tại: [trang chủ](/)";
             }
 
             return @"OC Figure Hub có nhiều model 3D đa dạng về chủ đề:
@@ -107,7 +107,7 @@ Bạn có thể tìm kiếm model theo:
 - License (cá nhân/thương mại)
 - Format file (STL, GLB, OBJ...)
 
-Thử tìm kiếm tại trang chủ: /";
+Thử tìm kiếm tại trang chủ: [trang chủ](/)";
         }
 
         if (ContainsAny(message, "giá", "tiền", "bao nhiêu", "mua", "mất phí", "free", "miễn phí", "trả phí"))
@@ -122,7 +122,7 @@ Thử tìm kiếm tại trang chủ: /";
 - Giá từ vài chục nghìn đến hàng triệu đồng tùy model
 - Thanh toán một lần, sử dụng vĩnh viễn (tùy license)
 
-Bạn có thể xem giá cụ thể trên trang sản phẩm hoặc tìm model miễn phí tại: /";
+Bạn có thể xem giá cụ thể trên trang sản phẩm hoặc tìm model miễn phí tại: [trang chủ](/)";
         }
 
         if (ContainsAny(message, "đăng nhập", "đăng ký", "tạo tài khoản", "sign in", "sign up", "register", "login"))
@@ -155,8 +155,8 @@ Thời gian phản hồi thường trong vòng 24 giờ làm việc.";
 OC Assistant đang gặp sự cố kết nối AI. Bạn có thể:
 
 1. **Thử lại sau** - Hệ thống AI có thể đang quá tải
-2. **Tìm sản phẩm** ngay tại trang chủ: /
-3. **Xem gói membership** tại: /upgrade
+2. **Tìm sản phẩm** ngay tại [trang chủ](/)
+3. **Xem gói membership** tại: [trang nâng cấp](/upgrade)
 4. **Liên hệ admin** nếu cần hỗ trợ
 
 Cảm ơn bạn đã kiên nhẫn! 🙏";

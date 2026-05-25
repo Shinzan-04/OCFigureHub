@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router';
 import { Send, X, MessageCircle, Loader2, Bot, User } from 'lucide-react';
 import { chatApi } from '../../api/chat';
 import type { ChatMessage, ChatMessageResponse } from '../../types/chat';
@@ -41,10 +42,136 @@ interface MessageItem extends ChatMessage {
   isLoading?: boolean;
 }
 
+function renderInlineMarkdown(text: string, navigate: (url: string) => void): React.ReactNode {
+  if (text.startsWith('[') && text.includes('](') && text.endsWith(')')) {
+    const closeBracketIdx = text.indexOf('](');
+    const label = text.slice(1, closeBracketIdx);
+    const url = text.slice(closeBracketIdx + 2, -1);
+    return (
+      <a
+        href={url}
+        onClick={(e) => {
+          if (url.startsWith('/')) {
+            e.preventDefault();
+            navigate(url);
+          }
+        }}
+        className="text-purple-400 hover:text-purple-300 font-bold underline underline-offset-4 decoration-purple-500/50 hover:decoration-purple-400 transition-colors duration-200"
+      >
+        {label}
+      </a>
+    );
+  }
+  return text;
+}
+
+function renderMessageContent(text: string, navigate: (url: string) => void): React.ReactNode {
+  if (!text) return null;
+
+  const lines = text.split('\n');
+
+  return lines.map((line, lineIdx) => {
+    const parts = line.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/g);
+
+    const renderedLine = parts.map((part, partIdx) => {
+      // 1. Check for bold text
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const innerText = part.slice(2, -2);
+        
+        // If the bold text is exactly a relative link/path, let's render it as a link instead of just bold
+        const rawProductUrlRegex = /^\/product\/[a-fA-Z0-9-]{36}$/i;
+        if (rawProductUrlRegex.test(innerText) || innerText === '/upgrade' || innerText === '/') {
+          return (
+            <a
+              key={partIdx}
+              href={innerText}
+              onClick={(e) => {
+                if (innerText.startsWith('/')) {
+                  e.preventDefault();
+                  navigate(innerText);
+                }
+              }}
+              className="text-purple-400 hover:text-purple-300 font-bold underline underline-offset-4 decoration-purple-500/50 hover:decoration-purple-400 transition-colors duration-200"
+            >
+              {innerText}
+            </a>
+          );
+        }
+
+        return (
+          <strong key={partIdx} className="font-bold text-white">
+            {renderInlineMarkdown(innerText, navigate)}
+          </strong>
+        );
+      }
+
+      // 2. Check for markdown links
+      if (part.startsWith('[') && part.includes('](') && part.endsWith(')')) {
+        const closeBracketIdx = part.indexOf('](');
+        const label = part.slice(1, closeBracketIdx);
+        const url = part.slice(closeBracketIdx + 2, -1);
+
+        return (
+          <a
+            key={partIdx}
+            href={url}
+            onClick={(e) => {
+              if (url.startsWith('/')) {
+                e.preventDefault();
+                navigate(url);
+              }
+            }}
+            className="text-purple-400 hover:text-purple-300 font-semibold underline underline-offset-4 decoration-purple-500/50 hover:decoration-purple-400 transition-colors duration-200"
+          >
+            {label}
+          </a>
+        );
+      }
+
+      // 3. Fallback: Parse raw /product/ID if they were returned plain
+      const rawProductUrlRegex = /(\/product\/[a-fA-Z0-9-]{36})/gi;
+      if (rawProductUrlRegex.test(part)) {
+        rawProductUrlRegex.lastIndex = 0; // Reset lastIndex
+        const subParts = part.split(rawProductUrlRegex);
+        const singleProductUrlRegex = /^\/product\/[a-fA-Z0-9-]{36}$/i;
+        return subParts.map((subPart, subIdx) => {
+          if (singleProductUrlRegex.test(subPart)) {
+            return (
+              <a
+                key={subIdx}
+                href={subPart}
+                onClick={(e) => {
+                  if (subPart.startsWith('/')) {
+                    e.preventDefault();
+                    navigate(subPart);
+                  }
+                }}
+                className="text-purple-400 hover:text-purple-300 font-semibold underline underline-offset-4 decoration-purple-500/50 hover:decoration-purple-400 transition-colors duration-200"
+              >
+                {subPart}
+              </a>
+            );
+          }
+          return subPart;
+        });
+      }
+
+      return part;
+    });
+
+    return (
+      <span key={lineIdx} className="block min-h-[1.2em]">
+        {renderedLine}
+      </span>
+    );
+  });
+}
+
 export function ChatbotWidget() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<MessageItem[]>([]);
-  const [inputValue, setInputValue] = useState('');
+  const [hasValue, setHasValue] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(getStoredSessionId());
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -74,8 +201,9 @@ export function ChatbotWidget() {
     }
   }, [isOpen]);
 
-  const sendMessage = async (text: string) => {
-    const trimmedText = text.trim();
+  const sendMessage = async (text?: string) => {
+    const rawText = text !== undefined ? text : (inputRef.current?.value || '');
+    const trimmedText = rawText.trim();
     if (!trimmedText || isLoading) return;
 
     const userMessage: MessageItem = {
@@ -86,7 +214,11 @@ export function ChatbotWidget() {
     };
 
     setMessages(prev => [...prev, userMessage]);
-    setInputValue('');
+    
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
+    setHasValue(false);
     setIsLoading(true);
 
     try {
@@ -124,13 +256,13 @@ export function ChatbotWidget() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    sendMessage(inputValue);
+    sendMessage();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      sendMessage(inputValue);
+      sendMessage();
     }
   };
 
@@ -234,7 +366,9 @@ export function ChatbotWidget() {
                       <span>Đang trả lời...</span>
                     </div>
                   ) : (
-                    <p style={{ whiteSpace: 'pre-wrap' }}>{message.content}</p>
+                    <div className="space-y-1" style={{ whiteSpace: 'pre-wrap' }}>
+                      {renderMessageContent(message.content, navigate)}
+                    </div>
                   )}
                   {message.createdAt && !message.isLoading && (
                     <p
@@ -297,8 +431,7 @@ export function ChatbotWidget() {
           >
             <textarea
               ref={inputRef}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={(e) => setHasValue(!!e.target.value.trim())}
               onKeyDown={handleKeyDown}
               placeholder="Nhập tin nhắn..."
               rows={1}
@@ -313,11 +446,11 @@ export function ChatbotWidget() {
             />
             <button
               type="submit"
-              disabled={!inputValue.trim() || isLoading}
+              disabled={!hasValue || isLoading}
               className="w-10 h-10 rounded-xl flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
               style={{
-                backgroundColor: inputValue.trim() ? '#8B5CF6' : '#262626',
-                color: inputValue.trim() ? '#FFFFFF' : '#666',
+                backgroundColor: hasValue ? '#8B5CF6' : '#262626',
+                color: hasValue ? '#FFFFFF' : '#666',
               }}
             >
               <Send size={18} />
