@@ -5,7 +5,6 @@ import {
   Download,
   Heart,
   ArrowLeft,
-  Tag,
   Share2,
   ChevronRight,
   ShoppingBag,
@@ -13,7 +12,7 @@ import {
   FileBox,
   HardDrive,
 } from 'lucide-react';
-import { useSaved } from '../context/SavedContext';
+import { useSavedStore } from '../../store/savedStore';
 import { useAuthStore } from '../../store/authStore';
 import { useProductDetail } from '../../hooks/useProductDetail';
 import { SkeletonProductCard } from '../components/SkeletonProductCard';
@@ -43,7 +42,7 @@ const FILE_TYPE_LABELS: Record<number, string> = {
 export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { toggleSaved, isSaved } = useSaved();
+  const { toggleSaved, isSaved } = useSavedStore();
   const { user, isLoggedIn } = useAuthStore();
   const { data: product, isLoading } = useProductDetail(id);
   const [isModelLoading, setIsModelLoading] = useState(true);
@@ -51,6 +50,10 @@ export function ProductDetailPage() {
   const [buying, setBuying] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const modelViewerRef = useRef<any>(null);
+
+  // Hydrate saved items from API on mount
+  const { fetchSaved } = useSavedStore();
+  useEffect(() => { fetchSaved(); }, []);
 
   useEffect(() => {
     const viewer = modelViewerRef.current;

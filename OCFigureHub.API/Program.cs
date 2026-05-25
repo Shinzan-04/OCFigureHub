@@ -109,6 +109,7 @@ builder.Services.AddScoped<ISubscriptionPlanRepository, SubscriptionPlanReposito
 builder.Services.AddScoped<IQuotaRepository, QuotaRepository>();
 builder.Services.AddScoped<IDownloadRepository, DownloadRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<ISavedItemRepository, SavedItemRepository>();
 
 #endregion
 
@@ -120,7 +121,7 @@ builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<SubscriptionService>();
 builder.Services.AddScoped<DownloadService>();
-builder.Services.AddScoped<ReportService>();
+builder.Services.AddScoped<ISavedItemService, SavedItemService>();
 builder.Services.AddScoped<QuotaResetJob>();
 builder.Services.AddScoped<IAntiLeakService, OCFigureHub.Infrastructure.Repositories.AntiLeakService>();
 

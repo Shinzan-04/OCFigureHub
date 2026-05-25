@@ -23,6 +23,7 @@ public class AppDbContext : DbContext
     public DbSet<WatermarkInfo> WatermarkInfos => Set<WatermarkInfo>();
     public DbSet<ChatSession> ChatSessions => Set<ChatSession>();
     public DbSet<ChatMessage> ChatMessages => Set<ChatMessage>();
+    public DbSet<SavedItem> SavedItems => Set<SavedItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -85,6 +86,27 @@ public class AppDbContext : DbContext
             .WithMany(x => x.Messages)
             .HasForeignKey(x => x.SessionId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // SavedItem many-to-many relationship between User and Product
+        modelBuilder.Entity<SavedItem>()
+            .HasOne(x => x.User)
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<SavedItem>()
+            .HasOne(x => x.Product)
+            .WithMany()
+            .HasForeignKey(x => x.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<SavedItem>()
+            .HasIndex(x => new { x.UserId, x.ProductId })
+            .IsUnique();
+
+        modelBuilder.Entity<SavedItem>()
+            .Property(x => x.SavedAt)
+            .HasColumnType("datetime2");
 
         // Precision for decimals
         modelBuilder.Entity<Product>().Property(x => x.Price).HasColumnType("decimal(18,2)");

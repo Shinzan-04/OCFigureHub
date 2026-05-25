@@ -1,7 +1,7 @@
 import { Heart } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import type { Product } from '../../types/product';
-import { useSaved } from '../context/SavedContext';
+import { useSavedStore } from '../../store/savedStore';
 
 function formatPrice(price: number): string {
   if (price === 0) return 'Miễn phí';
@@ -18,7 +18,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product, featured = false }: ProductCardProps) {
   const navigate = useNavigate();
-  const { toggleSaved, isSaved } = useSaved();
+  const { toggleSaved, isSaved } = useSavedStore();
   const saved = isSaved(product.id);
 
   const handleCardClick = () => {

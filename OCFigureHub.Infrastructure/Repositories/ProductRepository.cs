@@ -22,6 +22,11 @@ public class ProductRepository : IProductRepository
               .OrderByDescending(x => x.CreatedAt)
               .ToListAsync(ct);
 
+    public async Task<List<Product>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken ct)
+        => await _db.Products
+              .Where(x => ids.Contains(x.Id) && x.IsEnabled)
+              .ToListAsync(ct);
+
     public async Task<(List<Product> items, int totalCount)> GetPagedAsync(ProductQueryRequest request, CancellationToken ct)
     {
         // Validate and sanitize inputs

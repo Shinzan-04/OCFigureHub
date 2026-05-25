@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { jwtDecode } from 'jwt-decode';
 import toast from 'react-hot-toast';
 import { authApi } from '../api/auth';
+import { useSavedStore } from './savedStore';
 import type { JwtPayload } from '../types/auth';
 
 interface AuthUser {
@@ -44,6 +45,7 @@ export const useAuthStore = create<AuthState>()(
             };
             set({ token: res.accessToken, user, isLoggedIn: true });
             toast.success(`Xin chào, ${user.displayName}!`);
+            useSavedStore.getState().fetchSaved();
             return true;
           } catch {
             set({ token: null, user: null, isLoggedIn: false });
@@ -70,6 +72,7 @@ export const useAuthStore = create<AuthState>()(
             };
             set({ token: res.accessToken, user, isLoggedIn: true });
             toast.success(`Xin chào, ${user.displayName}!`);
+            useSavedStore.getState().fetchSaved();
             return true;
           } catch {
             set({ token: null, user: null, isLoggedIn: false });
@@ -96,6 +99,7 @@ export const useAuthStore = create<AuthState>()(
             };
             set({ token: res.accessToken, user, isLoggedIn: true });
             toast.success(`Xin chào, ${user.displayName}!`);
+            useSavedStore.getState().fetchSaved();
             return true;
           } catch {
             set({ token: null, user: null, isLoggedIn: false });
@@ -136,6 +140,7 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: () => {
+        useSavedStore.getState().reset();
         set({ token: null, user: null, isLoggedIn: false });
         toast.success('Đã đăng xuất');
       },
