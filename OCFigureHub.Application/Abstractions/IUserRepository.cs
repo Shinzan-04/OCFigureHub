@@ -1,4 +1,4 @@
-﻿using OCFigureHub.Domain.Entities;
+using OCFigureHub.Domain.Entities;
 
 namespace OCFigureHub.Application.Abstractions;
 
@@ -10,4 +10,7 @@ public interface IUserRepository
     Task SaveChangesAsync(CancellationToken ct);
 
     Task UpdateAsync(User user, CancellationToken ct);
+
+    Task<List<User>> GetAllAsync(int page, int pageSize, string? search, CancellationToken ct);
+    Task<int> GetCountAsync(string? search, CancellationToken ct);
 }

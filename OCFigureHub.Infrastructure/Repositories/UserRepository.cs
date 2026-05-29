@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Domain.Entities;
 using OCFigureHub.Infrastructure.Persistence;
@@ -31,6 +31,25 @@ public class UserRepository : IUserRepository
     {
         _db.Users.Update(user);
         return Task.CompletedTask;
+    }
+
+    public async Task<List<User>> GetAllAsync(int page, int pageSize, string? search, CancellationToken ct)
+    {
+        var q = _db.Users.AsQueryable();
+        if (!string.IsNullOrWhiteSpace(search))
+            q = q.Where(u => u.Email.Contains(search) || u.DisplayName.Contains(search));
+        return await q.OrderByDescending(u => u.CreatedAt)
+                      .Skip((page - 1) * pageSize)
+                      .Take(pageSize)
+                      .ToListAsync(ct);
+    }
+
+    public async Task<int> GetCountAsync(string? search, CancellationToken ct)
+    {
+        var q = _db.Users.AsQueryable();
+        if (!string.IsNullOrWhiteSpace(search))
+            q = q.Where(u => u.Email.Contains(search) || u.DisplayName.Contains(search));
+        return await q.CountAsync(ct);
     }
 
 }

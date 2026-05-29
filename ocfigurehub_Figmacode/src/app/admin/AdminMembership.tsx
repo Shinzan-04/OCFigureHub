@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Crown, Users, DollarSign, TrendingUp, CheckCircle, XCircle, Clock, Search } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Crown, Users, DollarSign, TrendingUp, CheckCircle, XCircle, Clock, Search, Loader2 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
+import API from '../../api/client';
 type SubStatus = 'Active' | 'Expired' | 'Cancelled' | 'Trial';
 
 interface Member {

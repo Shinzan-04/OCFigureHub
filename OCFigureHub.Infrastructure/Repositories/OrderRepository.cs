@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Domain.Entities;
 using OCFigureHub.Infrastructure.Persistence;
@@ -52,8 +52,6 @@ public class OrderRepository : IOrderRepository
 
     public Task SaveChangesAsync(CancellationToken ct)
         => _db.SaveChangesAsync(ct);
-<<<<<<< Updated upstream
-=======
 
     // ==============================
     // ADMIN: LIST ALL ORDERS
@@ -71,8 +69,4 @@ public class OrderRepository : IOrderRepository
 
     public Task<int> GetOrderCountAsync(CancellationToken ct)
         => _db.Orders.CountAsync(ct);
-
-    public Task<int> GetUserOrderCountAsync(Guid userId, CancellationToken ct)
-        => _db.Orders.CountAsync(o => o.UserId == userId, ct);
->>>>>>> Stashed changes
 }

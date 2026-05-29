@@ -1,14 +1,28 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { ArrowLeft, ArrowRight, Mail } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Mail, AlertCircle, Loader2 } from 'lucide-react';
+import { authApi } from '../../api/auth';
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setSent(true);
+    if (!email) return;
+
+    setLoading(true);
+    setError('');
+    try {
+      await authApi.forgotPassword(email);
+      setSent(true);
+    } catch {
+      setError('Đã xảy ra lỗi khi gửi yêu cầu. Vui lòng thử lại.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -59,6 +73,16 @@ export function ForgotPasswordPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              {error && (
+                <div
+                  className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm"
+                  style={{ backgroundColor: '#EF444415', border: '1px solid #EF444440', color: '#EF4444' }}
+                >
+                  <AlertCircle size={15} />
+                  {error}
+                </div>
+              )}
+
               {/* Email */}
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-medium text-white">Email</label>
@@ -68,7 +92,8 @@ export function ForgotPasswordPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="px-4 py-3 rounded-xl text-sm outline-none transition-all"
+                  disabled={loading}
+                  className="px-4 py-3 rounded-xl text-sm outline-none transition-all disabled:opacity-50"
                   style={{
                     backgroundColor: '#0B0B0B',
                     border: '1px solid #262626',
@@ -82,11 +107,12 @@ export function ForgotPasswordPage() {
               {/* Submit */}
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 mt-1"
+                disabled={loading}
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 mt-1 disabled:opacity-70"
                 style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
               >
-                Gửi link khôi phục
-                <ArrowRight size={16} />
+                {loading ? <Loader2 size={16} className="animate-spin" /> : 'Gửi link khôi phục'}
+                {!loading && <ArrowRight size={16} />}
               </button>
             </form>
           )}

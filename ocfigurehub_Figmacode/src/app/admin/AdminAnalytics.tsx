@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from 'recharts';
-import { TrendingUp, Download, Eye, Globe } from 'lucide-react';
-import { PRODUCTS } from '../data/products';
-
-const topDownloads = [...PRODUCTS]
-  .sort((a, b) => b.downloads - a.downloads)
-  .slice(0, 8)
-  .map(p => ({ name: p.title.split(' - ').pop() || p.title, downloads: p.downloads, category: p.category }));
+import { TrendingUp, Download, Eye, Globe, Loader2 } from 'lucide-react';
+import { productsApi } from '../../api/products';
+import { adminApi } from '../../api/admin';
+import type { Product } from '../../types/product';
 
 const trafficSources = [
   { name: 'Direct', value: 38, color: '#8B5CF6' },
@@ -29,16 +26,6 @@ const weeklyData = [
   { day: 'Sun', views: 7600, downloads: 1800 },
 ];
 
-const categoryData = [
-  { name: 'Anime', resources: 14, downloads: 39110, revenue: 7250000 },
-  { name: 'Monsters', resources: 4, downloads: 4470, revenue: 1400000 },
-  { name: 'Free', resources: 5, downloads: 32110, revenue: 0 },
-];
-
-const popularModels = [...PRODUCTS]
-  .sort((a, b) => b.likes - a.likes)
-  .slice(0, 5);
-
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
@@ -54,7 +41,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, name }: any) => {
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -68,6 +55,51 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 export function AdminAnalytics() {
   const [period, setPeriod] = useState<'week' | 'month' | 'year'>('week');
+  const [products, setProducts] = useState<Product[]>([]);
+  const [stats, setStats] = useState({ totalProducts: 0, totalUsers: 0, totalDownloads: 0, totalRevenue: 0 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [prodData, dashData] = await Promise.all([
+          productsApi.getAll({ pageSize: 50 }),
+          adminApi.getDashboard(),
+        ]);
+        setProducts(prodData.items || []);
+        setStats(dashData);
+      } catch (err) {
+        console.error('Analytics load failed', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <Loader2 className="animate-spin" size={36} style={{ color: '#8B5CF6' }} />
+      </div>
+    );
+  }
+
+  // Derive category breakdown from real products
+  const categoryMap = new Map<string, { resources: number }>();
+  products.forEach(p => {
+    const cat = p.category || 'Other';
+    const existing = categoryMap.get(cat) || { resources: 0 };
+    existing.resources++;
+    categoryMap.set(cat, existing);
+  });
+  const categoryData = Array.from(categoryMap.entries()).map(([name, data]) => ({
+    name,
+    resources: data.resources,
+  }));
+
+  // Top products by name (no downloads/likes field on API)
+  const topProducts = products.slice(0, 8).map(p => ({ name: p.name, category: p.category }));
 
   return (
     <div className="space-y-5 pb-20 md:pb-0">
@@ -95,20 +127,19 @@ export function AdminAnalytics() {
         </div>
       </div>
 
-      {/* Quick stats */}
+      {/* Quick stats from API */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
-          { label: 'Page Views', value: '44,800', change: '+18%', color: '#8B5CF6', icon: Eye },
-          { label: 'Total Downloads', value: '9,770', change: '+23%', color: '#10B981', icon: Download },
-          { label: 'Avg Session', value: '4m 32s', change: '+8%', color: '#06B6D4', icon: Globe },
-          { label: 'Conversion', value: '3.2%', change: '+0.4%', color: '#F59E0B', icon: TrendingUp },
+          { label: 'Total Products', value: stats.totalProducts.toLocaleString(), change: '', color: '#8B5CF6', icon: Eye },
+          { label: 'Total Downloads', value: stats.totalDownloads.toLocaleString(), change: '', color: '#10B981', icon: Download },
+          { label: 'Total Users', value: stats.totalUsers.toLocaleString(), change: '', color: '#06B6D4', icon: Globe },
+          { label: 'Revenue', value: `₫${(stats.totalRevenue / 1_000_000).toFixed(1)}M`, change: '', color: '#F59E0B', icon: TrendingUp },
         ].map(s => (
           <div key={s.label} className="rounded-xl p-4" style={{ background: '#111111', border: '1px solid #262626' }}>
             <div className="flex items-center justify-between mb-2">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${s.color}1A` }}>
                 <s.icon size={16} color={s.color} />
               </div>
-              <span style={{ color: '#10B981', fontSize: 11 }}>{s.change}</span>
             </div>
             <p style={{ color: '#fff', fontSize: 20, fontWeight: 700 }}>{s.value}</p>
             <p style={{ color: '#888', fontSize: 12 }}>{s.label}</p>
@@ -132,18 +163,18 @@ export function AdminAnalytics() {
         </ResponsiveContainer>
       </div>
 
-      {/* Row: Downloads per resource + Traffic Sources */}
+      {/* Row: Category Performance + Traffic Sources */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Downloads per resource */}
+        {/* Category Breakdown from API */}
         <div className="rounded-xl p-5" style={{ background: '#111111', border: '1px solid #262626' }}>
-          <h3 style={{ color: '#fff', fontSize: 14, fontWeight: 600, marginBottom: 16 }}>Downloads per Resource</h3>
+          <h3 style={{ color: '#fff', fontSize: 14, fontWeight: 600, marginBottom: 16 }}>Category Breakdown</h3>
           <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={topDownloads} layout="vertical" margin={{ top: 0, right: 20, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1F1F1F" horizontal={false} />
-              <XAxis type="number" tick={{ fill: '#666', fontSize: 10 }} axisLine={false} tickLine={false} />
-              <YAxis type="category" dataKey="name" tick={{ fill: '#ccc', fontSize: 10 }} axisLine={false} tickLine={false} width={70} />
+            <BarChart data={categoryData} margin={{ top: 0, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#1F1F1F" />
+              <XAxis dataKey="name" tick={{ fill: '#ccc', fontSize: 11 }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fill: '#666', fontSize: 11 }} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="downloads" name="Resource Downloads" fill="#8B5CF6" radius={[0, 4, 4, 0]} />
+              <Bar dataKey="resources" name="Products" fill="#8B5CF6" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -190,29 +221,13 @@ export function AdminAnalytics() {
         </div>
       </div>
 
-      {/* Category breakdown */}
-      <div className="rounded-xl p-5" style={{ background: '#111111', border: '1px solid #262626' }}>
-        <h3 style={{ color: '#fff', fontSize: 14, fontWeight: 600, marginBottom: 16 }}>Category Performance</h3>
-        <ResponsiveContainer width="100%" height={180}>
-          <BarChart data={categoryData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1F1F1F" />
-            <XAxis dataKey="name" tick={{ fill: '#ccc', fontSize: 12 }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fill: '#666', fontSize: 11 }} axisLine={false} tickLine={false} />
-            <Tooltip content={<CustomTooltip />} />
-            <Legend formatter={(v) => <span style={{ color: '#999', fontSize: 11 }}>{v}</span>} />
-            <Bar dataKey="downloads" name="Category Downloads" fill="#8B5CF6" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="resources" name="Category Resources" fill="#06B6D4" radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-
-      {/* Most Popular Models */}
+      {/* Top Products from API */}
       <div className="rounded-xl" style={{ background: '#111111', border: '1px solid #262626' }}>
         <div className="px-5 py-4" style={{ borderBottom: '1px solid #262626' }}>
-          <h3 style={{ color: '#fff', fontSize: 14, fontWeight: 600 }}>Most Popular Models (by Likes)</h3>
+          <h3 style={{ color: '#fff', fontSize: 14, fontWeight: 600 }}>Products</h3>
         </div>
         <div className="divide-y" style={{ borderColor: '#1A1A1A' }}>
-          {popularModels.map((p, i) => (
+          {products.slice(0, 8).map((p, i) => (
             <div key={p.id} className="flex items-center gap-4 px-5 py-3">
               <span
                 className="w-7 h-7 rounded-full flex items-center justify-center text-xs flex-shrink-0"
@@ -224,14 +239,20 @@ export function AdminAnalytics() {
               >
                 {i + 1}
               </span>
-              <img src={p.image} alt={p.title} className="w-11 h-11 rounded-lg object-cover flex-shrink-0" />
+              {p.thumbnailUrl ? (
+                <img src={p.thumbnailUrl} alt={p.name} className="w-11 h-11 rounded-lg object-cover flex-shrink-0" />
+              ) : (
+                <div className="w-11 h-11 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0"
+                  style={{ background: '#1a1a2e', color: '#8B5CF640' }}>{p.name.charAt(0)}</div>
+              )}
               <div className="flex-1 min-w-0">
-                <p style={{ color: '#fff', fontSize: 13, fontWeight: 500 }} className="truncate">{p.title}</p>
+                <p style={{ color: '#fff', fontSize: 13, fontWeight: 500 }} className="truncate">{p.name}</p>
                 <p style={{ color: '#888', fontSize: 11 }}>{p.creator} · {p.category}</p>
               </div>
               <div className="text-right flex-shrink-0">
-                <p style={{ color: '#EC4899', fontSize: 13, fontWeight: 600 }}>♥ {p.likes.toLocaleString()}</p>
-                <p style={{ color: '#06B6D4', fontSize: 11 }}>{p.downloads.toLocaleString()} dl</p>
+                <p style={{ color: '#8B5CF6', fontSize: 12, fontWeight: 600 }}>
+                  {p.price === 0 ? 'Free' : `₫${(p.price / 1000).toFixed(0)}k`}
+                </p>
               </div>
             </div>
           ))}

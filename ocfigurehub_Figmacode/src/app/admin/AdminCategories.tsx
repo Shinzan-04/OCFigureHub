@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, Tag, X, Package } from 'lucide-react';
-import { PRODUCTS } from '../data/products';
+import React, { useState, useEffect } from 'react';
+import { Plus, Edit2, Trash2, Tag, X, Package, Loader2 } from 'lucide-react';
+import { productsApi } from '../../api/products';
 
 interface Category {
   id: string;
@@ -12,44 +12,67 @@ interface Category {
   resourceCount: number;
 }
 
-const initialCategories: Category[] = [
-  {
-    id: '1',
-    name: 'Free',
-    slug: 'free',
-    description: 'All free resources available to everyone without any cost.',
-    color: '#10B981',
-    icon: '🎁',
-    resourceCount: PRODUCTS.filter(p => p.isFree).length,
-  },
-  {
-    id: '2',
-    name: 'Anime',
-    slug: 'anime',
-    description: 'Anime character 3D models from popular series.',
-    color: '#8B5CF6',
-    icon: '🌸',
-    resourceCount: PRODUCTS.filter(p => p.category === 'anime').length,
-  },
-  {
-    id: '3',
-    name: 'Monsters',
-    slug: 'monsters',
-    description: 'Monster and creature 3D models from various franchises.',
-    color: '#F59E0B',
-    icon: '👾',
-    resourceCount: PRODUCTS.filter(p => p.category === 'monsters').length,
-  },
-];
-
 const colorOptions = ['#8B5CF6', '#10B981', '#F59E0B', '#06B6D4', '#EF4444', '#EC4899'];
 
 export function AdminCategories() {
-  const [categories, setCategories] = useState<Category[]>(initialCategories);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingCat, setEditingCat] = useState<Category | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [form, setForm] = useState({ name: '', slug: '', description: '', color: '#8B5CF6', icon: '🏷️' });
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await productsApi.getAll({ pageSize: 200 });
+        const products = data.items || [];
+        const catMap = new Map<string, number>();
+        products.forEach(p => {
+          const cat = p.category || 'Other';
+          catMap.set(cat, (catMap.get(cat) || 0) + 1);
+        });
+
+        const defaultMeta: Record<string, { color: string; icon: string; desc: string }> = {
+          anime: { color: '#8B5CF6', icon: '🌸', desc: 'Anime character 3D models from popular series.' },
+          monsters: { color: '#F59E0B', icon: '👾', desc: 'Monster and creature 3D models from various franchises.' },
+          free: { color: '#10B981', icon: '🎁', desc: 'All free resources available to everyone.' },
+        };
+
+        const cats: Category[] = Array.from(catMap.entries()).map(([name, count], i) => {
+          const meta = defaultMeta[name.toLowerCase()] || { color: colorOptions[i % colorOptions.length], icon: '🏷️', desc: '' };
+          return {
+            id: String(i + 1),
+            name: name.charAt(0).toUpperCase() + name.slice(1),
+            slug: name.toLowerCase().replace(/\s/g, '-'),
+            description: meta.desc,
+            color: meta.color,
+            icon: meta.icon,
+            resourceCount: count,
+          };
+        });
+        // Also check free products
+        const freeCount = products.filter(p => p.price === 0).length;
+        if (freeCount > 0 && !catMap.has('free')) {
+          cats.unshift({
+            id: '0',
+            name: 'Free',
+            slug: 'free',
+            description: 'All free resources available to everyone without any cost.',
+            color: '#10B981',
+            icon: '🎁',
+            resourceCount: freeCount,
+          });
+        }
+        setCategories(cats);
+      } catch (err) {
+        console.error('Failed to load categories', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const openAdd = () => {
     setEditingCat(null);

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Save, Eye, RefreshCw, Image, Plus, Trash2, Star } from 'lucide-react';
-import { PRODUCTS } from '../data/products';
+import React, { useState, useEffect } from 'react';
+import { Save, Eye, RefreshCw, Image, Plus, Trash2, Star, Loader2 } from 'lucide-react';
+import { productsApi } from '../../api/products';
+import type { Product } from '../../types/product';
 
 interface HeroSlide {
   id: string;
@@ -17,11 +18,10 @@ const initialSlides: HeroSlide[] = [
   { id: '3', title: 'Free Models Mỗi Tuần', subtitle: 'Tải miễn phí các mô hình được tuyển chọn mỗi tuần', ctaText: 'Tải miễn phí', ctaLink: '/free', bgColor: '#10B981' },
 ];
 
-const featuredIds = PRODUCTS.filter(p => p.isFeatured).map(p => p.id);
-
 export function AdminContent() {
   const [slides, setSlides] = useState<HeroSlide[]>(initialSlides);
-  const [featured, setFeatured] = useState<string[]>(featuredIds);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [featured, setFeatured] = useState<string[]>([]);
   const [newsletter, setNewsletter] = useState({
     title: 'Đăng ký nhận thông báo',
     subtitle: 'Nhận thông báo ngay khi có mô hình mới được thêm vào thư viện.',
@@ -29,6 +29,14 @@ export function AdminContent() {
     backgroundColor: '#8B5CF6',
   });
   const [saved, setSaved] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    productsApi.getAll({ pageSize: 50 }).then(data => {
+      setProducts(data.items || []);
+      setLoading(false);
+    }).catch(() => setLoading(false));
+  }, []);
   const [editingSlide, setEditingSlide] = useState<HeroSlide | null>(null);
 
   const handleSaveAll = () => {
@@ -197,30 +205,34 @@ export function AdminContent() {
             Select resources to feature on the homepage hero section.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {PRODUCTS.map(p => {
-              const isFeatured = featured.includes(p.id);
+            {loading ? (
+              <div className="col-span-3 py-8 flex justify-center"><Loader2 className="animate-spin" size={24} style={{ color: '#8B5CF6' }} /></div>
+            ) : products.map(p => {
+              const isFeat = featured.includes(p.id);
               return (
                 <div
                   key={p.id}
                   onClick={() => toggleFeatured(p.id)}
                   className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all"
                   style={{
-                    background: isFeatured ? 'rgba(139,92,246,0.1)' : '#1A1A1A',
-                    border: `1px solid ${isFeatured ? '#8B5CF6' : '#262626'}`,
+                    background: isFeat ? 'rgba(139,92,246,0.1)' : '#1A1A1A',
+                    border: `1px solid ${isFeat ? '#8B5CF6' : '#262626'}`,
                   }}
                 >
-                  <img src={p.image} alt={p.title} className="w-12 h-12 rounded-lg object-cover flex-shrink-0" />
+                  {p.thumbnailUrl ? (
+                    <img src={p.thumbnailUrl} alt={p.name} className="w-12 h-12 rounded-lg object-cover flex-shrink-0" />
+                  ) : (
+                    <div className="w-12 h-12 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0" style={{ background: '#1a1a2e', color: '#8B5CF640' }}>{p.name.charAt(0)}</div>
+                  )}
                   <div className="flex-1 min-w-0">
-                    <p style={{ color: '#fff', fontSize: 12, fontWeight: 500 }} className="truncate">{p.title}</p>
+                    <p style={{ color: '#fff', fontSize: 12, fontWeight: 500 }} className="truncate">{p.name}</p>
                     <p style={{ color: '#888', fontSize: 11 }}>{p.creator}</p>
                   </div>
                   <div
                     className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0"
-                    style={{
-                      background: isFeatured ? '#8B5CF6' : '#262626',
-                    }}
+                    style={{ background: isFeat ? '#8B5CF6' : '#262626' }}
                   >
-                    {isFeatured && <span style={{ color: '#fff', fontSize: 11 }}>✓</span>}
+                    {isFeat && <span style={{ color: '#fff', fontSize: 11 }}>✓</span>}
                   </div>
                 </div>
               );

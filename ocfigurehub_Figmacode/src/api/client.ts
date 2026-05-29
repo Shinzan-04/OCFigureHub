@@ -3,7 +3,7 @@ import axiosRetry from 'axios-retry';
 import toast from 'react-hot-toast';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5086/api',
   headers: { 'Content-Type': 'application/json' },
 });
 

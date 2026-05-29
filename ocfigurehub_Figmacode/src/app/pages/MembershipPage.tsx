@@ -60,11 +60,12 @@ export function MembershipPage() {
       try {
         const [plansRes, statusRes] = await Promise.all([
           API.get('/subscriptions/plans'),
-          isLoggedIn ? API.get('/subscriptions/status') : Promise.resolve({ data: null })
+          isLoggedIn ? API.get('/subscriptions/status').catch(() => ({ data: null })) : Promise.resolve({ data: null })
         ]);
 
+        const rawPlans = Array.isArray(plansRes.data) ? plansRes.data : [];
         const order: Record<string, number> = { 'FREE': 0, 'PRO': 1, 'ULTIMATE': 2 };
-        const sortedPlans = (plansRes.data as Plan[]).sort((a, b) => {
+        const sortedPlans = (rawPlans as Plan[]).sort((a, b) => {
           const aKey = a.name.toUpperCase();
           const bKey = b.name.toUpperCase();
           return (order[aKey] ?? 99) - (order[bKey] ?? 99);

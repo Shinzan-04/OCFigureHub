@@ -150,6 +150,7 @@ builder.Services.AddScoped<ISavedItemRepository, SavedItemRepository>();
 
 #region Services
 
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<AdminProductService>();
 builder.Services.AddScoped<ProductService>();

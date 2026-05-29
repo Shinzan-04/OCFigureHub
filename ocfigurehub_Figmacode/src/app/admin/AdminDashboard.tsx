@@ -1,11 +1,14 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line,
-  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
-import { Package, Users, Download, DollarSign, TrendingUp, Clock, ArrowUpRight, Star } from 'lucide-react';
-import { PRODUCTS } from '../data/products';
+import { Package, Users, Download, DollarSign, TrendingUp, Clock, ArrowUpRight, Star, Loader2 } from 'lucide-react';
+import { adminApi, type DashboardStats } from '../../api/admin';
+import { productsApi } from '../../api/products';
+import type { Product } from '../../types/product';
 
+// Placeholder chart data (will be replaced when analytics API is ready)
 const monthlyData = [
   { month: 'Aug', downloads: 3200, revenue: 4800000, users: 89 },
   { month: 'Sep', downloads: 4100, revenue: 6200000, users: 115 },
@@ -16,19 +19,6 @@ const monthlyData = [
   { month: 'Feb', downloads: 7200, revenue: 10800000, users: 195 },
   { month: 'Mar', downloads: 8900, revenue: 13350000, users: 240 },
 ];
-
-const stats = [
-  { label: 'Total Resources', value: '18', icon: Package, change: '+3 this month', color: '#8B5CF6' },
-  { label: 'Total Users', value: '1,247', icon: Users, change: '+240 this month', color: '#06B6D4' },
-  { label: 'Total Downloads', value: '52,690', icon: Download, change: '+8,900 this month', color: '#10B981' },
-  { label: 'Total Revenue', value: '₫12.4M', icon: DollarSign, change: '+₫2.1M this month', color: '#F59E0B' },
-];
-
-const recentUploads = PRODUCTS.slice(0, 6);
-
-const topProducts = [...PRODUCTS]
-  .sort((a, b) => b.downloads - a.downloads)
-  .slice(0, 5);
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -45,11 +35,48 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export function AdminDashboard() {
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [dashData, prodData] = await Promise.all([
+          adminApi.getDashboard(),
+          productsApi.getAll({ page: 1, pageSize: 6, sort: 'newest' }),
+        ]);
+        setStats(dashData);
+        setRecentProducts(prodData.items || []);
+      } catch (err) {
+        console.error('Failed to load dashboard', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <Loader2 className="animate-spin" size={36} style={{ color: '#8B5CF6' }} />
+      </div>
+    );
+  }
+
+  const statCards = [
+    { label: 'Total Resources', value: stats?.totalProducts?.toLocaleString() ?? '0', icon: Package, color: '#8B5CF6' },
+    { label: 'Total Users', value: stats?.totalUsers?.toLocaleString() ?? '0', icon: Users, color: '#06B6D4' },
+    { label: 'Total Downloads', value: stats?.totalDownloads?.toLocaleString() ?? '0', icon: Download, color: '#10B981' },
+    { label: 'Total Revenue', value: `₫${((stats?.totalRevenue ?? 0) / 1_000_000).toFixed(1)}M`, icon: DollarSign, color: '#F59E0B' },
+  ];
+
   return (
     <div className="space-y-6 pb-20 md:pb-0">
       {/* Stats Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
-        {stats.map((stat) => (
+        {statCards.map((stat) => (
           <div
             key={stat.label}
             className="rounded-xl p-4"
@@ -66,7 +93,6 @@ export function AdminDashboard() {
             </div>
             <p style={{ color: '#fff', fontSize: 22, fontWeight: 700, lineHeight: 1 }}>{stat.value}</p>
             <p style={{ color: '#999', fontSize: 12, marginTop: 4 }}>{stat.label}</p>
-            <p style={{ color: '#10B981', fontSize: 11, marginTop: 6 }}>{stat.change}</p>
           </div>
         ))}
       </div>
@@ -172,35 +198,36 @@ export function AdminDashboard() {
 
       {/* Bottom Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Recent Uploads */}
+        {/* Recent Uploads from API */}
         <div className="rounded-xl" style={{ background: '#111111', border: '1px solid #262626' }}>
           <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #262626' }}>
             <div className="flex items-center gap-2">
               <Clock size={16} color="#8B5CF6" />
               <h3 style={{ color: '#fff', fontSize: 14, fontWeight: 600 }}>Recent Uploads</h3>
             </div>
-            <span style={{ color: '#8B5CF6', fontSize: 12, cursor: 'pointer' }}>View all →</span>
           </div>
           <div className="divide-y" style={{ borderColor: '#1A1A1A' }}>
-            {recentUploads.map((p) => (
+            {recentProducts.length > 0 ? recentProducts.map((p) => (
               <div key={p.id} className="flex items-center gap-3 px-5 py-3">
-                <img
-                  src={p.image}
-                  alt={p.title}
-                  className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
-                />
+                {p.thumbnailUrl ? (
+                  <img src={p.thumbnailUrl} alt={p.name} className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+                ) : (
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0"
+                    style={{ background: '#1a1a2e', color: '#8B5CF640' }}>{p.name.charAt(0)}</div>
+                )}
                 <div className="flex-1 min-w-0">
-                  <p style={{ color: '#fff', fontSize: 13, fontWeight: 500 }} className="truncate">{p.title}</p>
+                  <p style={{ color: '#fff', fontSize: 13, fontWeight: 500 }} className="truncate">{p.name}</p>
                   <p style={{ color: '#666', fontSize: 11 }}>{p.creator}</p>
                 </div>
                 <div className="text-right">
                   <p style={{ color: '#8B5CF6', fontSize: 12, fontWeight: 600 }}>
-                    {p.isFree ? 'Free' : `₫${(p.price / 1000).toFixed(0)}k`}
+                    {p.price === 0 ? 'Free' : `₫${(p.price / 1000).toFixed(0)}k`}
                   </p>
-                  <p style={{ color: '#666', fontSize: 11 }}>{p.downloads} dl</p>
                 </div>
               </div>
-            ))}
+            )) : (
+              <p className="px-5 py-6 text-center text-sm" style={{ color: '#666' }}>Chưa có sản phẩm</p>
+            )}
           </div>
         </div>
 
@@ -209,11 +236,11 @@ export function AdminDashboard() {
           <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #262626' }}>
             <div className="flex items-center gap-2">
               <Star size={16} color="#F59E0B" />
-              <h3 style={{ color: '#fff', fontSize: 14, fontWeight: 600 }}>Top Downloads</h3>
+              <h3 style={{ color: '#fff', fontSize: 14, fontWeight: 600 }}>Top Products</h3>
             </div>
           </div>
           <div className="p-5 space-y-3">
-            {topProducts.map((p, i) => (
+            {recentProducts.slice(0, 5).map((p, i) => (
               <div key={p.id} className="flex items-center gap-3">
                 <span
                   className="w-6 h-6 rounded-full flex items-center justify-center text-xs flex-shrink-0"
@@ -225,14 +252,15 @@ export function AdminDashboard() {
                 >
                   {i + 1}
                 </span>
-                <img src={p.image} alt={p.title} className="w-9 h-9 rounded-lg object-cover flex-shrink-0" />
+                {p.thumbnailUrl ? (
+                  <img src={p.thumbnailUrl} alt={p.name} className="w-9 h-9 rounded-lg object-cover flex-shrink-0" />
+                ) : (
+                  <div className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0"
+                    style={{ background: '#1a1a2e', color: '#8B5CF640' }}>{p.name.charAt(0)}</div>
+                )}
                 <div className="flex-1 min-w-0">
-                  <p style={{ color: '#fff', fontSize: 13 }} className="truncate">{p.title}</p>
+                  <p style={{ color: '#fff', fontSize: 13 }} className="truncate">{p.name}</p>
                   <p style={{ color: '#666', fontSize: 11 }}>{p.category}</p>
-                </div>
-                <div className="flex items-center gap-1" style={{ color: '#06B6D4', fontSize: 12, fontWeight: 600 }}>
-                  <Download size={12} />
-                  {p.downloads.toLocaleString()}
                 </div>
               </div>
             ))}

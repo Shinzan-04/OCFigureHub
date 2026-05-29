@@ -1,4 +1,4 @@
-﻿using OCFigureHub.Application.Abstractions;
+using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Application.DTOs.Reports;
 using System;
 using System.Collections.Generic;
@@ -41,6 +41,18 @@ namespace OCFigureHub.Application.Services
                 TotalDownloadsSuccess = success,
                 TotalDownloadsFail = fail,
                 UniqueUsers = uniqueUsers
+            };
+        }
+
+        public async Task<object> GetDashboardAsync(CancellationToken ct)
+        {
+            var (totalProducts, totalUsers, totalDownloads, totalRevenue) = await _repo.GetDashboardStatsAsync(ct);
+            return new
+            {
+                totalProducts,
+                totalUsers,
+                totalDownloads,
+                totalRevenue
             };
         }
     }
