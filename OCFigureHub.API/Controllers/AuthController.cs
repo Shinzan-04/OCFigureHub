@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using OCFigureHub.Application.DTOs.Auth;
 using OCFigureHub.Application.Services;
 
@@ -6,6 +7,7 @@ namespace OCFigureHub.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[EnableRateLimiting("AuthLimiter")]
 public class AuthController : ControllerBase
 {
     private readonly AuthService _auth;

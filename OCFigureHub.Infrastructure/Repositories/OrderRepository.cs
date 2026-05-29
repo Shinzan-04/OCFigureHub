@@ -52,4 +52,27 @@ public class OrderRepository : IOrderRepository
 
     public Task SaveChangesAsync(CancellationToken ct)
         => _db.SaveChangesAsync(ct);
+<<<<<<< Updated upstream
+=======
+
+    // ==============================
+    // ADMIN: LIST ALL ORDERS
+    // ==============================
+
+    public async Task<List<Order>> GetAllOrdersAsync(int page, int pageSize, CancellationToken ct)
+        => await _db.Orders
+                .Include(o => o.User)
+                .Include(o => o.Items)
+                .Include(o => o.Plan)
+                .OrderByDescending(o => o.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(ct);
+
+    public Task<int> GetOrderCountAsync(CancellationToken ct)
+        => _db.Orders.CountAsync(ct);
+
+    public Task<int> GetUserOrderCountAsync(Guid userId, CancellationToken ct)
+        => _db.Orders.CountAsync(o => o.UserId == userId, ct);
+>>>>>>> Stashed changes
 }

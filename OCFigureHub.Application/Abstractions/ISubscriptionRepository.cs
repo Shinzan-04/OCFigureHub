@@ -1,4 +1,4 @@
-﻿using OCFigureHub.Domain.Entities;
+using OCFigureHub.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,7 @@ namespace OCFigureHub.Application.Abstractions
     public interface ISubscriptionRepository
     {
         Task<Subscription?> GetActiveByUserIdAsync(Guid userId, CancellationToken ct);
+        Task<Subscription?> GetActiveSubscriptionAsync(Guid userId, CancellationToken ct);
         Task AddAsync(Subscription sub, CancellationToken ct);
         Task UpdateAsync(Subscription sub, CancellationToken ct);
         Task<List<Subscription>> GetExpiredAsync(DateTime utcNow, CancellationToken ct);

@@ -39,8 +39,8 @@ public class DownloadService
             throw new UnauthorizedAccessException("User locked");
         }
 
-        var productOk = await _repo.IsProductEnabledAsync(req.ProductId, ct);
-        if (!productOk)
+        var product = await _repo.GetProductAsync(req.ProductId, ct);
+        if (product == null)
         {
             await LogFail(userId, req.ProductId, "Product not found/disabled", ip, userAgent, ct);
             throw new Exception("Product not found");
@@ -49,15 +49,18 @@ public class DownloadService
         Guid? orderId = null;
         Guid? subscriptionId = null;
 
-        // 1) Check purchase
-        var hasPaidOrder = await _repo.HasPaidOrderForProductAsync(userId, req.ProductId, ct);
+        // If product is free, skip purchase and subscription checks
+        if (product.Price > 0)
+        {
+            // 1) Check purchase
+            var hasPaidOrder = await _repo.HasPaidOrderForProductAsync(userId, req.ProductId, ct);
 
-        if (hasPaidOrder)
-        {
-            orderId = await _repo.GetAnyPaidOrderIdAsync(userId, ct);
-        }
-        else
-        {
+            if (hasPaidOrder)
+            {
+                orderId = await _repo.GetAnyPaidOrderIdAsync(userId, ct);
+            }
+            else
+            {
             // 2) Subscription entitlement + quota
             var sub = await _repo.GetActiveSubscriptionWithPlanAsync(userId, ct);
             if (sub == null)
@@ -95,6 +98,7 @@ public class DownloadService
 
             await _repo.IncreaseQuotaUsageAsync(quota, 1, ct);
             await _repo.SaveChangesAsync(ct);
+            }
         }
 
         // 3) Get model file by format

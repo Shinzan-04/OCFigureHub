@@ -12,4 +12,11 @@ public interface IOrderRepository
     Task<Order?> GetByIdAsync(Guid id, CancellationToken ct);
     Task UpdateAsync(Order order, CancellationToken ct);
     Task SaveChangesAsync(CancellationToken ct);
+<<<<<<< Updated upstream
+=======
+
+    Task<List<Order>> GetAllOrdersAsync(int page, int pageSize, CancellationToken ct);
+    Task<int> GetOrderCountAsync(CancellationToken ct);
+    Task<int> GetUserOrderCountAsync(Guid userId, CancellationToken ct);
+>>>>>>> Stashed changes
 }

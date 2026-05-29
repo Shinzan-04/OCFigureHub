@@ -18,6 +18,8 @@ using OCFigureHub.Infrastructure.Security;
 using OCFigureHub.Infrastructure.Services;
 using OCFigureHub.Infrastructure.Storage;
 using System.Text;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,12 +81,45 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddCors(opt =>
 {
-    opt.AddPolicy("AllowAll", policy =>
+    opt.AddPolicy("AllowFrontend", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins(
+                "http://localhost:5173",
+                "http://localhost:3000",
+                "https://ocfigurehub.vercel.app"  // production URL
+              )
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
     });
+});
+
+#endregion
+
+#region Rate Limiting
+
+builder.Services.AddRateLimiter(options =>
+{
+    // Global default: 100 requests per minute per IP
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(ctx =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: ctx.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 100,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0
+            }));
+
+    // Stricter limit for auth endpoints (login, register, forgot-password)
+    options.AddFixedWindowLimiter("AuthLimiter", opt =>
+    {
+        opt.PermitLimit = 10;
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.QueueLimit = 0;
+    });
+
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 });
 
 #endregion
@@ -252,7 +287,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
-app.UseCors("AllowAll");
+app.UseCors("AllowFrontend");
+
+app.UseRateLimiter();
 
 app.UseHttpsRedirection();
 

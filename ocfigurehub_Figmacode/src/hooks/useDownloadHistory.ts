@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { downloadsApi } from '../api/downloads';
+import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 export function useDownloadHistory() {
@@ -11,9 +12,11 @@ export function useDownloadHistory() {
     refetchOnWindowFocus: false,
   });
 
-  if (query.isError) {
-    toast.error('Không tải được lịch sử download');
-  }
+  useEffect(() => {
+    if (query.isError) {
+      toast.error('Không tải được lịch sử download');
+    }
+  }, [query.isError]);
 
   return query;
 }

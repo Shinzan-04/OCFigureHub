@@ -6,7 +6,7 @@ public interface IDownloadRepository
 {
     // User / Product
     Task<User?> GetUserAsync(Guid userId, CancellationToken ct);
-    Task<bool> IsProductEnabledAsync(Guid productId, CancellationToken ct);
+    Task<Product?> GetProductAsync(Guid productId, CancellationToken ct);
     Task<List<Product>> GetProductsByIdsAsync(IEnumerable<Guid> productIds, CancellationToken ct);
 
     // Orders
@@ -32,6 +32,7 @@ public interface IDownloadRepository
 
     // History listing
     Task<List<DownloadHistory>> GetHistoryByUserAsync(Guid userId, CancellationToken ct);
+    Task<int> GetUserDownloadCountAsync(Guid userId, CancellationToken ct);
 
     Task SaveChangesAsync(CancellationToken ct);
 }

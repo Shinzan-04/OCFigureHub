@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
+<<<<<<< Updated upstream
 import { Menu, X, Heart, LayoutDashboard, LogOut, Crown, ChevronDown, Download, User, Settings } from 'lucide-react';
+=======
+import { Menu, X, Heart, LayoutDashboard, LogOut, Crown, ChevronDown, Download, User } from 'lucide-react';
+>>>>>>> Stashed changes
 import { useSaved } from '../context/SavedContext';
 import { useAuthStore } from '../../store/authStore';
 
@@ -199,6 +203,14 @@ export function Navbar() {
                       style={{ color: '#A1A1A1' }}
                     >
                       <Settings size={15} /> Cài đặt
+                    </Link>
+                    <Link
+                      to="/profile"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors hover:bg-[#1A1A1A]"
+                      style={{ color: '#A1A1A1' }}
+                    >
+                      <User size={15} /> Hồ sơ
                     </Link>
                     <div className="h-px my-1" style={{ backgroundColor: '#262626' }} />
                     <button

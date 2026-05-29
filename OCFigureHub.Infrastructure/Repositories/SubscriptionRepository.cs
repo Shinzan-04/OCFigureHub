@@ -31,6 +31,9 @@ namespace OCFigureHub.Infrastructure.Repositories
                 .FirstOrDefaultAsync(ct);
         }
 
+        public Task<Subscription?> GetActiveSubscriptionAsync(Guid userId, CancellationToken ct)
+            => GetActiveByUserIdAsync(userId, ct);
+
         public async Task<List<Subscription>> GetExpiredAsync(DateTime utcNow, CancellationToken ct)
         {
             return await _db.Subscriptions

@@ -25,10 +25,10 @@ public class DownloadRepository : IDownloadRepository
 
     // ================= PRODUCT =================
 
-    public async Task<bool> IsProductEnabledAsync(Guid productId, CancellationToken ct)
+    public async Task<Product?> GetProductAsync(Guid productId, CancellationToken ct)
     {
         return await _db.Products
-            .AnyAsync(x => x.Id == productId && x.IsEnabled, ct);
+            .FirstOrDefaultAsync(x => x.Id == productId && x.IsEnabled, ct);
     }
 
     public async Task<List<Product>> GetProductsByIdsAsync(IEnumerable<Guid> productIds, CancellationToken ct)
@@ -139,6 +139,12 @@ public class DownloadRepository : IDownloadRepository
             .Where(x => x.UserId == userId)
             .OrderByDescending(x => x.DownloadedAt)
             .ToListAsync(ct);
+    }
+
+    public async Task<int> GetUserDownloadCountAsync(Guid userId, CancellationToken ct)
+    {
+        return await _db.DownloadHistories
+            .CountAsync(x => x.UserId == userId && x.Success, ct);
     }
 
     public async Task SaveChangesAsync(CancellationToken ct)
