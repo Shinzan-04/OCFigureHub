@@ -14,11 +14,8 @@ import { PaymentMembershipPage } from './pages/PaymentMembershipPage';
 import { PaymentProductPage } from './pages/PaymentProductPage';
 import { PaymentResultPage } from './pages/PaymentResultPage';
 import { DownloadHistoryPage } from './pages/DownloadHistoryPage';
-<<<<<<< Updated upstream
 import { SettingsPage } from './pages/SettingsPage';
-=======
 import { ProfilePage } from './pages/ProfilePage';
->>>>>>> Stashed changes
 import { NotFoundPage } from './pages/NotFoundPage';
 
 // Route guards
@@ -64,11 +61,8 @@ export const router = createBrowserRouter([
           { path: 'payment-membership', Component: PaymentMembershipPage },
           { path: 'payment-product', Component: PaymentProductPage },
           { path: 'download-history', Component: DownloadHistoryPage },
-<<<<<<< Updated upstream
           { path: 'settings', Component: SettingsPage },
-=======
           { path: 'profile', Component: ProfilePage },
->>>>>>> Stashed changes
         ],
       },
       { path: '*', Component: NotFoundPage },

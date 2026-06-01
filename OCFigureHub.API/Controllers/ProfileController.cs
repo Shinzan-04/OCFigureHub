@@ -74,7 +74,7 @@ public class ProfileController : ControllerBase
     /// Update display name
     /// </summary>
     [HttpPut]
-    public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileRequest req, CancellationToken ct)
+    public async Task<IActionResult> UpdateProfile([FromBody] ProfileUpdateRequest req, CancellationToken ct)
     {
         var userId = GetUserId();
         if (userId == null) return Unauthorized();
@@ -137,7 +137,7 @@ public class ProfileController : ControllerBase
     }
 }
 
-public class UpdateProfileRequest
+public class ProfileUpdateRequest
 {
     public string? DisplayName { get; set; }
 }

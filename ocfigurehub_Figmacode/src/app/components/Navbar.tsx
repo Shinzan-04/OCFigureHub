@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
-<<<<<<< Updated upstream
 import { Menu, X, Heart, LayoutDashboard, LogOut, Crown, ChevronDown, Download, User, Settings } from 'lucide-react';
-=======
-import { Menu, X, Heart, LayoutDashboard, LogOut, Crown, ChevronDown, Download, User } from 'lucide-react';
->>>>>>> Stashed changes
 import { useSaved } from '../context/SavedContext';
 import { useAuthStore } from '../../store/authStore';
 

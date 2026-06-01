@@ -15,4 +15,5 @@ public interface IOrderRepository
 
     Task<List<Order>> GetAllOrdersAsync(int page, int pageSize, CancellationToken ct);
     Task<int> GetOrderCountAsync(CancellationToken ct);
+    Task<int> GetUserOrderCountAsync(Guid userId, CancellationToken ct);
 }

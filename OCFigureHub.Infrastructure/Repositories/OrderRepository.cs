@@ -69,4 +69,7 @@ public class OrderRepository : IOrderRepository
 
     public Task<int> GetOrderCountAsync(CancellationToken ct)
         => _db.Orders.CountAsync(ct);
+
+    public Task<int> GetUserOrderCountAsync(Guid userId, CancellationToken ct)
+        => _db.Orders.CountAsync(o => o.UserId == userId, ct);
 }
