@@ -8,38 +8,6 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { Float, Stars, useTexture, Billboard } from "@react-three/drei";
 
-function InteractiveStar({ position, size }: { position: [number, number, number], size: number }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const [hovered, setHovered] = useState(false);
-  const starTex = useTexture("/star.jpg");
-  
-  useFrame(() => {
-    if (!meshRef.current) return;
-    const targetScale = hovered ? 3 : 1;
-    meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.15);
-  });
-
-  return (
-    <Billboard position={position}>
-      <mesh
-        ref={meshRef}
-        onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }}
-        onPointerOut={() => { setHovered(false); document.body.style.cursor = 'auto'; }}
-      >
-        <planeGeometry args={[size * 35, size * 35]} />
-        <meshBasicMaterial 
-          map={starTex} 
-          alphaMap={starTex} 
-          color="#ffffff"
-          transparent={true} 
-          blending={THREE.AdditiveBlending} 
-          depthWrite={false} 
-          opacity={hovered ? 1 : 0.95} 
-        />
-      </mesh>
-    </Billboard>
-  );
-}
 
 function TexturedPlanet({ position, size, textureUrl, speed = 0.05, floatSpeed = 2, hasRings = false, hasAtmosphere = false, atmosphereColor = "#4da6ff" }: { position: [number, number, number], size: number, textureUrl: string, speed?: number, floatSpeed?: number, hasRings?: boolean, hasAtmosphere?: boolean, atmosphereColor?: string }) {
   const tex = useTexture(textureUrl);
@@ -128,7 +96,7 @@ function FlyingAsteroid({ startPos, size, textureUrl, speed, slope = 0.5 }: { st
   const materialRef = useRef<THREE.MeshBasicMaterial>(null);
   
   // Màu sắc bắt đầu (trắng xám nhạt) và màu khi cháy rực (cam/đỏ lửa)
-  const startColor = useMemo(() => new THREE.Color("#999999"), []);
+  const startColor = useMemo(() => new THREE.Color("#aaaaaa"), []);
   const endColor = useMemo(() => new THREE.Color("#ff5500"), []);
 
   useFrame((state, delta) => {
@@ -137,22 +105,22 @@ function FlyingAsteroid({ startPos, size, textureUrl, speed, slope = 0.5 }: { st
       const traveled = startPos[0] - groupRef.current.position.x;
       let progress = Math.min(Math.max(traveled / totalDistance, 0), 1);
 
-      // Hiệu ứng tốc độ: bay càng gần càng nhanh (từ 0.5x ở xa đến 2.5x khi lại gần)
-      const dynamicSpeed = speed * (0.5 + progress * 5.0);
-
+      // Hiệu ứng tốc độ: bay càng gần càng nhanh
+      const dynamicSpeed = speed * (0.5 + progress * 4.0);
       groupRef.current.position.x -= dynamicSpeed * delta;
       groupRef.current.position.y -= dynamicSpeed * slope * delta;
       
-      // 1. Càng rơi càng to ra (phóng to từ 1x lên 3x theo yêu cầu)
-      const currentScale = 1 + progress * 10.0;
+      // Phóng to mượt mà theo số mũ, tối đa 6x (Không phóng to quá đà thành 16x - 20x như lúc đầu)
+      const currentScale = 1 + Math.pow(progress, 2) * 5.0;
+      
+      // Giữ nguyên tỷ lệ 1:1 cho X, Y, Z. Không kéo dãn ảnh để tránh móp méo cục đá con.
       groupRef.current.scale.set(currentScale, currentScale, currentScale);
       
-      // 2. Càng rơi càng sáng và chuyển sang màu lửa bốc cháy
+      // Càng rơi càng sáng và chuyển màu lửa bốc cháy
       if (materialRef.current) {
         materialRef.current.color.lerpColors(startColor, endColor, Math.pow(progress, 1.5));
+        materialRef.current.opacity = 1.0; // Đảm bảo luôn sáng rực, không biến mất giữa chừng
       }
-      
-      // Đã XÓA logic tự lặp lại quỹ đạo ở đây, vì AsteroidEvent sẽ quản lý vòng đời bay 1 lần
     }
   });
   
@@ -352,31 +320,45 @@ function AsteroidEvent() {
   return <FlyingAsteroid key={eventData.waveId} {...path} textureUrl="/thien_thach.png" />;
 }
 
+function InteractiveStar({ position, size, isFlashing }: { position: [number, number, number], size: number, isFlashing: boolean }) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const starTex = useTexture("/star.jpg");
+  
+  useFrame(() => {
+    if (!meshRef.current) return;
+    const targetScale = isFlashing ? 3 : 1;
+    meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.15);
+  });
+
+  return (
+    <Billboard position={position}>
+      <mesh ref={meshRef}>
+        <planeGeometry args={[size * 35, size * 35]} />
+        <meshBasicMaterial 
+          map={starTex} 
+          alphaMap={starTex} 
+          color="#ffffff"
+          transparent={true} 
+          blending={THREE.AdditiveBlending} 
+          depthWrite={false} 
+          opacity={isFlashing ? 1 : 0.95} 
+        />
+      </mesh>
+    </Billboard>
+  );
+}
+
 function CameraRig() {
-  const { camera } = useThree();
-  const mouse = useRef({ x: 0, y: 0 });
-  const targetLook = useRef(new THREE.Vector3(0, 0, 0));
-  const currentLook = useRef(new THREE.Vector3(0, 0, 0));
-
-  useEffect(() => {
-    // Đặt camera ở vị trí cố định, chỉ xoay nhìn theo chuột
-    camera.position.set(0, 0, 5);
-
-    const handleMouseMove = (e: MouseEvent) => {
-      // Chuyển vị trí chuột sang range -1 đến 1
-      mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  const { camera, mouse } = useThree();
+  const currentLook = useRef(new THREE.Vector3(0, 0, -10));
+  const targetLook = useRef(new THREE.Vector3(0, 0, -10));
 
   useFrame(() => {
     // Điểm nhìn đích: chuột sang phải → nhìn sang phải, chuột lên → nhìn lên
     // Nhân hệ số lớn để góc xoay rõ rệt hơn
     targetLook.current.set(
-      mouse.current.x * 12,   // trái/phải: biên độ ngang
-      mouse.current.y * 8,    // lên/xuống: biên độ dọc
+      mouse.x * 12,   // trái/phải: biên độ ngang
+      mouse.y * 8,    // lên/xuống: biên độ dọc
       -10                     // luôn nhìn về phía trước (âm Z)
     );
 
@@ -390,16 +372,49 @@ function CameraRig() {
 
 export default function InteractiveGalaxy() {
   const stars = useMemo(() => {
-    // Tạo ngẫu nhiên 12 ngôi sao rải rác ở một không gian cực rộng
-    // Đảm bảo khi camera lia (pan) kịch kim sang 2 mép màn hình vẫn không bị thiếu sao
-    return Array.from({ length: 12 }).map(() => ({
-      position: [
-        (Math.random() - 0.5) * 250, // X rất rộng: từ -125 đến 125
-        (Math.random() - 0.5) * 150, // Y rộng: từ -75 đến 75
-        -60 - Math.random() * 50     // Z lùi sâu: từ -60 đến -110
-      ] as [number, number, number],
-      size: 0.1 + Math.random() * 0.15 // Kích thước nhỏ bé xa xăm
-    }));
+    // Thuật toán rải sao 3D Jittered Grid: Chia không gian thành các khối lập phương 3D
+    // Không gian siêu rộng đa chiều để tận dụng tối đa môi trường 3D
+    const starList = [];
+    const cols = 5;   // X chia 5 cột
+    const rows = 4;   // Y chia 4 hàng
+    const layers = 3; // Z chia 3 lớp chiều sâu (Tổng = 5x4x3 = 60 ngôi sao)
+    
+    const spaceWidth = 700;  // X từ -350 đến 350
+    const spaceHeight = 300; // Y từ -150 đến 150
+    const spaceDepth = 150;  // Z từ -40 đến -190
+    
+    const colWidth = spaceWidth / cols;
+    const rowHeight = spaceHeight / rows;
+    const layerDepth = spaceDepth / layers;
+    
+    for (let l = 0; l < layers; l++) {
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          // Tâm của khối 3D
+          const centerX = -spaceWidth/2 + c * colWidth + colWidth/2;
+          const centerY = -spaceHeight/2 + r * rowHeight + rowHeight/2;
+          const centerZ = -40 - (l * layerDepth + layerDepth/2); // Z lùi dần về sau
+          
+          // Độ nhiễu 3D (Lệch tâm ngẫu nhiên 80% thể tích khối để không bao giờ bị xếp thẳng hàng)
+          const jitterX = (Math.random() - 0.5) * (colWidth * 0.8);
+          const jitterY = (Math.random() - 0.5) * (rowHeight * 0.8);
+          const jitterZ = (Math.random() - 0.5) * (layerDepth * 0.8);
+          
+          // Sao ở càng xa (Z càng âm) thì cho kích thước nhỉnh hơn một chút để vẫn nhìn thấy rõ
+          const depthScale = 1 + (l * 0.5); 
+
+          starList.push({
+            position: [
+              centerX + jitterX,
+              centerY + jitterY,
+              centerZ + jitterZ
+            ] as [number, number, number],
+            size: (0.1 + Math.random() * 0.15) * depthScale
+          });
+        }
+      }
+    }
+    return starList;
   }, []);
 
   const asteroids = useMemo(() => {
@@ -411,21 +426,38 @@ export default function InteractiveGalaxy() {
   }, []);
 
   const [eventSource, setEventSource] = useState<HTMLElement | null>(null);
+  const [starsFlashing, setStarsFlashing] = useState(false);
+  const flashTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   useEffect(() => {
-    setEventSource(document.body);
+    // Lấy thẻ gốc 100vh để xuyên qua các mảng Text và Hero3D đang chặn chuột ở 2 bên màn hình
+    const heroContainer = document.getElementById('hero-event-source');
+    if (heroContainer) setEventSource(heroContainer);
+    
+    return () => {
+      if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
+    }
   }, []);
 
+  const handleBackgroundClick = () => {
+    setStarsFlashing(true);
+    if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
+    flashTimeoutRef.current = setTimeout(() => {
+      setStarsFlashing(false);
+    }, 1000);
+  };
+
   return (
-    <div className="absolute inset-0 w-full h-screen z-0 overflow-hidden pointer-events-none">
+    <div className="absolute inset-0 w-full h-screen z-0 overflow-hidden">
       <div className="w-full h-full">
-        {/* eventSource={eventSource} giúp Canvas nhận sự kiện chuột toàn cục dù div ngoài bị pointer-events-none */}
+        {/* Nhận tọa độ chuột từ thẻ gốc để không bị các thẻ z-index cao chặn mất */}
         <Canvas 
-          eventSource={eventSource || undefined} 
+          eventSource={eventSource || undefined}
           eventPrefix="client"
           camera={{ position: [0, 0, 5], fov: 75 }} 
           style={{ background: "transparent" }} 
           dpr={[1, 1.5]}
+          onPointerMissed={handleBackgroundClick}
         >
           <React.Suspense fallback={null}>
             <CameraRig />
@@ -436,20 +468,20 @@ export default function InteractiveGalaxy() {
             <Stars radius={150} depth={150} count={3000} factor={3.5} saturation={1} fade speed={0.5} />
             
             {stars.map((star, i) => (
-              <InteractiveStar key={`star-${i}`} position={star.position} size={star.size} />
+              <InteractiveStar key={`star-${i}`} position={star.position} size={star.size} isFlashing={starsFlashing} />
             ))}
 
             {/* Sao Thủy tít trên cùng bên trái */}
-            <TexturedPlanet position={[-28, 14, -30]} size={1.2} textureUrl="/Mercury.jpg" speed={0.1} />
+            <TexturedPlanet position={[-250, -10, 0]} size={15} textureUrl="/Mercury.jpg" speed={0.1} />
             
             {/* Trái đất lệch sang phải - nằm trong vùng Hero3D (pointer-events-none) để hover được */}
-            <TexturedPlanet position={[2, 2, -22]} size={5} textureUrl="/Earth.jpg" speed={0.07} hasAtmosphere={true} atmosphereColor="#d9f2ff" />
+            <TexturedPlanet position={[-35, 10, -22]} size={7} textureUrl="/Earth.jpg" speed={0.07} hasAtmosphere={true} atmosphereColor="#d9f2ff" />
             
             {/* Sao Hỏa lệch hẳn sang phải và lùi về sau */}
-            <TexturedPlanet position={[14, -6, -35]} size={2} textureUrl="/mars.jpg" speed={0.08} />
+            <TexturedPlanet position={[0, -20, -35]} size={4} textureUrl="/mars.jpg" speed={0.08} />
             
             {/* Sao Thổ tít dưới cùng bên phải, rất xa kèm theo Vòng đai */}
-            <TexturedPlanet position={[32, -15, -45]} size={3} textureUrl="/saturn.jpg" speed={0.03} hasRings={true} />
+            <TexturedPlanet position={[90, -15, -45]} size={7} textureUrl="/saturn.jpg" speed={0.03} hasRings={true} />
             
             {/* Gọi thiên thạch khổng lồ bay ngang mỗi 40s với đường bay random */}
             <AsteroidEvent />
@@ -461,4 +493,4 @@ export default function InteractiveGalaxy() {
       </div>
     </div>
   );
-}
+  }
