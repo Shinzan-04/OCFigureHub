@@ -6,6 +6,8 @@ import { HeroCarousel } from '../components/HeroCarousel';
 import { SkeletonProductCard } from '../components/SkeletonProductCard';
 import { EmptyState } from '../components/EmptyState';
 import type { ProductQueryParams } from '../../types/pagination';
+import Hero3D from '../components/Hero3D';
+import InteractiveGalaxy from '../components/InteractiveGalaxy';
 
 const CATEGORIES = [
   { key: '', label: 'All' },
@@ -110,12 +112,22 @@ export function HomePage() {
   };
 
   return (
-    <div className="w-full">
-      {/* Hero Section */}
-      <section className="max-w-[1440px] mx-auto px-6 md:px-8 py-12 md:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+    <div className="relative w-full min-h-screen overflow-hidden" style={{ backgroundColor: '#050505' }}>
+      {/* 3D Background Layers */}
+      <div className="absolute inset-0 z-0 h-screen">
+        <InteractiveGalaxy />
+      </div>
+      <div className="absolute top-0 right-0 w-full lg:w-[60%] h-screen z-0 pointer-events-none opacity-90 hidden lg:block">
+        <Hero3D />
+      </div>
+
+      {/* Main Foreground Content */}
+      <div className="relative z-10 w-full pointer-events-none">
+        {/* Hero Section */}
+        <section className="max-w-[1440px] w-full mx-auto px-6 md:px-15 py-12 md:py-20 relative min-h-screen flex items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 w-full">
           {/* Left */}
-          <div className="flex flex-col gap-6 lg:gap-8">
+          <div className="flex flex-col gap-6 lg:gap-8 pointer-events-auto">
             {/* Badge */}
             <div className="flex items-center gap-2 w-fit">
               <div
@@ -201,20 +213,20 @@ export function HomePage() {
             </div>
           </div>
 
-          {/* Right - Carousel */}
-          <div className="w-full">
-            {featuredProducts.length > 0 && <HeroCarousel products={featuredProducts} />}
+          {/* Right - Model 3D (Đã được chuyển xuống làm background để có thể tương tác) */}
+          <div className="w-full hidden lg:block pointer-events-none">
+            {/* Giữ nguyên div rỗng này để giữ cấu trúc grid 2 cột cho phần text bên trái */}
           </div>
         </div>
       </section>
 
       {/* Divider */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-8">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-8 pointer-events-auto">
         <div className="border-t" style={{ borderColor: '#262626' }} />
       </div>
 
       {/* Filters Section */}
-      <section className="max-w-[1440px] mx-auto px-6 md:px-8 py-8">
+      <section className="max-w-[1440px] mx-auto px-6 md:px-8 py-8 pointer-events-auto">
         <div className="flex flex-col gap-4">
           {/* Category Filter */}
           <div>
@@ -367,7 +379,7 @@ export function HomePage() {
       </section>
 
       {/* Product Grid */}
-      <section className="max-w-[1440px] mx-auto px-6 md:px-8 py-8">
+      <section className="max-w-[1440px] mx-auto px-6 md:px-8 py-8 pointer-events-auto">
         {/* Section header */}
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -445,6 +457,7 @@ export function HomePage() {
           />
         )}
       </section>
+      </div>
     </div>
   );
 }
