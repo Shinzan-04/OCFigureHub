@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { Save, Globe, Bell, Shield, CreditCard, Palette, Mail, Database, RefreshCw } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Save, Globe, Bell, Shield, CreditCard, Palette, Mail, Database, RefreshCw, Loader2 } from 'lucide-react';
+import { adminApi } from '../../api/admin';
+import toast from 'react-hot-toast';
 
 interface SettingSection {
   id: string;
@@ -20,6 +22,8 @@ const SECTIONS: SettingSection[] = [
 export function AdminSettings() {
   const [activeSection, setActiveSection] = useState('general');
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [generalSettings, setGeneralSettings] = useState({
     siteName: 'OC Figure Hub',
@@ -69,9 +73,59 @@ export function AdminSettings() {
     fromEmail: 'noreply@ocfigurehub.com',
   });
 
-  const handleSave = () => {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+  // Load settings from API
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const data = await adminApi.getSettings();
+        if (data.general) {
+          setGeneralSettings(prev => ({ ...prev, ...data.general, allowRegistration: data.general.allowRegistration === 'true', maintenanceMode: data.general.maintenanceMode === 'true' }));
+        }
+        if (data.notifications) {
+          setNotifSettings(prev => {
+            const n = { ...prev };
+            Object.keys(n).forEach(k => { if (data.notifications[k] !== undefined) (n as any)[k] = data.notifications[k] === 'true'; });
+            return n;
+          });
+        }
+        if (data.security) {
+          setSecuritySettings(prev => ({ ...prev, ...data.security, requireEmailVerification: data.security.requireEmailVerification === 'true', twoFactorAuth: data.security.twoFactorAuth === 'true', allowGuestDownload: data.security.allowGuestDownload === 'true', requireStrongPassword: data.security.requireStrongPassword === 'true' }));
+        }
+        if (data.payment) {
+          setPaymentSettings(prev => ({ ...prev, ...data.payment, momoEnabled: data.payment.momoEnabled === 'true', vnpayEnabled: data.payment.vnpayEnabled === 'true', zalopayEnabled: data.payment.zalopayEnabled === 'true', bankTransferEnabled: data.payment.bankTransferEnabled === 'true' }));
+        }
+        if (data.email) {
+          setEmailSettings(prev => ({ ...prev, ...data.email }));
+        }
+      } catch { /* first time — no settings yet */ }
+      setLoading(false);
+    };
+    load();
+  }, []);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const toStr = (obj: Record<string, any>) => {
+        const r: Record<string, string> = {};
+        Object.entries(obj).forEach(([k, v]) => r[k] = String(v));
+        return r;
+      };
+      await adminApi.saveSettings({
+        general: toStr(generalSettings),
+        notifications: toStr(notifSettings),
+        security: toStr(securitySettings),
+        payment: toStr(paymentSettings),
+        email: toStr(emailSettings),
+      });
+      setSaved(true);
+      toast.success('Settings saved!');
+      setTimeout(() => setSaved(false), 2000);
+    } catch {
+      toast.error('Save failed');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const ToggleSwitch = ({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) => (

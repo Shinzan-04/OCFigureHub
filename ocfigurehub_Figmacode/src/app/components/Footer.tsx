@@ -1,16 +1,27 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight } from 'lucide-react';
+import { newsletterApi } from '../../api/newsletter';
+import { toast } from 'react-hot-toast';
 
 export function Footer() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
+    if (!email) return;
+    setLoading(true);
+    try {
+      const res = await newsletterApi.subscribe(email);
       setSubscribed(true);
       setEmail('');
+      toast.success(res.message || 'Đăng ký thành công!');
+    } catch (err: any) {
+      toast.error(err.response?.data?.error || 'Đăng ký thất bại');
+    } finally {
+      setLoading(false);
     }
   };
 

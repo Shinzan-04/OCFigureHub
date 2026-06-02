@@ -6,19 +6,8 @@ import {
 import { Package, Users, Download, DollarSign, TrendingUp, Clock, ArrowUpRight, Star, Loader2 } from 'lucide-react';
 import { adminApi, type DashboardStats } from '../../api/admin';
 import { productsApi } from '../../api/products';
+import { analyticsApi } from '../../api/analytics';
 import type { Product } from '../../types/product';
-
-// Placeholder chart data (will be replaced when analytics API is ready)
-const monthlyData = [
-  { month: 'Aug', downloads: 3200, revenue: 4800000, users: 89 },
-  { month: 'Sep', downloads: 4100, revenue: 6200000, users: 115 },
-  { month: 'Oct', downloads: 3800, revenue: 5700000, users: 98 },
-  { month: 'Nov', downloads: 5200, revenue: 7800000, users: 134 },
-  { month: 'Dec', downloads: 4600, revenue: 6900000, users: 120 },
-  { month: 'Jan', downloads: 6800, revenue: 10200000, users: 178 },
-  { month: 'Feb', downloads: 7200, revenue: 10800000, users: 195 },
-  { month: 'Mar', downloads: 8900, revenue: 13350000, users: 240 },
-];
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -37,17 +26,20 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export function AdminDashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+  const [monthlyData, setMonthlyData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [dashData, prodData] = await Promise.all([
+        const [dashData, prodData, trendsData] = await Promise.all([
           adminApi.getDashboard(),
           productsApi.getAll({ page: 1, pageSize: 6, sort: 'newest' }),
+          analyticsApi.monthlyTrends(8).catch(() => []),
         ]);
         setStats(dashData);
         setRecentProducts(prodData.items || []);
+        setMonthlyData(trendsData);
       } catch (err) {
         console.error('Failed to load dashboard', err);
       } finally {

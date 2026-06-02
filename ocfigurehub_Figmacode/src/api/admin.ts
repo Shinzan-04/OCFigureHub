@@ -94,4 +94,36 @@ export const adminApi = {
     const res = await API.get('/admin/reports/downloads', { params: { fromUtc, toUtc } });
     return res.data;
   },
+
+  // Site Settings
+  getSettings: async (group?: string) => {
+    const res = await API.get('/admin/sitesettings', { params: group ? { group } : {} });
+    return res.data;
+  },
+  saveSettings: async (data: Record<string, Record<string, string>>) => {
+    const res = await API.put('/admin/sitesettings', data);
+    return res.data;
+  },
+
+  // CMS Content
+  getCmsAll: async () => {
+    const res = await API.get('/admin/cms');
+    return res.data;
+  },
+  getCmsByType: async (type: string) => {
+    const res = await API.get(`/admin/cms/${type}`);
+    return res.data;
+  },
+  createCms: async (data: any) => {
+    const res = await API.post('/admin/cms', data);
+    return res.data;
+  },
+  updateCms: async (id: string, data: any) => {
+    const res = await API.put(`/admin/cms/${id}`, data);
+    return res.data;
+  },
+  deleteCms: async (id: string) => {
+    const res = await API.delete(`/admin/cms/${id}`);
+    return res.data;
+  },
 };

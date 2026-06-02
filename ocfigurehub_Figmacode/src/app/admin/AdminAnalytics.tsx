@@ -6,25 +6,8 @@ import {
 import { TrendingUp, Download, Eye, Globe, Loader2 } from 'lucide-react';
 import { productsApi } from '../../api/products';
 import { adminApi } from '../../api/admin';
+import { analyticsApi } from '../../api/analytics';
 import type { Product } from '../../types/product';
-
-const trafficSources = [
-  { name: 'Direct', value: 38, color: '#8B5CF6' },
-  { name: 'Social', value: 27, color: '#06B6D4' },
-  { name: 'Google', value: 22, color: '#10B981' },
-  { name: 'Referral', value: 10, color: '#F59E0B' },
-  { name: 'Other', value: 3, color: '#EF4444' },
-];
-
-const weeklyData = [
-  { day: 'Mon', views: 4200, downloads: 890 },
-  { day: 'Tue', views: 5100, downloads: 1100 },
-  { day: 'Wed', views: 4800, downloads: 980 },
-  { day: 'Thu', views: 6200, downloads: 1340 },
-  { day: 'Fri', views: 7100, downloads: 1560 },
-  { day: 'Sat', views: 8900, downloads: 2100 },
-  { day: 'Sun', views: 7600, downloads: 1800 },
-];
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -57,17 +40,23 @@ export function AdminAnalytics() {
   const [period, setPeriod] = useState<'week' | 'month' | 'year'>('week');
   const [products, setProducts] = useState<Product[]>([]);
   const [stats, setStats] = useState({ totalProducts: 0, totalUsers: 0, totalDownloads: 0, totalRevenue: 0 });
+  const [weeklyData, setWeeklyData] = useState<any[]>([]);
+  const [trafficSources, setTrafficSources] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [prodData, dashData] = await Promise.all([
+        const [prodData, dashData, weekData, catDist] = await Promise.all([
           productsApi.getAll({ pageSize: 50 }),
           adminApi.getDashboard(),
+          analyticsApi.weeklyActivity().catch(() => []),
+          analyticsApi.categoryDistribution().catch(() => []),
         ]);
         setProducts(prodData.items || []);
         setStats(dashData);
+        setWeeklyData(weekData);
+        setTrafficSources(catDist);
       } catch (err) {
         console.error('Analytics load failed', err);
       } finally {
