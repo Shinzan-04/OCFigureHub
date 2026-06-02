@@ -4,7 +4,7 @@
 
 import { useRef, useEffect, useState, Suspense, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment, Float, useGLTF, OrbitControls } from "@react-three/drei";
+import { Environment, Float, useGLTF, OrbitControls, Preload } from "@react-three/drei";
 import * as THREE from "three";
 
 interface SceneState {
@@ -173,7 +173,9 @@ function ReactiveParticles({ stateRef }: { stateRef: React.MutableRefObject<Scen
 
 const MODELS = [
   "/rose-gold-sentinel.glb",
-  "/Valkyrie_Mech.glb"
+  "/Valkyrie_Mech.glb",
+  "/robot.glb",
+  "/Infernal.glb"
 ];
 
 // Preload tất cả models để tránh bị giật lag/màn hình trắng khi swap
@@ -184,47 +186,65 @@ function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
   const forcefieldRef = useRef<THREE.Mesh>(null);
   const shockwaveRef = useRef<THREE.Mesh>(null);
   const [modelIndex, setModelIndex] = useState(0);
-  const { scene: originalScene } = useGLTF(MODELS[modelIndex]);
-  // Đưa logic tính toán scale và position vào useMemo để chạy đồng bộ trước khi render
-  const scene = useMemo(() => {
-    const cloned = originalScene.clone();
-    
-    const box = new THREE.Box3().setFromObject(cloned);
-    const size = box.getSize(new THREE.Vector3());
-    const maxDim = Math.max(size.x, size.y, size.z);
-    
-    // Tinh chỉnh độ lớn: model Valkyrie to bề ngang nên dùng hệ số nhỏ hơn xíu
-    const targetSize = modelIndex === 1 ? 8 : 10;
-    const scale = targetSize / maxDim;
-    cloned.scale.setScalar(scale);
-    
-    // Tính lại tâm sau khi scale để không bị sai lệch
-    const newBox = new THREE.Box3().setFromObject(cloned);
-    const center = newBox.getCenter(new THREE.Vector3());
-    cloned.position.sub(center);
-    
-    return cloned;
-  }, [originalScene, modelIndex]);
+  const gltf0 = useGLTF(MODELS[0]);
+  const gltf1 = useGLTF(MODELS[1]);
+  const gltf2 = useGLTF(MODELS[2]);
+  const gltf3 = useGLTF(MODELS[3]);
+  // Xử lý và lưu trữ tất cả các model 1 lần duy nhất để không bị lag khi chuyển đổi
+  const processedScenes = useMemo(() => {
+    return [gltf0.scene, gltf1.scene, gltf2.scene, gltf3.scene].map((original, index) => {
+      // Clone 1 lần duy nhất
+      const cloned = original.clone();
+      
+      const box = new THREE.Box3().setFromObject(cloned);
+      const size = box.getSize(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z);
+      
+      // Tinh chỉnh độ lớn: model Valkyrie to bề ngang nên dùng hệ số nhỏ hơn xíu
+      const targetSize = index === 1 ? 8 : 10;
+      const scale = targetSize / maxDim;
+      cloned.scale.setScalar(scale);
+      
+      const newBox = new THREE.Box3().setFromObject(cloned);
+      const center = newBox.getCenter(new THREE.Vector3());
+      cloned.position.sub(center);
+      
+      // Khởi tạo sẵn meshCache cho từng model để khỏi phải traverse lại lúc swap
+      const meshList: THREE.Mesh[] = [];
+      cloned.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh && (child as THREE.Mesh).material) {
+          const mesh = child as THREE.Mesh;
+          const mat = mesh.material as THREE.MeshStandardMaterial;
+          
+          // Sửa lỗi Alpha Blend cho các model tải thêm (Robot, Infernal ở vị trí số 2, 3)
+          // Bỏ qua Valkyrie (index = 1) và Sentinel (index = 0) vì chúng cần độ trong suốt cho tóc và kính
+          if (index >= 2) {
+            mat.transparent = false;
+            mat.depthWrite = true;
+            mat.alphaTest = 0.5;
+          }
+
+          // Đã xóa tính năng ám màu tím (emissive) để trả lại 100% độ sắc nét và màu sắc gốc của mô hình
+          meshList.push(mesh);
+        }
+      });
+      
+      return { scene: cloned, meshes: meshList };
+    });
+  }, [gltf0.scene, gltf1.scene]);
   
+  const currentModelData = processedScenes[modelIndex];
+  const scene = currentModelData.scene;
+  const meshCache = useRef(currentModelData.meshes);
+
+  // Khi đổi model, cập nhật ref bằng danh sách mesh đã cache sẵn
+  useEffect(() => {
+    meshCache.current = processedScenes[modelIndex].meshes;
+  }, [modelIndex, processedScenes]);
+
   const targetRotation = useRef({ x: 0, y: 0 });
   const jumpProgress = useRef(0);
   const hasSwapped = useRef(false);
-  // Cache danh sách mesh và Color 1 lần — tránh tạo object mới mỗi frame gây lag
-  const meshCache = useRef<THREE.Mesh[]>([]);
-  const emissiveColor = useRef(new THREE.Color("#8B5CF6"));
-
-  useEffect(() => {
-    // Build mesh cache 1 lần duy nhất sau khi scene được load
-    meshCache.current = [];
-    scene.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh && (child as THREE.Mesh).material) {
-        const mesh = child as THREE.Mesh;
-        // Set emissive color 1 lần — không cần lặp lại mỗi frame
-        (mesh.material as THREE.MeshStandardMaterial).emissive = emissiveColor.current;
-        meshCache.current.push(mesh);
-      }
-    });
-  }, [scene]);
 
   useFrame(({ clock }, delta) => {
     if (!groupRef.current) return;
@@ -288,16 +308,7 @@ function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
     groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotation.current.y, 0.05);
     groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotation.current.x, 0.05);
     
-    // Dùng mesh cache — không traverse, không new Color mỗi frame
-    const targetEmissive = (isHovered ? 0.1 : 0.0) + (stateRef.current.scrollProgress * 2.0);
-    // Chỉ cập nhật emissive khi giá trị thay đổi đáng kể (tiết kiệm GPU)
-    for (let i = 0; i < meshCache.current.length; i++) {
-      const mat = meshCache.current[i].material as THREE.MeshStandardMaterial;
-      const diff = targetEmissive - mat.emissiveIntensity;
-      if (Math.abs(diff) > 0.001) {
-        mat.emissiveIntensity += diff * 0.05;
-      }
-    }
+    // Đã gỡ bỏ hiệu ứng ám màu khi Hover để tránh làm mờ texture gốc của mô hình
   });
 
   const handleClick = (e: any) => {
@@ -311,18 +322,21 @@ function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
     <group 
       ref={groupRef} 
       position={[0, 0, 0]}
-      onClick={handleClick}
     >
-      <primitive object={scene} scale={2} />
-      {/* Proxy mesh vô hình — chỉ dùng để nhận pointer events, raycast cực nhanh */}
+      <primitive object={processedScenes[0].scene} scale={3.5} visible={modelIndex === 0} />
+      <primitive object={processedScenes[1].scene} scale={3.5} visible={modelIndex === 1} />
+      <primitive object={processedScenes[2].scene} scale={3} visible={modelIndex === 2} />
+      <primitive object={processedScenes[3].scene} scale={3.5} visible={modelIndex === 3} />
+      {/* Proxy mesh vô hình — chặn toàn bộ tia raycast, giúp click/hover mượt mà không bị khựng */}
       <mesh
-        visible={false}
+        visible={true}
         position={[0, 0.5, 0]}
+        onClick={handleClick}
         onPointerOver={(e) => { e.stopPropagation(); stateRef.current.isModelHovered = true; document.body.style.cursor = 'pointer'; }}
-        onPointerOut={() => { stateRef.current.isModelHovered = false; document.body.style.cursor = 'auto'; }}
+        onPointerOut={(e) => { e.stopPropagation(); stateRef.current.isModelHovered = false; document.body.style.cursor = 'auto'; }}
       >
-        <cylinderGeometry args={[1.2, 1.2, 5, 12]} />
-        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+        <cylinderGeometry args={[1.5, 1.5, 6, 12]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} colorWrite={false} />
       </mesh>
       <mesh ref={forcefieldRef} visible={false}>
         <sphereGeometry args={[1, 32, 32]} />
@@ -360,8 +374,8 @@ function Scene({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
       <pointLight position={[0, -3, 0]} intensity={0.5} color="#ffffff" />
 
       {/* Vị trí gốc của mô hình và bệ đứng */}
-      <group position={[1.2, -0.8, 0]}>
-        <group scale={0.8} position={[0, -1.5, 0]}>
+      <group position={[0.5, -0.5, 0]}>
+        <group scale={1} position={[0, -2.5, 0]}>
           <HolographicPlatform stateRef={stateRef} />
           <ReactiveParticles stateRef={stateRef} />
         </group>
@@ -433,8 +447,21 @@ export default function Hero3D() {
   return (
     <div ref={containerRef} className="absolute inset-0 w-full h-screen z-10 pointer-events-auto" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       {isLoaded && (
-        <Canvas camera={{ position: [0, 0, 7], fov: 65 }} gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 0.85, powerPreference: "high-performance" }} style={{ background: "transparent" }} dpr={[1, 1.2]} shadows={false}>
+        <Canvas 
+          camera={{ position: [0, 0, 7], fov: 65 }} 
+          gl={{ 
+            antialias: true, 
+            alpha: true, 
+            toneMapping: THREE.ACESFilmicToneMapping, 
+            toneMappingExposure: 1.0, // Tăng sáng về 100% bản gốc (không bị tối mờ)
+            powerPreference: "high-performance" 
+          }} 
+          style={{ background: "transparent" }} 
+          dpr={[1, 2]} // Nâng trần độ phân giải (DPR) lên 2x để hiển thị cực nét trên màn hình to, hết mờ rỗ
+          shadows={false}
+        >
           <Scene stateRef={stateRef} />
+          <Preload all />
         </Canvas>
       )}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">

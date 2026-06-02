@@ -113,21 +113,37 @@ export function HomePage() {
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden" style={{ backgroundColor: '#050505' }}>
-      {/* 3D Background Layers */}
-      <div className="absolute inset-0 z-0 h-screen">
-        <InteractiveGalaxy />
-      </div>
-      <div className="absolute top-0 right-0 w-full lg:w-[60%] h-screen z-0 pointer-events-none opacity-90 hidden lg:block">
-        <Hero3D />
-      </div>
+      
+      {/* 
+        Thẻ bọc này CHUẨN XÁC bằng 1 màn hình (h-screen). 
+        Tất cả các Canvas bên trong sẽ dùng nó làm eventSource để không bị lệch trục Y khi cuộn trang.
+        ĐỒNG THỜI nó cũng ôm trọn phần Chữ phía trên, để sự kiện rê chuột vào chữ vẫn được lọt xuống ngân hà.
+      */}
+      <div id="hero-event-source" className="relative w-full h-screen z-0">
+        {/* 3D Background Layers */}
+        <div className="absolute inset-0 z-0 h-full">
+          <InteractiveGalaxy />
+        </div>
+        
+        {/* Background 3D Model - Đặt trong hộp 1440px để cân bằng tuyệt đối với chữ */}
+        <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
+          <div className="max-w-[1440px] w-full h-full mx-auto relative flex items-center">
+            {/* Dùng opacity-100 để không bị nhìn xuyên thấu, và z-[5] để đè lên dải ngân hà */}
+            <div className="absolute right-0 w-full lg:w-[60%] h-full opacity-40 lg:opacity-100 z-[5] transition-opacity duration-500 -mt-20">
+              <Hero3D />
+            </div>
+          </div>
+        </div>
 
-      {/* Main Foreground Content */}
-      <div className="relative z-10 w-full pointer-events-none">
-        {/* Hero Section */}
-        <section className="max-w-[1440px] w-full mx-auto px-6 md:px-15 py-12 md:py-20 relative min-h-screen flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 w-full">
+        {/* Main Foreground Content */}
+        <div className="relative z-10 w-full h-full pointer-events-none">
+          {/* Hero Section */}
+          <section className="max-w-[1440px] w-full mx-auto px-6 md:px-12 lg:px-20 xl:px-24 relative h-full flex items-center">
+        {/* Dùng -mt-20 cố định để không bị giật khi kéo cửa sổ */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 w-full -mt-20">
+          
           {/* Left */}
-          <div className="flex flex-col gap-6 lg:gap-8 pointer-events-auto">
+          <div className="flex flex-col gap-6 lg:gap-8 pointer-events-auto relative z-10">
             {/* Badge */}
             <div className="flex items-center gap-2 w-fit">
               <div
@@ -219,6 +235,8 @@ export function HomePage() {
           </div>
         </div>
       </section>
+      </div> {/* Kết thúc thẻ Main Foreground Content */}
+      </div> {/* Kết thúc thẻ hero-event-source */}
 
       {/* Divider */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-8 pointer-events-auto">
@@ -457,7 +475,6 @@ export function HomePage() {
           />
         )}
       </section>
-      </div>
     </div>
   );
 }
