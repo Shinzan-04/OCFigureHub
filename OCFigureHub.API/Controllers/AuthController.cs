@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using OCFigureHub.Application.DTOs.Auth;
 using OCFigureHub.Application.Services;
+using OCFigureHub.API.Services;
 
 namespace OCFigureHub.API.Controllers;
 
@@ -11,16 +12,20 @@ namespace OCFigureHub.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly AuthService _auth;
+    private readonly NotificationService _notif;
 
-    public AuthController(AuthService auth)
+    public AuthController(AuthService auth, NotificationService notif)
     {
         _auth = auth;
+        _notif = notif;
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequest req, CancellationToken ct)
     {
         var res = await _auth.RegisterAsync(req, ct);
+        // Send welcome notification
+        try { await _notif.NotifyWelcome(res.UserId, req.DisplayName ?? req.Email, ct); } catch { }
         return Ok(res);
     }
 

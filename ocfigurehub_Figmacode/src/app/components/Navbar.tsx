@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
-import { Menu, X, Heart, LayoutDashboard, LogOut, Crown, ChevronDown, Download, User, Settings } from 'lucide-react';
+import { Menu, X, Heart, LayoutDashboard, LogOut, Crown, ChevronDown, Download, User, Settings, ShoppingBag } from 'lucide-react';
 import { useSaved } from '../context/SavedContext';
 import { useAuthStore } from '../../store/authStore';
+import { NotificationBell } from './NotificationBell';
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -107,6 +108,9 @@ export function Navbar() {
             )}
           </Link>
 
+          {/* Notification Bell */}
+          {isLoggedIn && <NotificationBell />}
+
           {isLoggedIn && user ? (
             <div className="relative">
               <button
@@ -193,6 +197,14 @@ export function Navbar() {
                       <Download size={15} /> Lịch sử download
                     </Link>
                     <Link
+                      to="/order-history"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors hover:bg-[#1A1A1A]"
+                      style={{ color: '#A1A1A1' }}
+                    >
+                      <ShoppingBag size={15} /> Đơn hàng
+                    </Link>
+                    <Link
                       to="/settings"
                       onClick={() => setUserMenuOpen(false)}
                       className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors hover:bg-[#1A1A1A]"
@@ -253,6 +265,7 @@ export function Navbar() {
               </span>
             )}
           </Link>
+          {isLoggedIn && <NotificationBell />}
           <button onClick={() => setMobileOpen((o) => !o)} className="p-2 rounded-xl" style={{ color: '#A1A1A1' }}>
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>

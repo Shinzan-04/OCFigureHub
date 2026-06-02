@@ -3,6 +3,7 @@ using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Application.Abstractions.Payments;
 using OCFigureHub.Application.DTOs.Payments;
 using OCFigureHub.Application.Services;
+using OCFigureHub.API.Services;
 using OCFigureHub.Domain.Entities;
 using OCFigureHub.Domain.Enums;
 using System.Text.Json;
@@ -17,6 +18,7 @@ public class PaymentsController : ControllerBase
     private readonly OrderService _orders;
     private readonly SubscriptionService _subs;
     private readonly IPaymentTransactionRepository _transactions;
+    private readonly NotificationService _notif;
     private readonly ILogger<PaymentsController> _logger;
 
     public PaymentsController(
@@ -24,12 +26,14 @@ public class PaymentsController : ControllerBase
         OrderService orders,
         SubscriptionService subs,
         IPaymentTransactionRepository transactions,
+        NotificationService notif,
         ILogger<PaymentsController> logger)
     {
         _payos = payos;
         _orders = orders;
         _subs = subs;
         _transactions = transactions;
+        _notif = notif;
         _logger = logger;
     }
 
@@ -120,6 +124,11 @@ public class PaymentsController : ControllerBase
         if (order.PlanId.HasValue)
         {
             await _subs.ActivateSubscriptionAsync(order.UserId, order.PlanId.Value, ct);
+            try { await _notif.NotifySubscription(order.UserId, order.Plan?.Name ?? "Premium", ct); } catch { }
+        }
+        else
+        {
+            try { await _notif.NotifyPaymentSuccess(order.UserId, order.TotalAmount, ct); } catch { }
         }
 
         return Ok(new PaymentCallbackResultDto

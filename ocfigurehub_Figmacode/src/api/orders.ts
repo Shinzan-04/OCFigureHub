@@ -7,6 +7,11 @@ export const ordersApi = {
     return res.data;
   },
 
+  getMyOrders: async (page = 1, pageSize = 10) => {
+    const res = await API.get('/orders/my-orders', { params: { page, pageSize } });
+    return res.data;
+  },
+
   createPayment: async (data: CreatePaymentRequest): Promise<CreatePaymentResponse> => {
     const res = await API.post<CreatePaymentResponse>('/payments/payos-create', data);
     return res.data;

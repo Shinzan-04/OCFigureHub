@@ -17,6 +17,7 @@ import { DownloadHistoryPage } from './pages/DownloadHistoryPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { OrderHistoryPage } from './pages/OrderHistoryPage';
 
 // Route guards
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -63,6 +64,7 @@ export const router = createBrowserRouter([
           { path: 'download-history', Component: DownloadHistoryPage },
           { path: 'settings', Component: SettingsPage },
           { path: 'profile', Component: ProfilePage },
+          { path: 'order-history', Component: OrderHistoryPage },
         ],
       },
       { path: '*', Component: NotFoundPage },

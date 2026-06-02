@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Eye, RefreshCw, Image, Plus, Trash2, Star, Loader2 } from 'lucide-react';
 import { productsApi } from '../../api/products';
+import { adminApi } from '../../api/admin';
+import toast from 'react-hot-toast';
 import type { Product } from '../../types/product';
 
 interface HeroSlide {
@@ -12,14 +14,14 @@ interface HeroSlide {
   bgColor: string;
 }
 
-const initialSlides: HeroSlide[] = [
+const defaultSlides: HeroSlide[] = [
   { id: '1', title: 'Khám Phá Thế Giới 3D Figures', subtitle: 'Hàng nghìn mô hình 3D anime chất lượng cao chờ bạn khám phá', ctaText: 'Khám phá ngay', ctaLink: '/anime', bgColor: '#8B5CF6' },
   { id: '2', title: 'PRO Members Get More', subtitle: 'Truy cập không giới hạn toàn bộ thư viện mô hình PRO', ctaText: 'Nâng cấp PRO', ctaLink: '/upgrade', bgColor: '#06B6D4' },
   { id: '3', title: 'Free Models Mỗi Tuần', subtitle: 'Tải miễn phí các mô hình được tuyển chọn mỗi tuần', ctaText: 'Tải miễn phí', ctaLink: '/free', bgColor: '#10B981' },
 ];
 
 export function AdminContent() {
-  const [slides, setSlides] = useState<HeroSlide[]>(initialSlides);
+  const [slides, setSlides] = useState<HeroSlide[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [featured, setFeatured] = useState<string[]>([]);
   const [newsletter, setNewsletter] = useState({
@@ -29,19 +31,80 @@ export function AdminContent() {
     backgroundColor: '#8B5CF6',
   });
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    productsApi.getAll({ pageSize: 50 }).then(data => {
-      setProducts(data.items || []);
+    const loadAll = async () => {
+      try {
+        const [prodData, slidesData] = await Promise.all([
+          productsApi.getAll({ pageSize: 50 }),
+          adminApi.getCmsByType('hero_slide').catch(() => []),
+        ]);
+        setProducts(prodData.items || []);
+        if (slidesData && slidesData.length > 0) {
+          setSlides(slidesData.map((s: any) => ({
+            id: s.id,
+            title: s.title,
+            subtitle: s.subtitle || '',
+            ctaText: s.ctaText || '',
+            ctaLink: s.ctaLink || '/',
+            bgColor: s.bgColor || '#8B5CF6',
+          })));
+        } else {
+          setSlides(defaultSlides);
+        }
+      } catch { setSlides(defaultSlides); }
       setLoading(false);
-    }).catch(() => setLoading(false));
+    };
+    loadAll();
   }, []);
   const [editingSlide, setEditingSlide] = useState<HeroSlide | null>(null);
 
-  const handleSaveAll = () => {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+  const handleSaveAll = async () => {
+    setSaving(true);
+    try {
+      // Save all slides to CMS API
+      const existingCms = await adminApi.getCmsAll().catch(() => []);
+      const existingSlides = existingCms.filter((c: any) => c.type === 'hero_slide');
+
+      // Delete removed slides
+      for (const ex of existingSlides) {
+        if (!slides.find(s => s.id === ex.id)) {
+          await adminApi.deleteCms(ex.id);
+        }
+      }
+
+      // Create or update
+      for (let i = 0; i < slides.length; i++) {
+        const s = slides[i];
+        const existing = existingSlides.find((e: any) => e.id === s.id);
+        const payload = {
+          type: 'hero_slide',
+          title: s.title,
+          subtitle: s.subtitle,
+          ctaText: s.ctaText,
+          ctaLink: s.ctaLink,
+          bgColor: s.bgColor,
+          sortOrder: i,
+          isEnabled: true,
+        };
+        if (existing) {
+          await adminApi.updateCms(s.id, payload);
+        } else {
+          const res = await adminApi.createCms(payload);
+          slides[i] = { ...s, id: res.id || s.id };
+        }
+      }
+
+      setSaved(true);
+      toast.success('Content saved!');
+      setTimeout(() => setSaved(false), 2000);
+    } catch {
+      toast.error('Save failed');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const updateSlide = (id: string, field: keyof HeroSlide, value: string) => {

@@ -18,6 +18,7 @@ import { useProductDetail } from '../../hooks/useProductDetail';
 import { SkeletonProductCard } from '../components/SkeletonProductCard';
 import { ordersApi } from '../../api/orders';
 import { downloadsApi } from '../../api/downloads';
+import { ReviewSection } from '../components/ReviewSection';
 import toast from 'react-hot-toast';
 
 
@@ -420,6 +421,11 @@ export function ProductDetailPage() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Reviews - Full width below content */}
+        <div className="max-w-[1440px] mx-auto px-6 md:px-8 pb-10">
+          <ReviewSection productId={product.id} />
         </div>
       </div>
     </div>

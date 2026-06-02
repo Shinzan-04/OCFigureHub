@@ -10,6 +10,7 @@ using OCFigureHub.Application.Abstractions.AI;
 using OCFigureHub.Application.Abstractions.Jobs;
 using OCFigureHub.Application.Abstractions.Payments;
 using OCFigureHub.Application.Services;
+using OCFigureHub.API.Services;
 using OCFigureHub.Infrastructure.AI;
 using OCFigureHub.Infrastructure.Payments;
 using OCFigureHub.Infrastructure.Persistence;
@@ -162,6 +163,7 @@ builder.Services.AddScoped<ISavedItemService, SavedItemService>();
 builder.Services.AddScoped<UserProfileService>();
 builder.Services.AddScoped<QuotaResetJob>();
 builder.Services.AddScoped<IAntiLeakService, OCFigureHub.Infrastructure.Repositories.AntiLeakService>();
+builder.Services.AddScoped<NotificationService>();
 
 #endregion
 
@@ -270,10 +272,28 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    // Log connection info
+    var connStr = db.Database.GetConnectionString() ?? "(null)";
+    var maskedConn = System.Text.RegularExpressions.Regex.Replace(
+        connStr, @"(Password|Pwd)\s*=\s*[^;]+", "$1=****", 
+        System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+    Console.WriteLine("======================================================");
+    Console.WriteLine($"[DB] Connection: {maskedConn}");
+    Console.WriteLine("======================================================");
+
     Console.WriteLine("Applying migrations and seeding database...");
-    db.Database.Migrate();
-    DbInitializer.Seed(db);
-    Console.WriteLine("Database initialization complete.");
+    try
+    {
+        db.Database.Migrate();
+        DbInitializer.Seed(db);
+        Console.WriteLine("Database initialization complete.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"[DB ERROR] {ex.GetType().Name}: {ex.Message}");
+        throw;
+    }
 }
 
 #endregion

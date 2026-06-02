@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Tag, X, Package, Loader2 } from 'lucide-react';
-import { productsApi } from '../../api/products';
+import { categoriesApi } from '../../api/analytics';
+import toast from 'react-hot-toast';
 
 interface Category {
   id: string;
@@ -9,7 +10,8 @@ interface Category {
   description: string;
   color: string;
   icon: string;
-  resourceCount: number;
+  productCount: number;
+  isEnabled: boolean;
 }
 
 const colorOptions = ['#8B5CF6', '#10B981', '#F59E0B', '#06B6D4', '#EF4444', '#EC4899'];
@@ -21,56 +23,28 @@ export function AdminCategories() {
   const [editingCat, setEditingCat] = useState<Category | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [form, setForm] = useState({ name: '', slug: '', description: '', color: '#8B5CF6', icon: '🏷️' });
+  const [saving, setSaving] = useState(false);
+
+  const fetchCategories = async () => {
+    try {
+      const data = await categoriesApi.getAllAdmin();
+      setCategories(
+        (data || []).map((c: any) => ({
+          ...c,
+          description: c.description || '',
+          icon: c.icon || '🏷️',
+          productCount: c.productCount || 0,
+          isEnabled: c.isEnabled ?? true,
+        }))
+      );
+    } catch (err) {
+      console.error('Failed to load categories', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await productsApi.getAll({ pageSize: 200 });
-        const products = data.items || [];
-        const catMap = new Map<string, number>();
-        products.forEach(p => {
-          const cat = p.category || 'Other';
-          catMap.set(cat, (catMap.get(cat) || 0) + 1);
-        });
-
-        const defaultMeta: Record<string, { color: string; icon: string; desc: string }> = {
-          anime: { color: '#8B5CF6', icon: '🌸', desc: 'Anime character 3D models from popular series.' },
-          monsters: { color: '#F59E0B', icon: '👾', desc: 'Monster and creature 3D models from various franchises.' },
-          free: { color: '#10B981', icon: '🎁', desc: 'All free resources available to everyone.' },
-        };
-
-        const cats: Category[] = Array.from(catMap.entries()).map(([name, count], i) => {
-          const meta = defaultMeta[name.toLowerCase()] || { color: colorOptions[i % colorOptions.length], icon: '🏷️', desc: '' };
-          return {
-            id: String(i + 1),
-            name: name.charAt(0).toUpperCase() + name.slice(1),
-            slug: name.toLowerCase().replace(/\s/g, '-'),
-            description: meta.desc,
-            color: meta.color,
-            icon: meta.icon,
-            resourceCount: count,
-          };
-        });
-        // Also check free products
-        const freeCount = products.filter(p => p.price === 0).length;
-        if (freeCount > 0 && !catMap.has('free')) {
-          cats.unshift({
-            id: '0',
-            name: 'Free',
-            slug: 'free',
-            description: 'All free resources available to everyone without any cost.',
-            color: '#10B981',
-            icon: '🎁',
-            resourceCount: freeCount,
-          });
-        }
-        setCategories(cats);
-      } catch (err) {
-        console.error('Failed to load categories', err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchCategories();
   }, []);
 
@@ -86,24 +60,41 @@ export function AdminCategories() {
     setShowModal(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.name.trim()) return;
-    if (editingCat) {
-      setCategories(prev => prev.map(c => c.id === editingCat.id ? { ...c, ...form } : c));
-    } else {
-      const newCat: Category = {
-        id: Date.now().toString(),
-        ...form,
-        resourceCount: 0,
-      };
-      setCategories(prev => [...prev, newCat]);
+    setSaving(true);
+    try {
+      if (editingCat) {
+        await categoriesApi.update(editingCat.id, form);
+        toast.success('Cập nhật category thành công');
+      } else {
+        await categoriesApi.create({
+          name: form.name,
+          slug: form.slug || undefined,
+          description: form.description || undefined,
+          icon: form.icon || undefined,
+          color: form.color,
+        });
+        toast.success('Tạo category thành công');
+      }
+      setShowModal(false);
+      await fetchCategories();
+    } catch (err: any) {
+      toast.error(err.response?.data?.error || 'Thao tác thất bại');
+    } finally {
+      setSaving(false);
     }
-    setShowModal(false);
   };
 
-  const handleDelete = (id: string) => {
-    setCategories(prev => prev.filter(c => c.id !== id));
-    setDeleteConfirm(null);
+  const handleDelete = async (id: string) => {
+    try {
+      await categoriesApi.delete(id);
+      toast.success('Đã xoá category');
+      setDeleteConfirm(null);
+      await fetchCategories();
+    } catch {
+      toast.error('Không thể xoá');
+    }
   };
 
   return (
@@ -168,7 +159,7 @@ export function AdminCategories() {
             <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid #1A1A1A' }}>
               <div className="flex items-center gap-1.5">
                 <Package size={14} color="#666" />
-                <span style={{ color: '#666', fontSize: 13 }}>{cat.resourceCount} resources</span>
+                <span style={{ color: '#666', fontSize: 13 }}>{cat.productCount} resources</span>
               </div>
               <div
                 className="w-3 h-3 rounded-full"

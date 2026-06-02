@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OCFigureHub.Application.DTOs.Downloads;
 using OCFigureHub.Application.Services;
+using OCFigureHub.API.Services;
 
 namespace OCFigureHub.API.Controllers;
 
@@ -11,10 +12,12 @@ namespace OCFigureHub.API.Controllers;
 public class DownloadsController : ControllerBase
 {
     private readonly DownloadService _downloadService;
+    private readonly NotificationService _notif;
 
-    public DownloadsController(DownloadService downloadService)
+    public DownloadsController(DownloadService downloadService, NotificationService notif)
     {
         _downloadService = downloadService;
+        _notif = notif;
     }
 
     [Authorize(Roles = "Customer,Admin")]
@@ -31,6 +34,10 @@ public class DownloadsController : ControllerBase
         var userAgent = Request.Headers.UserAgent.ToString();
 
         var result = await _downloadService.RequestTokenAsync(userId, req, ip, userAgent, ct);
+
+        // Send download notification
+        try { await _notif.NotifyDownload(userId, req.ProductId.ToString(), ct); } catch { }
+
         return Ok(result);
     }
 

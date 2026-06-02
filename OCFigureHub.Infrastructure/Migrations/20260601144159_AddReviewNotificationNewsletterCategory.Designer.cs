@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OCFigureHub.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using OCFigureHub.Infrastructure.Persistence;
 namespace OCFigureHub.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260601144159_AddReviewNotificationNewsletterCategory")]
+    partial class AddReviewNotificationNewsletterCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,57 +130,6 @@ namespace OCFigureHub.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ChatSessions");
-                });
-
-            modelBuilder.Entity("OCFigureHub.Domain.Entities.CmsContent", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("BgColor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CtaLink")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CtaText")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("JsonData")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Subtitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Type");
-
-                    b.ToTable("CmsContents");
                 });
 
             modelBuilder.Entity("OCFigureHub.Domain.Entities.DownloadHistory", b =>
@@ -630,38 +582,6 @@ namespace OCFigureHub.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("SavedItems");
-                });
-
-            modelBuilder.Entity("OCFigureHub.Domain.Entities.SiteSetting", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Group")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Group", "Key")
-                        .IsUnique();
-
-                    b.ToTable("SiteSettings");
                 });
 
             modelBuilder.Entity("OCFigureHub.Domain.Entities.Subscription", b =>

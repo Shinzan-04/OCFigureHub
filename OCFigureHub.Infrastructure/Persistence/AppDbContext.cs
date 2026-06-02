@@ -24,6 +24,12 @@ public class AppDbContext : DbContext
     public DbSet<ChatSession> ChatSessions => Set<ChatSession>();
     public DbSet<ChatMessage> ChatMessages => Set<ChatMessage>();
     public DbSet<SavedItem> SavedItems => Set<SavedItem>();
+    public DbSet<Review> Reviews => Set<Review>();
+    public DbSet<Notification> Notifications => Set<Notification>();
+    public DbSet<NewsletterSubscriber> NewsletterSubscribers => Set<NewsletterSubscriber>();
+    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<SiteSetting> SiteSettings => Set<SiteSetting>();
+    public DbSet<CmsContent> CmsContents => Set<CmsContent>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -107,6 +113,52 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<SavedItem>()
             .Property(x => x.SavedAt)
             .HasColumnType("datetime2");
+
+        // Review relationships
+        modelBuilder.Entity<Review>()
+            .HasOne(x => x.User)
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Review>()
+            .HasOne(x => x.Product)
+            .WithMany()
+            .HasForeignKey(x => x.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Review>()
+            .HasIndex(x => new { x.UserId, x.ProductId })
+            .IsUnique(); // 1 user = 1 review per product
+
+        // Notification
+        modelBuilder.Entity<Notification>()
+            .HasOne(x => x.User)
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Notification>()
+            .HasIndex(x => new { x.UserId, x.IsRead });
+
+        // Newsletter
+        modelBuilder.Entity<NewsletterSubscriber>()
+            .HasIndex(x => x.Email)
+            .IsUnique();
+
+        // Category
+        modelBuilder.Entity<Category>()
+            .HasIndex(x => x.Slug)
+            .IsUnique();
+
+        // SiteSetting
+        modelBuilder.Entity<SiteSetting>()
+            .HasIndex(x => new { x.Group, x.Key })
+            .IsUnique();
+
+        // CmsContent
+        modelBuilder.Entity<CmsContent>()
+            .HasIndex(x => x.Type);
 
         // Precision for decimals
         modelBuilder.Entity<Product>().Property(x => x.Price).HasColumnType("decimal(18,2)");
