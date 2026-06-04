@@ -422,12 +422,10 @@ export function ProductDetailPage() {
             </div>
           </div>
         </div>
-
-        {/* Reviews - Full width below content */}
-        <div className="max-w-[1440px] mx-auto px-6 md:px-8 pb-10">
-          <ReviewSection productId={product.id} />
-        </div>
       </div>
+
+      {/* Reviews - Full width below the grid */}
+      <ReviewSection productId={product.id} />
     </div>
   );
 }
