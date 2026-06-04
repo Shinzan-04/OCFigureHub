@@ -323,10 +323,10 @@ function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
       ref={groupRef} 
       position={[0, 0, 0]}
     >
-      <primitive object={processedScenes[0].scene} scale={3.5} visible={modelIndex === 0} />
-      <primitive object={processedScenes[1].scene} scale={3.5} visible={modelIndex === 1} />
-      <primitive object={processedScenes[2].scene} scale={3} visible={modelIndex === 2} />
-      <primitive object={processedScenes[3].scene} scale={3.5} visible={modelIndex === 3} />
+      <primitive object={processedScenes[0].scene} scale={2.5} visible={modelIndex === 0} />
+      <primitive object={processedScenes[1].scene} scale={2.5} visible={modelIndex === 1} />
+      <primitive object={processedScenes[2].scene} scale={2} visible={modelIndex === 2} />
+      <primitive object={processedScenes[3].scene} scale={2.5} visible={modelIndex === 3} />
       {/* Proxy mesh vô hình — chặn toàn bộ tia raycast, giúp click/hover mượt mà không bị khựng */}
       <mesh
         visible={true}
@@ -375,7 +375,7 @@ function Scene({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
 
       {/* Vị trí gốc của mô hình và bệ đứng */}
       <group position={[0.5, -0.5, 0]}>
-        <group scale={1} position={[0, -2.5, 0]}>
+        <group scale={0.8} position={[0, -1.5, 0]}>
           <HolographicPlatform stateRef={stateRef} />
           <ReactiveParticles stateRef={stateRef} />
         </group>
