@@ -91,7 +91,8 @@ builder.Services.AddCors(opt =>
         {
             "http://localhost:5173",
             "http://localhost:3000",
-            "https://ocfigurehub.vercel.app"
+            "https://ocfigurehub.vercel.app",
+            "https://oc-figure-hub.vercel.app"
         };
 
         // Add production frontend URL from environment variable
