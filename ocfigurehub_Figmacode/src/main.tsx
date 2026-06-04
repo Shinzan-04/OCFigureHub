@@ -5,7 +5,7 @@
   import "./styles/index.css";
 
   // TODO: Replace with real Google Client ID
-  const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+  const GOOGLE_CLIENT_ID = "905860478642-clkr6sbjcoccvij6p3tloi1m8uu5arl1.apps.googleusercontent.com";
 
   createRoot(document.getElementById("root")!).render(
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>

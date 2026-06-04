@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 
@@ -11,8 +11,9 @@ export function SignUpPage() {
   const [displayName, setDisplayName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showVerification, setShowVerification] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
   const register = useAuthStore((s) => s.register);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ export function SignUpPage() {
     try {
       const success = await register(email, password, displayName);
       if (success) {
-        navigate('/');
+        setShowVerification(true);
       } else {
         setError('Đăng ký thất bại. Email có thể đã được sử dụng.');
       }
@@ -42,6 +43,51 @@ export function SignUpPage() {
       setLoading(false);
     }
   };
+
+  const handleResend = async () => {
+    setResendLoading(true);
+    try {
+      const { default: API } = await import('../../api/client');
+      await API.post('/auth/resend-verification', { email });
+    } catch { /* silent */ }
+    setResendLoading(false);
+  };
+
+  if (showVerification) {
+    return (
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-6 py-12">
+        <div className="w-full max-w-[420px]">
+          <div
+            className="rounded-2xl border p-8 text-center"
+            style={{ backgroundColor: '#111111', borderColor: '#262626' }}
+          >
+            <div
+              className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+              style={{ background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)' }}
+            >
+              <span style={{ fontSize: '2rem' }}>✉️</span>
+            </div>
+            <h2 className="text-xl font-bold text-white mb-2">Kiểm tra email của bạn</h2>
+            <p className="text-sm mb-6" style={{ color: '#A1A1A1', lineHeight: 1.6 }}>
+              Chúng tôi đã gửi một link xác thực đến <strong style={{ color: '#8B5CF6' }}>{email}</strong>.
+              Vui lòng kiểm tra hộp thư (và spam) để xác thực tài khoản.
+            </p>
+            <button
+              onClick={handleResend}
+              disabled={resendLoading}
+              className="w-full py-3 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 disabled:opacity-50 mb-3"
+              style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
+            >
+              {resendLoading ? 'Đang gửi lại...' : 'Gửi lại email xác thực'}
+            </button>
+            <Link to="/sign-in" className="text-sm font-medium hover:opacity-80" style={{ color: '#A1A1A1' }}>
+              Quay lại đăng nhập
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-6 py-12">

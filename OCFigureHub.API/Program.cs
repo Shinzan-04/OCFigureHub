@@ -146,6 +146,7 @@ builder.Services.AddScoped<IQuotaRepository, QuotaRepository>();
 builder.Services.AddScoped<IDownloadRepository, DownloadRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<ISavedItemRepository, SavedItemRepository>();
+builder.Services.AddScoped<ISiteSettingRepository, SiteSettingRepository>();
 
 #endregion
 

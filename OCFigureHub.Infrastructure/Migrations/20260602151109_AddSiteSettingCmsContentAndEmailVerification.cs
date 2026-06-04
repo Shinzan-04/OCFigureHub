@@ -6,11 +6,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OCFigureHub.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddSiteSettingCmsContent : Migration
+    public partial class AddSiteSettingCmsContentAndEmailVerification : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<bool>(
+                name: "IsEmailVerified",
+                table: "Users",
+                type: "bit",
+                nullable: false,
+                defaultValue: false);
+
+            migrationBuilder.AddColumn<string>(
+                name: "VerificationToken",
+                table: "Users",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "VerificationTokenExpiry",
+                table: "Users",
+                type: "datetime2",
+                nullable: true);
+
             migrationBuilder.CreateTable(
                 name: "CmsContents",
                 columns: table => new
@@ -70,6 +89,18 @@ namespace OCFigureHub.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "SiteSettings");
+
+            migrationBuilder.DropColumn(
+                name: "IsEmailVerified",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
+                name: "VerificationToken",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
+                name: "VerificationTokenExpiry",
+                table: "Users");
         }
     }
 }

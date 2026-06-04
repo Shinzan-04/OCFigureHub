@@ -16,4 +16,14 @@ public class MockEmailService : IEmailService
         Console.WriteLine("======================================================");
         return Task.CompletedTask;
     }
+
+    public Task SendVerificationEmailAsync(string toEmail, string verificationLink, CancellationToken ct = default)
+    {
+        Console.WriteLine("======================================================");
+        Console.WriteLine($"MOCK EMAIL SENT TO: {toEmail}");
+        Console.WriteLine($"SUBJECT: Email Verification");
+        Console.WriteLine($"BODY: Please click the following link to verify your email:\n{verificationLink}");
+        Console.WriteLine("======================================================");
+        return Task.CompletedTask;
+    }
 }

@@ -56,4 +56,43 @@ public class SmtpEmailService : IEmailService
 
         await client.SendMailAsync(mailMessage, ct);
     }
+
+    public async Task SendVerificationEmailAsync(string toEmail, string verificationLink, CancellationToken ct = default)
+    {
+        var host = _config["EmailSettings:SmtpHost"];
+        var portStr = _config["EmailSettings:SmtpPort"];
+        var user = _config["EmailSettings:SmtpUser"];
+        var pass = _config["EmailSettings:SmtpPass"];
+        var from = _config["EmailSettings:FromEmail"];
+
+        if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
+        {
+            throw new System.Exception("Email settings are not configured properly in appsettings.json.");
+        }
+
+        int port = int.TryParse(portStr, out var p) ? p : 587;
+
+        using var client = new SmtpClient(host, port)
+        {
+            Credentials = new NetworkCredential(user, pass),
+            EnableSsl = true
+        };
+
+        var mailMessage = new MailMessage
+        {
+            From = new MailAddress(from ?? user, "OC Figure Hub"),
+            Subject = "Xác thực tài khoản - OC Figure Hub",
+            Body = $@"
+                <h3>Chào mừng bạn đến với OC Figure Hub!</h3>
+                <p>Vui lòng click vào link bên dưới để xác thực email của bạn:</p>
+                <p><a href='{verificationLink}'>{verificationLink}</a></p>
+                <br/>
+                <p>Link này sẽ hết hạn sau 24 giờ.</p>
+            ",
+            IsBodyHtml = true
+        };
+        mailMessage.To.Add(toEmail);
+
+        await client.SendMailAsync(mailMessage, ct);
+    }
 }

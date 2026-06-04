@@ -12,8 +12,8 @@ using OCFigureHub.Infrastructure.Persistence;
 namespace OCFigureHub.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260602011818_AddSiteSettingCmsContent")]
-    partial class AddSiteSettingCmsContent
+    [Migration("20260602151109_AddSiteSettingCmsContentAndEmailVerification")]
+    partial class AddSiteSettingCmsContentAndEmailVerification
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -757,6 +757,9 @@ namespace OCFigureHub.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("IsEmailVerified")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -768,6 +771,12 @@ namespace OCFigureHub.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("VerificationToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("VerificationTokenExpiry")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");

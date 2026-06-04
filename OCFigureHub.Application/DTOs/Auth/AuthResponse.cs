@@ -1,4 +1,4 @@
-﻿namespace OCFigureHub.Application.DTOs.Auth;
+namespace OCFigureHub.Application.DTOs.Auth;
 
 public class AuthResponse
 {
@@ -7,4 +7,6 @@ public class AuthResponse
     public string Email { get; set; } = default!;
     public string DisplayName { get; set; } = default!;
     public string Role { get; set; } = default!;
+    public bool IsEmailVerified { get; set; }
+    public bool RequiresVerification { get; set; }
 }

@@ -19,12 +19,17 @@ public class OrderService
         var product = await _orders.GetEnabledProductAsync(req.ProductId, ct);
         if (product == null) throw new Exception("Product not found/disabled");
 
+        // Free products are marked as Paid immediately
+        // Paid products start as Pending, only marked Paid after payment callback
+        var isFree = product.Price <= 0;
+
         var order = new Order
         {
             Id = Guid.NewGuid(),
             UserId = userId,
-            Status = OrderStatus.Paid, // PAID NGAY để demo chấm đồ án
+            Status = isFree ? OrderStatus.Paid : OrderStatus.Pending,
             TotalAmount = product.Price,
+            PaidAt = isFree ? DateTime.UtcNow : null,
             CreatedAt = DateTime.UtcNow
         };
 

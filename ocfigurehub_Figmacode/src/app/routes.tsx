@@ -18,6 +18,7 @@ import { SettingsPage } from './pages/SettingsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { OrderHistoryPage } from './pages/OrderHistoryPage';
+import VerifyEmailPage from './pages/VerifyEmailPage';
 
 // Route guards
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -48,6 +49,7 @@ export const router = createBrowserRouter([
       { path: 'sign-up', Component: SignUpPage },
       { path: 'forgot-password', Component: ForgotPasswordPage },
       { path: 'reset-password', Component: ResetPasswordPage },
+      { path: 'verify-email', Component: VerifyEmailPage },
       { path: 'free', Component: CategoryPage },
       { path: 'anime', Component: CategoryPage },
       { path: 'monsters', Component: CategoryPage },

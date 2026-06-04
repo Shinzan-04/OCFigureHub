@@ -3,7 +3,9 @@ using OCFigureHub.Application.DTOs.Auth;
 using OCFigureHub.Domain.Entities;
 using OCFigureHub.Domain.Enums;
 using Google.Apis.Auth;
+using System.Security.Cryptography;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace OCFigureHub.Application.Services;
 
@@ -13,17 +15,20 @@ public class AuthService
     private readonly IPasswordHasher _hasher;
     private readonly IJwtTokenService _jwt;
     private readonly IEmailService _email;
+    private readonly IConfiguration _config;
 
     public AuthService(
         IUserRepository users, 
         IPasswordHasher hasher, 
         IJwtTokenService jwt,
-        IEmailService email)
+        IEmailService email,
+        IConfiguration config)
     {
         _users = users;
         _hasher = hasher;
         _jwt = jwt;
         _email = email;
+        _config = config;
     }
 
     public async Task ForgotPasswordAsync(ForgotPasswordRequest req, CancellationToken ct)
@@ -58,6 +63,8 @@ public class AuthService
         var exists = await _users.GetByEmailAsync(req.Email, ct);
         if (exists != null) throw new Exception("Email already exists");
 
+        var verificationToken = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
+
         var user = new User
         {
             Id = Guid.NewGuid(),
@@ -65,10 +72,21 @@ public class AuthService
             DisplayName = req.DisplayName.Trim(),
             Role = req.Role,
             PasswordHash = _hasher.Hash(req.Password),
+            IsEmailVerified = false,
+            VerificationToken = verificationToken,
+            VerificationTokenExpiry = DateTime.UtcNow.AddHours(24)
         };
 
         await _users.AddAsync(user, ct);
         await _users.SaveChangesAsync(ct);
+
+        // Send verification email (best-effort, don't block registration)
+        try
+        {
+            var verifyLink = $"http://localhost:5173/verify-email?token={verificationToken}&email={Uri.EscapeDataString(user.Email)}";
+            await _email.SendVerificationEmailAsync(user.Email, verifyLink, ct);
+        }
+        catch { /* log but don't fail registration */ }
 
         var token = _jwt.Generate(user);
 
@@ -78,7 +96,9 @@ public class AuthService
             UserId = user.Id,
             Email = user.Email,
             DisplayName = user.DisplayName,
-            Role = user.Role.ToString()
+            Role = user.Role.ToString(),
+            IsEmailVerified = false,
+            RequiresVerification = true
         };
     }
 
@@ -98,8 +118,40 @@ public class AuthService
             UserId = user.Id,
             Email = user.Email,
             DisplayName = user.DisplayName,
-            Role = user.Role.ToString()
+            Role = user.Role.ToString(),
+            IsEmailVerified = user.IsEmailVerified,
+            RequiresVerification = !user.IsEmailVerified
         };
+    }
+
+    public async Task<bool> VerifyEmailAsync(string email, string verificationToken, CancellationToken ct)
+    {
+        var user = await _users.GetByEmailAsync(email.Trim().ToLower(), ct);
+        if (user == null) return false;
+        if (user.IsEmailVerified) return true; // already verified
+        if (user.VerificationToken != verificationToken) return false;
+        if (user.VerificationTokenExpiry < DateTime.UtcNow) return false;
+
+        user.IsEmailVerified = true;
+        user.VerificationToken = null;
+        user.VerificationTokenExpiry = null;
+        await _users.SaveChangesAsync(ct);
+        return true;
+    }
+
+    public async Task ResendVerificationAsync(string email, CancellationToken ct)
+    {
+        var user = await _users.GetByEmailAsync(email.Trim().ToLower(), ct);
+        if (user == null) return; // silent
+        if (user.IsEmailVerified) return;
+
+        var newToken = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
+        user.VerificationToken = newToken;
+        user.VerificationTokenExpiry = DateTime.UtcNow.AddHours(24);
+        await _users.SaveChangesAsync(ct);
+
+        var verifyLink = $"http://localhost:5173/verify-email?token={newToken}&email={Uri.EscapeDataString(user.Email)}";
+        await _email.SendVerificationEmailAsync(user.Email, verifyLink, ct);
     }
 
     public async Task<AuthResponse> LoginWithGoogleAsync(GoogleAuthRequest req, CancellationToken ct)
@@ -107,8 +159,11 @@ public class AuthService
         GoogleJsonWebSignature.Payload payload;
         try
         {
-            // Validate the Google JWT credential
-            payload = await GoogleJsonWebSignature.ValidateAsync(req.Credential);
+            var settings = new GoogleJsonWebSignature.ValidationSettings
+            {
+                Audience = new[] { _config["Google:ClientId"] }
+            };
+            payload = await GoogleJsonWebSignature.ValidateAsync(req.Credential, settings);
         }
         catch (InvalidJwtException)
         {
@@ -118,7 +173,6 @@ public class AuthService
         var email = payload.Email.Trim().ToLower();
         var user = await _users.GetByEmailAsync(email, ct);
 
-        // If user doesn't exist, create a new one automatically
         if (user == null)
         {
             user = new User
@@ -127,7 +181,8 @@ public class AuthService
                 Email = email,
                 DisplayName = payload.Name ?? "Google User",
                 Role = Role.Customer,
-                PasswordHash = _hasher.Hash(Guid.NewGuid().ToString()) // random password
+                PasswordHash = _hasher.Hash(Guid.NewGuid().ToString()),
+                IsEmailVerified = true // Google already verified email
             };
 
             await _users.AddAsync(user, ct);
@@ -142,7 +197,8 @@ public class AuthService
             UserId = user.Id,
             Email = user.Email,
             DisplayName = user.DisplayName,
-            Role = user.Role.ToString()
+            Role = user.Role.ToString(),
+            IsEmailVerified = user.IsEmailVerified
         };
     }
 

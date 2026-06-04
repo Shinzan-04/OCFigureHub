@@ -83,4 +83,29 @@ public class AuthController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
+
+    [HttpGet("verify-email")]
+    public async Task<IActionResult> VerifyEmail([FromQuery] string token, [FromQuery] string email, CancellationToken ct)
+    {
+        if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(email))
+            return BadRequest(new { error = "Token and email are required." });
+
+        var success = await _auth.VerifyEmailAsync(email, token, ct);
+        if (!success)
+            return BadRequest(new { error = "Invalid or expired verification link." });
+
+        return Ok(new { message = "Email verified successfully!" });
+    }
+
+    [HttpPost("resend-verification")]
+    public async Task<IActionResult> ResendVerification([FromBody] ResendVerificationRequest req, CancellationToken ct)
+    {
+        await _auth.ResendVerificationAsync(req.Email, ct);
+        return Ok(new { message = "If the email is registered and unverified, a new verification link will be sent." });
+    }
+}
+
+public class ResendVerificationRequest
+{
+    public string Email { get; set; } = default!;
 }

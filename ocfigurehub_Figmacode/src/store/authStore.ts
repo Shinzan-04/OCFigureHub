@@ -121,7 +121,7 @@ export const useAuthStore = create<AuthState>()(
 
       register: async (email: string, password: string, displayName: string): Promise<boolean> => {
         try {
-          const res = await authApi.register({ email, password, displayName, role: 0 });
+          const res = await authApi.register({ email, password, displayName, role: 1 });
           try {
             const payload = jwtDecode<JwtPayload>(res.accessToken);
             const user: AuthUser = {
