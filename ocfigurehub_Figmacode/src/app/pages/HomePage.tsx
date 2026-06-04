@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Search, Sparkles, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Search, Sparkles, ChevronLeft, ChevronRight, X, ArrowUpDown, Check, SlidersHorizontal, ChevronUp } from 'lucide-react';
 import { useProducts } from '../../hooks/useProducts';
 import { ProductCard } from '../components/ProductCard';
 import { HeroCarousel } from '../components/HeroCarousel';
@@ -7,7 +7,6 @@ import { SkeletonProductCard } from '../components/SkeletonProductCard';
 import { EmptyState } from '../components/EmptyState';
 import type { ProductQueryParams } from '../../types/pagination';
 import Hero3D from '../components/Hero3D';
-import InteractiveGalaxy from '../components/InteractiveGalaxy';
 
 const CATEGORIES = [
   { key: '', label: 'All' },
@@ -61,7 +60,27 @@ export function HomePage() {
   const [license, setLicense] = useState('');
   const [sort, setSort] = useState('newest');
   const [page, setPage] = useState(1);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
   const pageSize = 12;
+
+  const activeFilterCount = [
+    priceRange !== 'all' ? 1 : 0,
+    format !== '' ? 1 : 0,
+    license !== '' ? 1 : 0,
+  ].reduce((a, b) => a + b, 0);
+
+  // Close popovers on outside click
+  const filterRef = useRef<HTMLDivElement>(null);
+  const sortRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (filterRef.current && !filterRef.current.contains(e.target as Node)) setFilterOpen(false);
+      if (sortRef.current && !sortRef.current.contains(e.target as Node)) setSortOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
 
   // Debounce search
   useEffect(() => {
@@ -120,10 +139,13 @@ export function HomePage() {
         ĐỒNG THỜI nó cũng ôm trọn phần Chữ phía trên, để sự kiện rê chuột vào chữ vẫn được lọt xuống ngân hà.
       */}
       <div id="hero-event-source" className="relative w-full h-screen z-0">
-        {/* 3D Background Layers */}
-        <div className="absolute inset-0 z-0 h-full">
-          <InteractiveGalaxy />
-        </div>
+        {/* Dark gradient background */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            background: 'radial-gradient(ellipse at 60% 40%, #1a1a2e 0%, #0a0a0a 50%, #050505 100%)',
+          }}
+        />
         
         {/* Background 3D Model - Đặt trong hộp 1440px để cân bằng tuyệt đối với chữ */}
         <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
@@ -243,155 +265,137 @@ export function HomePage() {
         <div className="border-t" style={{ borderColor: '#262626' }} />
       </div>
 
-      {/* Filters Section */}
-      <section className="max-w-[1440px] mx-auto px-6 md:px-8 py-8 pointer-events-auto">
-        <div className="flex flex-col gap-4">
-          {/* Category Filter */}
-          <div>
-            <label className="text-xs font-medium mb-2 block" style={{ color: '#A1A1A1' }}>
-              Category
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat.key}
-                  onClick={() => {
-                    setCategory(cat.key);
-                    handleFilterChange();
-                  }}
-                  className="px-4 py-2 rounded-xl text-sm font-medium border transition-all duration-200"
-                  style={{
-                    backgroundColor: category === cat.key ? '#8B5CF6' : '#111111',
-                    borderColor: category === cat.key ? '#8B5CF6' : '#262626',
-                    color: category === cat.key ? '#FFFFFF' : '#A1A1A1',
-                  }}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
+      {/* ======================== FILTERS BAR ======================== */}
+      <section className="max-w-[1440px] mx-auto px-6 md:px-8 pointer-events-auto py-2">
+        <div className="flex items-center gap-3 flex-wrap">
+
+          {/* Category chips */}
+          <div className="flex items-center gap-1 p-1 rounded-xl border shrink-0" style={{ borderColor: '#262626', backgroundColor: '#0d0d0d' }}>
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat.key}
+                onClick={() => { setCategory(cat.key); handleFilterChange(); }}
+                className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap"
+                style={{
+                  backgroundColor: category === cat.key ? '#8B5CF6' : 'transparent',
+                  color: category === cat.key ? '#FFFFFF' : '#A1A1AA',
+                }}
+              >
+                {cat.label}
+              </button>
+            ))}
           </div>
 
-          {/* Price, Format, License, Sort in one row */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {/* Price Range */}
-            <div>
-              <label className="text-xs font-medium mb-2 block" style={{ color: '#A1A1A1' }}>
-                Price Range
-              </label>
-              <select
-                value={priceRange}
-                onChange={(e) => {
-                  setPriceRange(e.target.value);
-                  handleFilterChange();
-                }}
-                className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border transition-all duration-200"
+          {/* Filters + Sort + Clear — right side */}
+          <div className="flex items-center gap-2 ml-auto">
+            {/* Filters */}
+            <div ref={filterRef} className="relative">
+              <button
+                onClick={() => { setFilterOpen(!filterOpen); setSortOpen(false); }}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border transition-all duration-150"
                 style={{
-                  backgroundColor: '#111111',
-                  borderColor: '#262626',
-                  color: '#FFFFFF',
+                  backgroundColor: filterOpen ? '#8B5CF620' : '#0d0d0d',
+                  borderColor: filterOpen || activeFilterCount > 0 ? '#8B5CF6' : '#262626',
+                  color: activeFilterCount > 0 ? '#FFFFFF' : '#A1A1AA',
                 }}
               >
-                {PRICE_RANGES.map((pr) => (
-                  <option key={pr.key} value={pr.key}>
-                    {pr.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+                <SlidersHorizontal size={15} />
+                Filters
+                {activeFilterCount > 0 && (
+                  <span className="px-2 rounded-full text-xs font-bold leading-none" style={{ backgroundColor: '#8B5CF6', color: '#fff', minWidth: '20px', height: '20px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {activeFilterCount}
+                  </span>
+                )}
+              </button>
 
-            {/* Format */}
-            <div>
-              <label className="text-xs font-medium mb-2 block" style={{ color: '#A1A1A1' }}>
-                Format
-              </label>
-              <select
-                value={format}
-                onChange={(e) => {
-                  setFormat(e.target.value);
-                  handleFilterChange();
-                }}
-                className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border transition-all duration-200"
-                style={{
-                  backgroundColor: '#111111',
-                  borderColor: '#262626',
-                  color: '#FFFFFF',
-                }}
-              >
-                {FORMATS.map((fmt) => (
-                  <option key={fmt.key} value={fmt.key}>
-                    {fmt.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* License */}
-            <div>
-              <label className="text-xs font-medium mb-2 block" style={{ color: '#A1A1A1' }}>
-                License
-              </label>
-              <select
-                value={license}
-                onChange={(e) => {
-                  setLicense(e.target.value);
-                  handleFilterChange();
-                }}
-                className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border transition-all duration-200"
-                style={{
-                  backgroundColor: '#111111',
-                  borderColor: '#262626',
-                  color: '#FFFFFF',
-                }}
-              >
-                {LICENSE_OPTIONS.map((lic) => (
-                  <option key={lic.key} value={lic.key}>
-                    {lic.label}
-                  </option>
-                ))}
-              </select>
+              {filterOpen && (
+                <div className="absolute top-full right-0 mt-2 w-96 rounded-2xl border shadow-2xl z-50 overflow-hidden" style={{ backgroundColor: '#111111', borderColor: '#262626' }}>
+                  <div className="p-5 space-y-5">
+                    <div>
+                      <div className="text-[11px] font-semibold uppercase tracking-wider mb-2.5" style={{ color: '#6b7280' }}>Price</div>
+                      <div className="flex flex-wrap gap-2">
+                        {PRICE_RANGES.map((opt) => (
+                          <button key={opt.key} onClick={() => { setPriceRange(opt.key); handleFilterChange(); }}
+                            className="px-4 py-2 rounded-full text-sm font-medium border transition-all duration-150"
+                            style={{ backgroundColor: priceRange === opt.key ? '#8B5CF6' : 'transparent', borderColor: priceRange === opt.key ? '#8B5CF6' : '#333333', color: priceRange === opt.key ? '#fff' : '#a1a1aa' }}>
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-semibold uppercase tracking-wider mb-2.5" style={{ color: '#6b7280' }}>Format</div>
+                      <div className="flex flex-wrap gap-2">
+                        {FORMATS.map((opt) => (
+                          <button key={opt.key} onClick={() => { setFormat(opt.key); handleFilterChange(); }}
+                            className="px-4 py-2 rounded-full text-sm font-medium border transition-all duration-150"
+                            style={{ backgroundColor: format === opt.key ? '#8B5CF6' : 'transparent', borderColor: format === opt.key ? '#8B5CF6' : '#333333', color: format === opt.key ? '#fff' : '#a1a1aa' }}>
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-semibold uppercase tracking-wider mb-2.5" style={{ color: '#6b7280' }}>License</div>
+                      <div className="flex flex-wrap gap-2">
+                        {LICENSE_OPTIONS.map((opt) => (
+                          <button key={opt.key} onClick={() => { setLicense(opt.key); handleFilterChange(); }}
+                            className="px-4 py-2 rounded-full text-sm font-medium border transition-all duration-150"
+                            style={{ backgroundColor: license === opt.key ? '#8B5CF6' : 'transparent', borderColor: license === opt.key ? '#8B5CF6' : '#333333', color: license === opt.key ? '#fff' : '#a1a1aa' }}>
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between p-4 border-t" style={{ borderColor: '#1f1f1f' }}>
+                    <span className="text-sm" style={{ color: '#a1a1aa' }}>{activeFilterCount} filter{activeFilterCount !== 1 ? 's' : ''} active</span>
+                    <button onClick={() => { setPriceRange('all'); setFormat(''); setLicense(''); handleFilterChange(); }} className="text-sm font-medium transition-colors hover:underline" style={{ color: '#8B5CF6' }}>Reset all</button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Sort */}
-            <div>
-              <label className="text-xs font-medium mb-2 block" style={{ color: '#A1A1A1' }}>
-                Sort By
-              </label>
-              <select
-                value={sort}
-                onChange={(e) => {
-                  setSort(e.target.value);
-                  handleFilterChange();
-                }}
-                className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border transition-all duration-200"
+            <div ref={sortRef} className="relative">
+              <button
+                onClick={() => { setSortOpen(!sortOpen); setFilterOpen(false); }}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border transition-all duration-150"
                 style={{
-                  backgroundColor: '#111111',
-                  borderColor: '#262626',
+                  backgroundColor: sortOpen ? '#8B5CF620' : '#0d0d0d',
+                  borderColor: sortOpen ? '#8B5CF6' : '#262626',
                   color: '#FFFFFF',
                 }}
               >
-                {SORT_OPTIONS.map((s) => (
-                  <option key={s.key} value={s.key}>
-                    {s.label}
-                  </option>
-                ))}
-              </select>
+                <ArrowUpDown size={15} style={{ color: '#A1A1AA' }} />
+                <span style={{ color: '#A1A1AA' }}>Sort:</span>
+                <span>{SORT_OPTIONS.find(s => s.key === sort)?.label}</span>
+              </button>
+
+              {sortOpen && (
+                <div className="absolute top-full right-0 mt-2 w-60 rounded-2xl border shadow-2xl z-50 overflow-hidden" style={{ backgroundColor: '#111111', borderColor: '#262626' }}>
+                  <div className="p-1.5">
+                    {SORT_OPTIONS.map((s) => (
+                      <button key={s.key} onClick={() => { setSort(s.key); setSortOpen(false); handleFilterChange(); }}
+                        className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150"
+                        style={{ backgroundColor: sort === s.key ? '#8B5CF620' : 'transparent', color: sort === s.key ? '#fff' : '#a1a1aa' }}
+                        onMouseEnter={(e) => { if (sort !== s.key) e.currentTarget.style.backgroundColor = '#1a1a1a'; }}
+                        onMouseLeave={(e) => { if (sort !== s.key) e.currentTarget.style.backgroundColor = 'transparent'; }}>
+                        {s.label}
+                        {sort === s.key && <Check size={15} style={{ color: '#8B5CF6' }} />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Clear Filters */}
-            <div className="flex items-end">
-              <button
-                onClick={handleClearFilters}
-                className="w-full px-4 py-2.5 rounded-xl text-sm font-medium border transition-all duration-200 hover:border-[#8B5CF6]"
-                style={{
-                  backgroundColor: '#111111',
-                  borderColor: '#262626',
-                  color: '#A1A1A1',
-                }}
-              >
-                Clear Filters
+            {/* Clear */}
+            {activeFilterCount > 0 && (
+              <button onClick={handleClearFilters} className="px-4 py-2 rounded-xl text-sm font-medium transition-colors hover:text-red-400" style={{ color: '#A1A1AA' }}>
+                Clear
               </button>
-            </div>
+            )}
           </div>
         </div>
       </section>
