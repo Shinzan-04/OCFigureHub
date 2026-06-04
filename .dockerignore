@@ -1,0 +1,12 @@
+**/bin
+**/obj
+**/node_modules
+**/.git
+**/.vs
+**/.vscode
+**/dist
+**/out
+*.md
+.env
+.env.*
+ocfigurehub_Figmacode/

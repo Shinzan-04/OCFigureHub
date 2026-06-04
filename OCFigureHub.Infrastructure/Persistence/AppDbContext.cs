@@ -112,7 +112,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<SavedItem>()
             .Property(x => x.SavedAt)
-            .HasColumnType("datetime2");
+            .HasColumnType("timestamp with time zone");
 
         // Review relationships
         modelBuilder.Entity<Review>()
@@ -161,11 +161,11 @@ public class AppDbContext : DbContext
             .HasIndex(x => x.Type);
 
         // Precision for decimals
-        modelBuilder.Entity<Product>().Property(x => x.Price).HasColumnType("decimal(18,2)");
-        modelBuilder.Entity<Order>().Property(x => x.TotalAmount).HasColumnType("decimal(18,2)");
-        modelBuilder.Entity<OrderItem>().Property(x => x.UnitPrice).HasColumnType("decimal(18,2)");
-        modelBuilder.Entity<PaymentTransaction>().Property(x => x.Amount).HasColumnType("decimal(18,2)");
-        modelBuilder.Entity<SubscriptionPlan>().Property(x => x.MonthlyPrice).HasColumnType("decimal(18,2)");
+        modelBuilder.Entity<Product>().Property(x => x.Price).HasColumnType("numeric(18,2)");
+        modelBuilder.Entity<Order>().Property(x => x.TotalAmount).HasColumnType("numeric(18,2)");
+        modelBuilder.Entity<OrderItem>().Property(x => x.UnitPrice).HasColumnType("numeric(18,2)");
+        modelBuilder.Entity<PaymentTransaction>().Property(x => x.Amount).HasColumnType("numeric(18,2)");
+        modelBuilder.Entity<SubscriptionPlan>().Property(x => x.MonthlyPrice).HasColumnType("numeric(18,2)");
 
         base.OnModelCreating(modelBuilder);
     }

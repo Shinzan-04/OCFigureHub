@@ -22,6 +22,9 @@ using System.Text;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
 
+// PostgreSQL: Allow DateTime with Kind=Unspecified/Local (legacy timestamp behavior)
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 #region Controllers + Swagger
@@ -84,11 +87,21 @@ builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(
-                "http://localhost:5173",
-                "http://localhost:3000",
-                "https://ocfigurehub.vercel.app"  // production URL
-              )
+        var origins = new List<string>
+        {
+            "http://localhost:5173",
+            "http://localhost:3000",
+            "https://ocfigurehub.vercel.app"
+        };
+
+        // Add production frontend URL from environment variable
+        var corsOrigin = builder.Configuration["CORS_ORIGIN"];
+        if (!string.IsNullOrEmpty(corsOrigin))
+        {
+            origins.Add(corsOrigin);
+        }
+
+        policy.WithOrigins(origins.ToArray())
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -128,7 +141,7 @@ builder.Services.AddRateLimiter(options =>
 #region DbContext
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
 #endregion
@@ -313,7 +326,11 @@ app.UseCors("AllowFrontend");
 
 app.UseRateLimiter();
 
-app.UseHttpsRedirection();
+// Render handles SSL at reverse proxy — skip HTTPS redirect in production
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthentication();
 app.UseAuthorization();
