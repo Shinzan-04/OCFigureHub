@@ -99,9 +99,7 @@ function AdminLayoutInner() {
         {/* Logo */}
         <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #262626' }}>
           <Link to="/" className="flex items-center gap-2">
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg" style={{ background: '#8B5CF6' }}>
-              <Box size={16} color="#fff" />
-            </div>
+            <img src="/logo.png" alt="OC Figure Hub" className="h-8 w-auto" style={{ filter: 'invert(1)' }} />
             <div>
               <span style={{ color: '#fff', fontWeight: 700, fontSize: 14 }}>OC Figure</span>
               <span style={{ color: '#8B5CF6', fontWeight: 700, fontSize: 14 }}> Hub</span>

@@ -30,12 +30,7 @@ export function ForgotPasswordPage() {
       <div className="w-full max-w-[420px]">
         {/* Logo */}
         <div className="flex flex-col items-center gap-3 mb-8">
-          <div
-            className="w-12 h-12 rounded-2xl flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)' }}
-          >
-            <span className="text-white font-black text-lg">OC</span>
-          </div>
+          <img src="/logo.png" alt="OC Figure Hub" className="h-12 w-auto" style={{ filter: 'invert(1)' }} />
           <div className="text-center">
             <h1 className="text-2xl font-black text-white">Khôi phục mật khẩu</h1>
             <p className="text-sm mt-1" style={{ color: '#A1A1A1' }}>

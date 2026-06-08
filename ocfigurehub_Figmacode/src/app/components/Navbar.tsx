@@ -43,12 +43,7 @@ export function Navbar() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)' }}
-          >
-            <span className="text-white text-xs font-black">OC</span>
-          </div>
+          <img src="/logo.png" alt="OC Figure Hub" className="h-8 w-auto" style={{ filter: 'invert(1)' }} />
           <span className="text-white font-bold text-base hidden sm:block">
             OC Figure <span style={{ color: '#8B5CF6' }}>HUB</span>
           </span>

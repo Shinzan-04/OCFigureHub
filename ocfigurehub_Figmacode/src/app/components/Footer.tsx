@@ -36,12 +36,7 @@ export function Footer() {
           <div className="flex flex-col gap-6">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 w-fit">
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)' }}
-              >
-                <span className="text-white font-black text-sm">OC</span>
-              </div>
+              <img src="/logo.png" alt="OC Figure Hub" className="h-9 w-auto" style={{ filter: 'invert(1)' }} />
               <span className="text-white font-bold text-lg">
                 OC Figure <span style={{ color: '#8B5CF6' }}>HUB</span>
               </span>
