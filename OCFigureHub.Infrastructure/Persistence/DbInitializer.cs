@@ -32,9 +32,9 @@ public static class DbInitializer
         // Seed subscription plans
         var targetPlans = new List<SubscriptionPlan>
         {
-            new SubscriptionPlan { Name = "Free", MonthlyPrice = 0, MonthlyQuotaDownloads = 3, IsEnabled = true },
-            new SubscriptionPlan { Name = "Pro", MonthlyPrice = 250_000m, MonthlyQuotaDownloads = 20, IsEnabled = true },
-            new SubscriptionPlan { Name = "Ultimate", MonthlyPrice = 620_000m, MonthlyQuotaDownloads = 9999, IsEnabled = true }
+            new SubscriptionPlan { Name = "Free", MonthlyPrice = 0, MonthlyQuotaDownloads = 0, IsEnabled = true },
+            new SubscriptionPlan { Name = "Pro", MonthlyPrice = 250_000m, MonthlyQuotaDownloads = 3, IsEnabled = true },
+            new SubscriptionPlan { Name = "Ultimate", MonthlyPrice = 620_000m, MonthlyQuotaDownloads = 7, IsEnabled = true }
         };
 
         foreach (var p in targetPlans)

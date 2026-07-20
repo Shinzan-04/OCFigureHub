@@ -36,13 +36,18 @@ public class DracoModelOptimizer : IModelOptimizer
 
             using (var process = Process.Start(startInfo))
             {
-                if (process == null) return input;
+                if (process == null)
+                {
+                    if (input.CanSeek) input.Position = 0;
+                    return input;
+                }
                 
                 await process.WaitForExitAsync(ct);
                 
                 if (process.ExitCode != 0)
                 {
                     // If compression fails (e.g. node not found), fallback to original
+                    if (input.CanSeek) input.Position = 0;
                     return input;
                 }
             }
@@ -58,12 +63,14 @@ public class DracoModelOptimizer : IModelOptimizer
                 return ms;
             }
 
+            if (input.CanSeek) input.Position = 0;
             return input;
         }
         catch (Exception ex)
         {
             // Logging would go here. For now, fallback to original to avoid breaking the upload
             Console.WriteLine($"Optimization failed: {ex.Message}");
+            if (input.CanSeek) input.Position = 0;
             return input;
         }
         finally
