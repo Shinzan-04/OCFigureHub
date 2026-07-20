@@ -10,6 +10,12 @@ public class DracoModelOptimizer : IModelOptimizer
         // Only optimize GLB files (most common for web previews)
         if (format.Trim().ToUpper() != "GLB") return input;
 
+        // Skip optimization on Linux/Render where Node.js and gltf-pipeline might not be available
+        if (!System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows))
+        {
+            return input;
+        }
+
         string tempIn = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.glb");
         string tempOut = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.glb");
 
