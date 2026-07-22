@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router';
 import { Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { GoogleLogin } from '@react-oauth/google';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 
 export function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,7 +12,6 @@ export function SignInPage() {
   const [loading, setLoading] = useState(false);
   const login = useAuthStore((s) => s.login);
   const googleLogin = useAuthStore((s) => s.googleLogin);
-  const facebookLogin = useAuthStore((s) => s.facebookLogin);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,14 +44,6 @@ export function SignInPage() {
               Chào mừng trở lại OC Figure HUB
             </p>
           </div>
-        </div>
-
-        {/* Demo hint */}
-        <div
-          className="rounded-xl border px-4 py-3 mb-6 text-xs"
-          style={{ borderColor: '#8B5CF640', backgroundColor: '#8B5CF608', color: '#A1A1A1' }}
-        >
-          <span style={{ color: '#8B5CF6' }}>💡 Demo Admin:</span> admin@ocfigurehub.com / Admin@123
         </div>
 
         {/* Form Card */}
@@ -155,28 +145,6 @@ export function SignInPage() {
                 width="100%"
               />
             </div>
-
-            <FacebookLogin
-              appId="YOUR_FACEBOOK_APP_ID" // TODO: Thay bằng App ID của bạn
-              callback={async (response: any) => {
-                if (response.accessToken) {
-                  const ok = await facebookLogin(response.accessToken);
-                  if (ok) navigate('/');
-                }
-              }}
-              render={(renderProps: any) => (
-                <button
-                  onClick={renderProps.onClick}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full text-sm font-medium transition-all border hover:bg-white/5"
-                  style={{ backgroundColor: 'transparent', borderColor: '#262626', color: '#fff' }}
-                >
-                  <span className="w-5 h-5 flex items-center justify-center rounded-full bg-[#1877F2]">
-                    <svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
-                  </span>
-                  Tiếp tục với Facebook
-                </button>
-              )}
-            />
           </div>
         </div>
 
