@@ -25,6 +25,7 @@ COPY --from=build /app/publish .
 # Render uses port 10000 by default
 ENV ASPNETCORE_URLS=http://0.0.0.0:10000
 ENV ASPNETCORE_ENVIRONMENT=Production
+ENV DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE=false
 
 EXPOSE 10000
 
