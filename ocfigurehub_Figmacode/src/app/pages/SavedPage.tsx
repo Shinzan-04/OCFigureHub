@@ -36,7 +36,7 @@ export function SavedPage() {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 md:px-8 py-10 md:py-14">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-10 md:py-14">
       {/* Header */}
       <div className="mb-10">
         <div
@@ -46,7 +46,7 @@ export function SavedPage() {
           <Heart size={12} />
           Saved Items
         </div>
-        <h1 className="text-3xl md:text-5xl font-black text-white mb-2">Đã lưu</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-2">Đã lưu</h1>
         <p className="text-sm" style={{ color: '#A1A1A1' }}>
           {isLoading ? 'Đang tải...' : `${savedItems.length} items đã lưu`}
         </p>

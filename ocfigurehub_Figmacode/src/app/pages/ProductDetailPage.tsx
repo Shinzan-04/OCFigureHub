@@ -91,7 +91,7 @@ export function ProductDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="max-w-[1440px] mx-auto px-6 md:px-8 py-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8">
           <div className="space-y-4">
             <div className="rounded-2xl aspect-video animate-pulse" style={{ backgroundColor: '#1a1a1a' }} />
@@ -161,16 +161,16 @@ export function ProductDetailPage() {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 md:px-8 py-8 md:py-12">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 mb-8" style={{ color: '#A1A1A1' }}>
+      <nav className="flex items-center gap-1 sm:gap-2 mb-6 sm:mb-8 flex-wrap" style={{ color: '#A1A1A1' }}>
         <button onClick={() => navigate(-1)} className="flex items-center gap-1 text-sm hover:text-white transition-colors">
           <ArrowLeft size={16} /> Quay lại
         </button>
         <ChevronRight size={14} />
         <span className="text-sm capitalize">{product.category}</span>
         <ChevronRight size={14} />
-        <span className="text-sm text-white line-clamp-1">{product.name}</span>
+        <span className="text-sm text-white line-clamp-1 max-w-[180px] sm:max-w-xs md:max-w-none">{product.name}</span>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-12">

@@ -117,17 +117,17 @@ export function ProfilePage() {
   };
 
   return (
-    <div className="max-w-[800px] mx-auto px-6 py-10">
+    <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-8 sm:py-10">
       {/* Header */}
-      <div className="flex items-center gap-4 mb-8">
+      <div className="flex flex-wrap items-center gap-4 mb-8">
         <div
           className="w-16 h-16 rounded-2xl flex items-center justify-center text-xl font-black"
           style={{ background: 'linear-gradient(135deg, #8B5CF6, #6D28D9)', color: '#fff' }}
         >
           {profile.displayName.substring(0, 2).toUpperCase()}
         </div>
-        <div>
-          <h1 className="text-2xl font-black text-white">{profile.displayName}</h1>
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl font-black text-white">{profile.displayName}</h1>
           <p className="text-sm" style={{ color: '#A1A1A1' }}>{profile.email}</p>
         </div>
         <div className="ml-auto flex items-center gap-2">

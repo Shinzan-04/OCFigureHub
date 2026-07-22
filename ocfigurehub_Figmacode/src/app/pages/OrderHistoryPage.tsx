@@ -62,7 +62,7 @@ export function OrderHistoryPage() {
 
   return (
     <div className="min-h-screen pt-24 pb-16" style={{ backgroundColor: '#0B0B0B' }}>
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
           <div

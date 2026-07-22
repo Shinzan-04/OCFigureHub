@@ -125,9 +125,9 @@ export function MembershipPage() {
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 md:px-8 py-10 md:py-16">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-10 md:py-16">
       {/* Header */}
-      <div className="text-center mb-12 md:mb-16">
+      <div className="text-center mb-8 sm:mb-12 md:mb-16">
         <div
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium mb-4"
           style={{ borderColor: '#8B5CF640', backgroundColor: '#8B5CF610', color: '#8B5CF6' }}
@@ -135,7 +135,7 @@ export function MembershipPage() {
           <Star size={12} />
           Membership
         </div>
-        <h1 className="text-3xl md:text-5xl font-black text-white mb-4">
+        <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-4">
           Nâng tầm trải nghiệm của bạn
         </h1>
         <p className="text-base md:text-lg max-w-xl mx-auto" style={{ color: '#A1A1A1' }}>
@@ -144,7 +144,7 @@ export function MembershipPage() {
       </div>
 
       {/* Pricing Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 max-w-6xl mx-auto mb-16">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 max-w-6xl mx-auto mb-12 sm:mb-16">
         {plans.map((plan) => {
           const isCurrent = currentSub?.planId === plan.id && currentSub.isActive;
           const isPro = plan.name.toUpperCase().includes('PRO');
@@ -154,7 +154,7 @@ export function MembershipPage() {
           return (
             <div
               key={plan.id}
-              className={`rounded-2xl border p-6 md:p-8 flex flex-col gap-6 relative overflow-hidden transition-all hover:translate-y-[-4px] ${isPro ? 'scale-105 z-10' : ''}`}
+              className={`rounded-2xl border p-5 sm:p-6 md:p-8 flex flex-col gap-6 relative overflow-hidden transition-all hover:translate-y-[-4px] ${isPro ? 'md:scale-105 md:z-10' : ''}`}
               style={{
                 backgroundColor: '#111111',
                 borderColor: isCurrent ? '#10B981' : (isPro ? '#8B5CF6' : (isUltimate ? '#F59E0B' : '#262626')),

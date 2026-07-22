@@ -180,7 +180,7 @@ export function HomePage() {
             {/* Headline */}
             <div className="flex flex-col gap-3">
               <h1
-                className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight"
                 style={{ color: '#FFFFFF' }}
               >
                 Chào mừng đến với{' '}
@@ -266,11 +266,11 @@ export function HomePage() {
       </div>
 
       {/* ======================== FILTERS BAR ======================== */}
-      <section className="max-w-[1440px] mx-auto px-6 md:px-8 pointer-events-auto py-2">
-        <div className="flex items-center gap-3 flex-wrap">
+      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 pointer-events-auto py-2">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
 
-          {/* Category chips */}
-          <div className="flex items-center gap-1 p-1 rounded-xl border shrink-0" style={{ borderColor: '#262626', backgroundColor: '#0d0d0d' }}>
+          {/* Category chips – horizontal scroll on mobile */}
+          <div className="flex items-center gap-1 p-1 rounded-xl border w-full sm:w-auto overflow-x-auto scrollbar-hide" style={{ borderColor: '#262626', backgroundColor: '#0d0d0d' }}>
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.key}
@@ -287,7 +287,7 @@ export function HomePage() {
           </div>
 
           {/* Filters + Sort + Clear — right side */}
-          <div className="flex items-center gap-2 ml-auto">
+          <div className="flex items-center gap-2 ml-auto shrink-0">
             {/* Filters */}
             <div ref={filterRef} className="relative">
               <button
@@ -309,7 +309,7 @@ export function HomePage() {
               </button>
 
               {filterOpen && (
-                <div className="absolute top-full right-0 mt-2 w-96 rounded-2xl border shadow-2xl z-50 overflow-hidden" style={{ backgroundColor: '#111111', borderColor: '#262626' }}>
+                <div className="absolute top-full right-0 mt-2 w-[calc(100vw-2rem)] sm:w-96 rounded-2xl border shadow-2xl z-50 overflow-hidden" style={{ backgroundColor: '#111111', borderColor: '#262626' }}>
                   <div className="p-5 space-y-5">
                     <div>
                       <div className="text-[11px] font-semibold uppercase tracking-wider mb-2.5" style={{ color: '#6b7280' }}>Price</div>
@@ -373,7 +373,7 @@ export function HomePage() {
               </button>
 
               {sortOpen && (
-                <div className="absolute top-full right-0 mt-2 w-60 rounded-2xl border shadow-2xl z-50 overflow-hidden" style={{ backgroundColor: '#111111', borderColor: '#262626' }}>
+                <div className="absolute top-full right-0 mt-2 w-52 sm:w-60 rounded-2xl border shadow-2xl z-50 overflow-hidden" style={{ backgroundColor: '#111111', borderColor: '#262626' }}>
                   <div className="p-1.5">
                     {SORT_OPTIONS.map((s) => (
                       <button key={s.key} onClick={() => { setSort(s.key); setSortOpen(false); handleFilterChange(); }}
@@ -401,11 +401,11 @@ export function HomePage() {
       </section>
 
       {/* Product Grid */}
-      <section className="max-w-[1440px] mx-auto px-6 md:px-8 py-8 pointer-events-auto">
+      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 pointer-events-auto">
         {/* Section header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-start sm:items-center justify-between gap-3 mb-6 sm:mb-8">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-1">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1">
               {debouncedSearch ? (
                 <>
                   Kết quả cho "<span style={{ color: '#8B5CF6' }}>{debouncedSearch}</span>"

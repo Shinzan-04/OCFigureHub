@@ -35,7 +35,7 @@ export function AboutPage() {
   return (
     <div className="max-w-[1440px] mx-auto">
       {/* Hero */}
-      <section className="px-6 md:px-8 py-14 md:py-20 text-center">
+      <section className="px-4 sm:px-6 md:px-8 py-10 sm:py-14 md:py-20 text-center">
         <div
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium mb-6"
           style={{ borderColor: '#8B5CF640', backgroundColor: '#8B5CF610', color: '#8B5CF6' }}
@@ -43,7 +43,7 @@ export function AboutPage() {
           <Users size={12} />
           About Us
         </div>
-        <h1 className="text-4xl md:text-6xl font-black text-white mb-5 leading-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-white mb-5 leading-tight">
           Về{' '}
           <span
             style={{
@@ -61,12 +61,12 @@ export function AboutPage() {
       </section>
 
       {/* Stats */}
-      <section className="px-6 md:px-8 pb-14 md:pb-16">
+      <section className="px-4 sm:px-6 md:px-8 pb-10 sm:pb-14 md:pb-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
           {STATS.map((stat) => (
             <div
               key={stat.label}
-              className="rounded-2xl border p-6 flex flex-col items-center gap-3 text-center"
+              className="rounded-2xl border p-4 sm:p-6 flex flex-col items-center gap-3 text-center"
               style={{ backgroundColor: '#111111', borderColor: '#262626' }}
             >
               <span className="text-3xl">{stat.icon}</span>
@@ -83,12 +83,12 @@ export function AboutPage() {
       </section>
 
       {/* Divider */}
-      <div className="px-6 md:px-8">
+      <div className="px-4 sm:px-6 md:px-8">
         <div className="border-t" style={{ borderColor: '#262626' }} />
       </div>
 
       {/* Mission */}
-      <section className="px-6 md:px-8 py-14 md:py-20">
+      <section className="px-4 sm:px-6 md:px-8 py-10 sm:py-14 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div>
             <div
@@ -97,7 +97,7 @@ export function AboutPage() {
             >
               🎯 Mission
             </div>
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-4 leading-tight">
               Sứ mệnh của chúng tôi
             </h2>
             <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: '#A1A1A1' }}>
@@ -129,12 +129,12 @@ export function AboutPage() {
       </section>
 
       {/* Divider */}
-      <div className="px-6 md:px-8">
+      <div className="px-4 sm:px-6 md:px-8">
         <div className="border-t" style={{ borderColor: '#262626' }} />
       </div>
 
       {/* Features */}
-      <section className="px-6 md:px-8 py-14 md:py-20">
+      <section className="px-4 sm:px-6 md:px-8 py-10 sm:py-14 md:py-20">
         <div className="text-center mb-10">
           <div
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium mb-4"
@@ -169,12 +169,12 @@ export function AboutPage() {
       </section>
 
       {/* Divider */}
-      <div className="px-6 md:px-8">
+      <div className="px-4 sm:px-6 md:px-8">
         <div className="border-t" style={{ borderColor: '#262626' }} />
       </div>
 
       {/* Community */}
-      <section className="px-6 md:px-8 py-14 md:py-20">
+      <section className="px-4 sm:px-6 md:px-8 py-10 sm:py-14 md:py-20">
         <div className="text-center mb-10">
           <div
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium mb-4"

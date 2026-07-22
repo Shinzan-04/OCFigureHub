@@ -7,7 +7,7 @@ export function DownloadHistoryPage() {
   const { data: history, isLoading } = useDownloadHistory();
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 md:px-8 py-8 md:py-12">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12">
       <div className="flex items-center gap-3 mb-8">
         <Download size={24} style={{ color: '#8B5CF6' }} />
         <h1 className="text-2xl md:text-3xl font-bold text-white">Lịch sử Download</h1>

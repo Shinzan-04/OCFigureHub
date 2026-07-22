@@ -275,7 +275,7 @@ export function ChatbotWidget() {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
         style={{
           backgroundColor: isOpen ? '#6D28D9' : '#8B5CF6',
           color: '#FFFFFF',
@@ -288,7 +288,7 @@ export function ChatbotWidget() {
       {/* Chat Panel */}
       {isOpen && (
         <div
-          className="fixed bottom-24 right-6 z-50 w-96 max-w-[calc(100vw-48px)] h-[500px] max-h-[calc(100vh-150px)] rounded-2xl flex flex-col overflow-hidden shadow-2xl"
+          className="fixed bottom-[72px] right-2 sm:bottom-24 sm:right-6 z-50 w-[calc(100vw-16px)] sm:w-96 max-w-[calc(100vw-16px)] sm:max-w-[calc(100vw-48px)] h-[450px] sm:h-[500px] max-h-[calc(100vh-100px)] rounded-2xl flex flex-col overflow-hidden shadow-2xl"
           style={{
             backgroundColor: '#0B0B0B',
             border: '1px solid #262626',
