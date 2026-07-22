@@ -1,4 +1,4 @@
-import { API } from './client';
+import API from './client';
 
 export interface PlatformStats {
   models: number;
