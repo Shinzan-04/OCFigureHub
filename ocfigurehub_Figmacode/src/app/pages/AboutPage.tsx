@@ -1,5 +1,7 @@
 import { Link } from 'react-router';
 import { Heart, Users, Shield, Zap, Globe, Star } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { statsApi, type PlatformStats } from '../../api/stats';
 
 const FEATURES = [
   {
@@ -24,14 +26,20 @@ const FEATURES = [
   },
 ];
 
-const STATS = [
-  { value: '500+', label: 'Models 3D', icon: '🎨' },
-  { value: '120+', label: 'Creators', icon: '👨‍🎨' },
-  { value: '50K+', label: 'Downloads', icon: '📥' },
-  { value: '10K+', label: 'Members', icon: '👥' },
-];
-
 export function AboutPage() {
+  const [platformStats, setPlatformStats] = useState<PlatformStats | null>(null);
+
+  useEffect(() => {
+    statsApi.getPlatformStats().then(setPlatformStats).catch(console.error);
+  }, []);
+
+  const statsList = [
+    { value: platformStats ? `${platformStats.models}+` : '500+', label: 'Models 3D', icon: '🎨' },
+    { value: platformStats ? `${platformStats.creators}+` : '120+', label: 'Creators', icon: '👨‍🎨' },
+    { value: platformStats ? (platformStats.downloads >= 1000 ? `${Math.floor(platformStats.downloads / 1000)}K+` : `${platformStats.downloads}+`) : '50K+', label: 'Downloads', icon: '📥' },
+    { value: platformStats ? (platformStats.members >= 1000 ? `${Math.floor(platformStats.members / 1000)}K+` : `${platformStats.members}+`) : '10K+', label: 'Members', icon: '👥' },
+  ];
+
   return (
     <div className="max-w-[1440px] mx-auto">
       {/* Hero */}
@@ -63,7 +71,7 @@ export function AboutPage() {
       {/* Stats */}
       <section className="px-4 sm:px-6 md:px-8 pb-10 sm:pb-14 md:pb-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
-          {STATS.map((stat) => (
+          {statsList.map((stat) => (
             <div
               key={stat.label}
               className="rounded-2xl border p-4 sm:p-6 flex flex-col items-center gap-3 text-center"
@@ -79,6 +87,7 @@ export function AboutPage() {
               <span className="text-sm" style={{ color: '#A1A1A1' }}>{stat.label}</span>
             </div>
           ))}
+
         </div>
       </section>
 
