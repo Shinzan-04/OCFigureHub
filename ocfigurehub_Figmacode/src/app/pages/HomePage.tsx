@@ -6,6 +6,7 @@ import { HeroCarousel } from '../components/HeroCarousel';
 import { SkeletonProductCard } from '../components/SkeletonProductCard';
 import { EmptyState } from '../components/EmptyState';
 import type { ProductQueryParams } from '../../types/pagination';
+import { statsApi, type PlatformStats } from '../../api/stats';
 import Hero3D from '../components/Hero3D';
 
 const CATEGORIES = [
@@ -62,6 +63,7 @@ export function HomePage() {
   const [page, setPage] = useState(1);
   const [filterOpen, setFilterOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
+  const [platformStats, setPlatformStats] = useState<PlatformStats | null>(null);
   const pageSize = 12;
 
   const activeFilterCount = [
@@ -90,6 +92,11 @@ export function HomePage() {
     }, 400);
     return () => clearTimeout(timer);
   }, [search]);
+
+  // Fetch platform stats
+  useEffect(() => {
+    statsApi.getPlatformStats().then(setPlatformStats).catch(console.error);
+  }, []);
 
   // Build query params
   const selectedPriceRange = PRICE_RANGES.find((p) => p.key === priceRange);
@@ -235,9 +242,9 @@ export function HomePage() {
             {/* Stats */}
             <div className="flex gap-8 pt-2">
               {[
-                { value: `${totalItems}+`, label: 'Models' },
-                { value: '120+', label: 'Creators' },
-                { value: '50K+', label: 'Downloads' },
+                { value: platformStats ? `${platformStats.models}+` : `${totalItems}+`, label: 'Models' },
+                { value: platformStats ? `${platformStats.creators}+` : '120+', label: 'Creators' },
+                { value: platformStats ? (platformStats.downloads >= 1000 ? `${Math.floor(platformStats.downloads / 1000)}K+` : `${platformStats.downloads}+`) : '50K+', label: 'Downloads' },
               ].map((stat) => (
                 <div key={stat.label} className="flex flex-col gap-1">
                   <span className="text-2xl font-black" style={{ color: '#8B5CF6' }}>
