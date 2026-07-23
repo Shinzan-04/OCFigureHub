@@ -177,7 +177,7 @@ const MODELS = [
   "/rose-gold-sentinel.glb",
   "/Valkyrie_Mech.glb",
   "/robot.glb",
-  "/Infernal.glb"
+  "/monster.glb"
 ];
 
 function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
@@ -189,16 +189,15 @@ function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
   const loadedSceneRef = useRef<THREE.Group | null>(null);
   const modelIndexRef = useRef(0);
 
-  const prevGLTF = useGLTF(MODELS[(modelIndex + MODELS.length - 1) % MODELS.length]);
-  const activeGLTF = useGLTF(MODELS[modelIndex]);
-  const nextGLTF = useGLTF(MODELS[(modelIndex + 1) % MODELS.length]);
+  const gltfs = useGLTF(MODELS);
 
   const processedScenes = useMemo(() => {
     const _box = new THREE.Box3();
     const _size = new THREE.Vector3();
     const _center = new THREE.Vector3();
 
-    return [prevGLTF.scene, activeGLTF.scene, nextGLTF.scene].map((original, i) => {
+    return gltfs.map((gltf, i) => {
+      const original = gltf.scene;
       const cloned = original.clone();
 
       _box.setFromObject(cloned);
@@ -214,24 +213,26 @@ function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
         if ((child as THREE.Mesh).isMesh && (child as THREE.Mesh).material) {
           const mesh = child as THREE.Mesh;
           const mat = mesh.material as THREE.MeshStandardMaterial;
-          const realIndex = (modelIndex + i - 1 + MODELS.length) % MODELS.length;
-          if (realIndex >= 2) {
-            mat.transparent = false;
-            mat.depthWrite = true;
-            mat.alphaTest = 0.5;
-          }
+          
+          // FIX: Many GLB files from Blender export with transparent=true and depthWrite=false
+          // which causes the "inside-out" or "broken" polygon glitch.
+          mat.transparent = false;
+          mat.depthWrite = true;
+          mat.alphaTest = 0.5;
+          mat.side = THREE.DoubleSide;
+          
           meshList.push(mesh);
         }
       });
 
       return { scene: cloned, meshes: meshList };
     });
-  }, [prevGLTF.scene, activeGLTF.scene, nextGLTF.scene, modelIndex]);
+  }, [gltfs]);
 
   useEffect(() => {
-    setLoadedScene(processedScenes[1].scene);
-    loadedSceneRef.current = processedScenes[1].scene;
-  }, [processedScenes]);
+    setLoadedScene(processedScenes[modelIndex].scene);
+    loadedSceneRef.current = processedScenes[modelIndex].scene;
+  }, [processedScenes, modelIndex]);
 
   const targetRotation = useRef({ x: 0, y: 0 });
   const jumpProgress = useRef(0);
@@ -305,7 +306,17 @@ function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
 
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
-      {loadedScene && <primitive object={loadedScene} scale={2.5} />}
+      {processedScenes.map((sceneObj, index) => {
+        const isActive = loadedScene === sceneObj.scene;
+        return (
+          <primitive 
+            key={index} 
+            object={sceneObj.scene} 
+            scale={isActive ? 2.5 : 0.000001} 
+            visible={true}
+          />
+        );
+      })}
       <mesh
         visible={true}
         position={[0, 0.5, 0]}
