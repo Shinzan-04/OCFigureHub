@@ -60,10 +60,10 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
         {/* Badges */}
-        <div className="absolute top-3 left-3 flex gap-2">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-wrap gap-1 sm:gap-2">
           {isFree && (
             <span
-              className="text-xs font-semibold px-2 py-1 rounded-full uppercase tracking-wider"
+              className="text-[10px] sm:text-xs font-semibold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase tracking-wider"
               style={{ backgroundColor: '#10B981', color: '#fff' }}
             >
               Free
@@ -71,7 +71,7 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
           )}
           {product.license && (
             <span
-              className="text-xs font-semibold px-2 py-1 rounded-full uppercase tracking-wider"
+              className="text-[10px] sm:text-xs font-semibold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase tracking-wider"
               style={{
                 backgroundColor: product.license === 'Commercial' ? '#F59E0B' : '#3B82F6',
                 color: '#fff'
@@ -85,25 +85,29 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
         {/* Heart */}
         <button
           onClick={handleHeartClick}
-          className="absolute top-3 right-3 p-2 rounded-full transition-all duration-200 hover:scale-110"
+          className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full transition-all duration-200 hover:scale-110"
           style={{ backgroundColor: saved ? '#8B5CF6' : 'rgba(0,0,0,0.6)' }}
         >
-          <Heart size={16} fill={saved ? 'white' : 'none'} className="text-white" />
+          <Heart size={14} fill={saved ? 'white' : 'none'} className="text-white sm:w-4 sm:h-4" />
         </button>
       </div>
 
       {/* Info */}
-      <div className="p-4 flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <span className="text-xs capitalize px-2 py-0.5 rounded-full" style={{ backgroundColor: '#262626', color: '#A1A1A1' }}>
+      <div className="p-3 sm:p-4 flex flex-col gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <span className="text-[10px] sm:text-xs capitalize px-1.5 sm:px-2 py-0.5 rounded-full" style={{ backgroundColor: '#262626', color: '#A1A1A1' }}>
             {product.category}
           </span>
         </div>
-        <h3 className="text-sm font-semibold line-clamp-2 leading-snug" style={{ color: '#FFFFFF' }}>
-          {product.name}
-        </h3>
-        <div className="flex items-center justify-between mt-1">
-          <span className="text-sm font-bold" style={{ color: isFree ? '#10B981' : '#FFFFFF' }}>
+
+        <div>
+          <h3 className="text-sm sm:text-base font-bold text-white line-clamp-1 mb-0.5">{product.name}</h3>
+          <p className="text-xs sm:text-sm line-clamp-1" style={{ color: '#A1A1A1' }}>
+            by {product.creator}
+          </p>
+        </div>
+        <div className="flex items-center justify-between pt-2 sm:pt-3 mt-1 sm:mt-2 border-t" style={{ borderColor: '#262626' }}>
+          <span className="text-sm sm:text-lg font-black" style={{ color: isFree ? '#10B981' : '#FFFFFF' }}>
             {formatPrice(product.price)}
           </span>
         </div>

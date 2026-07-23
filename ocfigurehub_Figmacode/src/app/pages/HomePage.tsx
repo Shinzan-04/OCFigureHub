@@ -139,13 +139,88 @@ export function HomePage() {
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden" style={{ backgroundColor: '#050505' }}>
-      
-      {/* 
-        Thẻ bọc này CHUẨN XÁC bằng 1 màn hình (h-screen). 
-        Tất cả các Canvas bên trong sẽ dùng nó làm eventSource để không bị lệch trục Y khi cuộn trang.
-        ĐỒNG THỜI nó cũng ôm trọn phần Chữ phía trên, để sự kiện rê chuột vào chữ vẫn được lọt xuống ngân hà.
-      */}
-      <div id="hero-event-source" className="relative w-full h-screen z-0">
+
+      {/* ========== MOBILE HERO (< lg) ========== */}
+      <div className="lg:hidden relative w-full" style={{ backgroundColor: '#050505' }}>
+        {/* Gradient bg */}
+        <div
+          className="absolute inset-0"
+          style={{ background: 'radial-gradient(ellipse at 50% 0%, #1a1a2e 0%, #080808 60%, #050505 100%)' }}
+        />
+        {/* Content */}
+        <div className="relative z-10 px-5 pt-20 pb-10 flex flex-col gap-5">
+          {/* Badge */}
+          <div className="flex items-center gap-2 w-fit">
+            <div
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium"
+              style={{ borderColor: '#8B5CF640', backgroundColor: '#8B5CF615', color: '#8B5CF6' }}
+            >
+              <Sparkles size={11} />
+              Marketplace 3D hàng đầu Việt Nam
+            </div>
+          </div>
+
+          {/* Headline */}
+          <div className="flex flex-col gap-2">
+            <h1 className="text-[2rem] font-black leading-tight tracking-tight" style={{ color: '#FFFFFF' }}>
+              Chào mừng đến với{' '}
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #8B5CF6, #A78BFA)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                OC Figure HUB
+              </span>
+            </h1>
+            <p className="text-sm leading-relaxed" style={{ color: '#A1A1A1' }}>
+              Kho tàng mô hình 3D anime chất lượng cao — khám phá, tải về và sáng tạo.
+            </p>
+          </div>
+
+          {/* Search */}
+          <div className="relative">
+            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#A1A1A1' }} />
+            <input
+              type="text"
+              placeholder="Tìm model, nhân vật, tag..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 rounded-2xl text-sm outline-none transition-all duration-200"
+              style={{ backgroundColor: '#111111', border: '1px solid #262626', color: '#FFFFFF' }}
+              onFocus={(e) => (e.target.style.borderColor = '#8B5CF6')}
+              onBlur={(e) => (e.target.style.borderColor = '#262626')}
+            />
+            {search && (
+              <button
+                onClick={() => setSearch('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-zinc-800 rounded-full transition-colors"
+                style={{ color: '#A1A1A1' }}
+              >
+                <X size={15} />
+              </button>
+            )}
+          </div>
+
+          {/* Stats row */}
+          <div className="flex gap-6 pt-1">
+            {[
+              { value: platformStats ? `${platformStats.models}+` : `${totalItems}+`, label: 'Models' },
+              { value: platformStats ? `${platformStats.creators}+` : '120+', label: 'Creators' },
+              { value: platformStats ? (platformStats.downloads >= 1000 ? `${Math.floor(platformStats.downloads / 1000)}K+` : `${platformStats.downloads}+`) : '50K+', label: 'Downloads' },
+            ].map((stat) => (
+              <div key={stat.label} className="flex flex-col gap-0.5">
+                <span className="text-xl font-black" style={{ color: '#8B5CF6' }}>{stat.value}</span>
+                <span className="text-xs" style={{ color: '#A1A1A1' }}>{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ========== DESKTOP HERO (>= lg) — giữ nguyên layout cũ ========== */}
+      <div id="hero-event-source" className="hidden lg:block relative w-full h-screen z-0">
         {/* Dark gradient background */}
         <div
           className="absolute inset-0 z-0"
@@ -153,12 +228,11 @@ export function HomePage() {
             background: 'radial-gradient(ellipse at 60% 40%, #1a1a2e 0%, #0a0a0a 50%, #050505 100%)',
           }}
         />
-        
-        {/* Background 3D Model - Đặt trong hộp 1440px để cân bằng tuyệt đối với chữ */}
+
+        {/* Background 3D Model */}
         <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
           <div className="max-w-[1440px] w-full h-full mx-auto relative flex items-center">
-            {/* Dùng opacity-100 để không bị nhìn xuyên thấu, và z-[5] để đè lên dải ngân hà */}
-            <div className="absolute right-0 w-full lg:w-[60%] h-full opacity-40 lg:opacity-100 z-[5] transition-opacity duration-500 -mt-20">
+            <div className="absolute right-0 w-[60%] h-full opacity-100 z-[5] transition-opacity duration-500 -mt-20">
               <Hero3D />
             </div>
           </div>
@@ -166,106 +240,90 @@ export function HomePage() {
 
         {/* Main Foreground Content */}
         <div className="relative z-10 w-full h-full pointer-events-none">
-          {/* Hero Section */}
-          <section className="max-w-[1440px] w-full mx-auto px-6 md:px-12 lg:px-20 xl:px-24 relative h-full flex items-center">
-        {/* Dùng -mt-20 cố định để không bị giật khi kéo cửa sổ */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 w-full -mt-20">
-          
-          {/* Left */}
-          <div className="flex flex-col gap-6 lg:gap-8 pointer-events-auto relative z-10">
-            {/* Badge */}
-            <div className="flex items-center gap-2 w-fit">
-              <div
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium"
-                style={{ borderColor: '#8B5CF640', backgroundColor: '#8B5CF610', color: '#8B5CF6' }}
-              >
-                <Sparkles size={12} />
-                Marketplace 3D Figure hàng đầu Việt Nam
-              </div>
-            </div>
-
-            {/* Headline */}
-            <div className="flex flex-col gap-3">
-              <h1
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight"
-                style={{ color: '#FFFFFF' }}
-              >
-                Chào mừng đến với{' '}
-                <span
-                  className="inline-block"
-                  style={{
-                    background: 'linear-gradient(135deg, #8B5CF6, #A78BFA)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}
-                >
-                  OC Figure HUB
-                </span>
-              </h1>
-              <p className="text-base md:text-lg leading-relaxed" style={{ color: '#A1A1A1' }}>
-                Nâng tầm sáng tạo với kho tàng file mô hình 3D chất lượng cao. Khám phá hàng ngàn thiết kế anime, monsters và nhiều hơn nữa.
-              </p>
-            </div>
-
-            {/* Search */}
-            <div className="relative">
-              <Search
-                size={18}
-                className="absolute left-4 top-1/2 -translate-y-1/2"
-                style={{ color: '#A1A1A1' }}
-              />
-              <input
-                type="text"
-                placeholder="Tìm model, nhân vật, tag..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-11 pr-4 py-3.5 rounded-2xl text-sm outline-none transition-all duration-200"
-                style={{
-                  backgroundColor: '#111111',
-                  border: '1px solid #262626',
-                  color: '#FFFFFF',
-                }}
-                onFocus={(e) => (e.target.style.borderColor = '#8B5CF6')}
-                onBlur={(e) => (e.target.style.borderColor = '#262626')}
-              />
-              {search && (
-                <button
-                  onClick={() => setSearch('')}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-zinc-800 rounded-full transition-colors"
-                  style={{ color: '#A1A1A1' }}
-                >
-                  <X size={16} />
-                </button>
-              )}
-            </div>
-
-            {/* Stats */}
-            <div className="flex gap-8 pt-2">
-              {[
-                { value: platformStats ? `${platformStats.models}+` : `${totalItems}+`, label: 'Models' },
-                { value: platformStats ? `${platformStats.creators}+` : '120+', label: 'Creators' },
-                { value: platformStats ? (platformStats.downloads >= 1000 ? `${Math.floor(platformStats.downloads / 1000)}K+` : `${platformStats.downloads}+`) : '50K+', label: 'Downloads' },
-              ].map((stat) => (
-                <div key={stat.label} className="flex flex-col gap-1">
-                  <span className="text-2xl font-black" style={{ color: '#8B5CF6' }}>
-                    {stat.value}
-                  </span>
-                  <span className="text-xs" style={{ color: '#A1A1A1' }}>
-                    {stat.label}
-                  </span>
+          <section className="max-w-[1440px] w-full mx-auto px-20 xl:px-24 relative h-full flex items-center">
+            <div className="grid grid-cols-2 gap-16 w-full -mt-20">
+              {/* Left */}
+              <div className="flex flex-col gap-8 pointer-events-auto relative z-10">
+                {/* Badge */}
+                <div className="flex items-center gap-2 w-fit">
+                  <div
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium"
+                    style={{ borderColor: '#8B5CF640', backgroundColor: '#8B5CF610', color: '#8B5CF6' }}
+                  >
+                    <Sparkles size={12} />
+                    Marketplace 3D Figure hàng đầu Việt Nam
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Right - Model 3D (Đã được chuyển xuống làm background để có thể tương tác) */}
-          <div className="w-full hidden lg:block pointer-events-none">
-            {/* Giữ nguyên div rỗng này để giữ cấu trúc grid 2 cột cho phần text bên trái */}
-          </div>
+                {/* Headline */}
+                <div className="flex flex-col gap-3">
+                  <h1
+                    className="text-5xl xl:text-6xl font-black leading-tight tracking-tight"
+                    style={{ color: '#FFFFFF' }}
+                  >
+                    Chào mừng đến với{' '}
+                    <span
+                      className="inline-block"
+                      style={{
+                        background: 'linear-gradient(135deg, #8B5CF6, #A78BFA)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                      }}
+                    >
+                      OC Figure HUB
+                    </span>
+                  </h1>
+                  <p className="text-lg leading-relaxed" style={{ color: '#A1A1A1' }}>
+                    Nâng tầm sáng tạo với kho tàng file mô hình 3D chất lượng cao. Khám phá hàng ngàn thiết kế anime, monsters và nhiều hơn nữa.
+                  </p>
+                </div>
+
+                {/* Search */}
+                <div className="relative">
+                  <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#A1A1A1' }} />
+                  <input
+                    type="text"
+                    placeholder="Tìm model, nhân vật, tag..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="w-full pl-11 pr-4 py-3.5 rounded-2xl text-sm outline-none transition-all duration-200"
+                    style={{ backgroundColor: '#111111', border: '1px solid #262626', color: '#FFFFFF' }}
+                    onFocus={(e) => (e.target.style.borderColor = '#8B5CF6')}
+                    onBlur={(e) => (e.target.style.borderColor = '#262626')}
+                  />
+                  {search && (
+                    <button
+                      onClick={() => setSearch('')}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-zinc-800 rounded-full transition-colors"
+                      style={{ color: '#A1A1A1' }}
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                </div>
+
+                {/* Stats */}
+                <div className="flex gap-8 pt-2">
+                  {[
+                    { value: platformStats ? `${platformStats.models}+` : `${totalItems}+`, label: 'Models' },
+                    { value: platformStats ? `${platformStats.creators}+` : '120+', label: 'Creators' },
+                    { value: platformStats ? (platformStats.downloads >= 1000 ? `${Math.floor(platformStats.downloads / 1000)}K+` : `${platformStats.downloads}+`) : '50K+', label: 'Downloads' },
+                  ].map((stat) => (
+                    <div key={stat.label} className="flex flex-col gap-1">
+                      <span className="text-2xl font-black" style={{ color: '#8B5CF6' }}>{stat.value}</span>
+                      <span className="text-xs" style={{ color: '#A1A1A1' }}>{stat.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right - empty placeholder for 3D model background */}
+              <div className="pointer-events-none" />
+            </div>
+          </section>
         </div>
-      </section>
-      </div> {/* Kết thúc thẻ Main Foreground Content */}
-      </div> {/* Kết thúc thẻ hero-event-source */}
+      </div> {/* Kết thúc Desktop Hero */}
+
 
       {/* Divider */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-8 pointer-events-auto">
@@ -431,14 +489,14 @@ export function HomePage() {
 
         {/* Grid */}
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5 md:gap-6">
             {Array.from({ length: 8 }).map((_, i) => (
               <SkeletonProductCard key={i} />
             ))}
           </div>
         ) : products.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5 md:gap-6">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

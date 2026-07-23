@@ -117,7 +117,7 @@ export function PaymentMembershipPage() {
 
   if (success) {
     return (
-      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-6">
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 sm:px-6">
         <div className="text-center max-w-md">
           <div
             className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
@@ -156,7 +156,7 @@ export function PaymentMembershipPage() {
   // FREE plan — no payment needed
   if (planParam === 'FREE') {
     return (
-      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-6">
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 sm:px-6">
         <div className="text-center max-w-md">
           <div
             className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"

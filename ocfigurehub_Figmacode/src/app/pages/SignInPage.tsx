@@ -33,7 +33,7 @@ export function SignInPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-6 py-12">
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 sm:px-6 py-8 sm:py-12">
       <div className="w-full max-w-[420px]">
         {/* Logo */}
         <div className="flex flex-col items-center gap-3 mb-8">
