@@ -194,52 +194,54 @@ class ModelErrorBoundary extends React.Component<{ children: React.ReactNode }, 
   }
 }
 
-function Model({ stateRef, models }: { stateRef: React.MutableRefObject<SceneState>, models: string[] }) {
+function SingleModel({ url, index, modelIndexRef, scenesRef, onLoaded }: { url: string, index: number, modelIndexRef: React.MutableRefObject<number>, scenesRef: React.MutableRefObject<THREE.Group[]>, onLoaded: () => void }) {
+  const gltf = useGLTF(url);
+  
+  const processedScene = useMemo(() => {
+    const original = gltf.scene;
+    const cloned = original.clone();
+    
+    const _box = new THREE.Box3();
+    const _center = new THREE.Vector3();
+    
+    _box.setFromObject(cloned);
+    _center.copy(_box.max).add(_box.min).multiplyScalar(0.5);
+    cloned.position.sub(_center);
+    
+    cloned.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh && (child as THREE.Mesh).material) {
+        const mesh = child as THREE.Mesh;
+        const mat = mesh.material as THREE.MeshStandardMaterial;
+        mat.transparent = false;
+        mat.depthWrite = true;
+        mat.alphaTest = 0.5;
+        mat.side = THREE.DoubleSide;
+      }
+    });
+    
+    return cloned;
+  }, [gltf]);
+
+  useEffect(() => {
+    onLoaded();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useFrame(() => {
+    const isActive = index === modelIndexRef.current;
+    processedScene.scale.setScalar(isActive ? 2.5 : 0.000001);
+  });
+
+  return <primitive ref={(el: any) => { if (el) scenesRef.current[index] = el; }} object={processedScene} visible={true} />;
+}
+
+function ModelGroup({ stateRef, models }: { stateRef: React.MutableRefObject<SceneState>, models: string[] }) {
   const groupRef = useRef<THREE.Group>(null);
   const forcefieldRef = useRef<THREE.Mesh>(null);
   const shockwaveRef = useRef<THREE.Mesh>(null);
   const scenesRef = useRef<THREE.Group[]>([]);
   const modelIndexRef = useRef(0);
-
-  const gltfs = useGLTF(models);
-
-  const processedScenes = useMemo(() => {
-    const _box = new THREE.Box3();
-    const _size = new THREE.Vector3();
-    const _center = new THREE.Vector3();
-
-    return gltfs.map((gltf, i) => {
-      const original = gltf.scene;
-      const cloned = original.clone();
-
-      _box.setFromObject(cloned);
-      _size.copy(_box.max).sub(_box.min);
-      const maxDim = Math.max(_size.x, _size.y, _size.z);
-
-      _box.setFromObject(cloned);
-      _center.copy(_box.max).add(_box.min).multiplyScalar(0.5);
-      cloned.position.sub(_center);
-
-      const meshList: THREE.Mesh[] = [];
-      cloned.traverse((child) => {
-        if ((child as THREE.Mesh).isMesh && (child as THREE.Mesh).material) {
-          const mesh = child as THREE.Mesh;
-          const mat = mesh.material as THREE.MeshStandardMaterial;
-          
-          // FIX: Many GLB files from Blender export with transparent=true and depthWrite=false
-          // which causes the "inside-out" or "broken" polygon glitch.
-          mat.transparent = false;
-          mat.depthWrite = true;
-          mat.alphaTest = 0.5;
-          mat.side = THREE.DoubleSide;
-          
-          meshList.push(mesh);
-        }
-      });
-
-      return { scene: cloned, meshes: meshList };
-    });
-  }, [gltfs]);
+  const [loadedCount, setLoadedCount] = useState(1);
 
   const targetRotation = useRef({ x: 0, y: 0 });
   const jumpProgress = useRef(0);
@@ -276,7 +278,7 @@ function Model({ stateRef, models }: { stateRef: React.MutableRefObject<SceneSta
 
       if (jumpProgress.current < 0.5 && !hasSwapped.current) {
         hasSwapped.current = true;
-        modelIndexRef.current = (modelIndexRef.current + 1) % models.length;
+        modelIndexRef.current = (modelIndexRef.current + 1) % loadedCount;
       }
 
       if (forcefieldRef.current) {
@@ -301,35 +303,40 @@ function Model({ stateRef, models }: { stateRef: React.MutableRefObject<SceneSta
 
     groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotation.current.y, 0.05);
     groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotation.current.x, 0.05);
-
-    // Apply visibility/scale to individual scenes to avoid React re-renders causing lag
-    scenesRef.current.forEach((scene, index) => {
-      if (scene) {
-        const isActive = index === modelIndexRef.current;
-        scene.scale.setScalar(isActive ? 2.5 : 0.000001);
-      }
-    });
   });
 
   const handleClick = (e: any) => {
     e.stopPropagation();
-    if (jumpProgress.current > 0) return;
+    if (jumpProgress.current > 0 || loadedCount <= 1) return;
     jumpProgress.current = 1;
     hasSwapped.current = false;
   };
 
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
-      {processedScenes.map((sceneObj, index) => {
-        return (
-          <primitive 
-            key={index} 
-            ref={(el: THREE.Group) => { if (el) scenesRef.current[index] = el; }}
-            object={sceneObj.scene} 
-            scale={index === 0 ? 2.5 : 0.000001} 
-            visible={true}
+      {models.slice(0, loadedCount).map((url, i) => {
+        const content = (
+          <SingleModel 
+             key={url}
+             url={url} 
+             index={i} 
+             modelIndexRef={modelIndexRef}
+             scenesRef={scenesRef}
+             onLoaded={() => {
+               setTimeout(() => {
+                 if (i === loadedCount - 1 && loadedCount < models.length) {
+                   setLoadedCount(prev => prev + 1);
+                 }
+               }, 100);
+             }}
           />
         );
+
+        if (i === 0) {
+          return <React.Fragment key={url}>{content}</React.Fragment>;
+        } else {
+          return <Suspense fallback={null} key={url}>{content}</Suspense>;
+        }
       })}
       <mesh
         visible={true}
@@ -399,7 +406,7 @@ function Scene({ stateRef, models }: { stateRef: React.MutableRefObject<SceneSta
             <group position={[0, 1, 0]}>
               {models.length > 0 && (
                 <ModelErrorBoundary>
-                  <Model stateRef={stateRef} models={models} />
+                  <ModelGroup stateRef={stateRef} models={models} />
                 </ModelErrorBoundary>
               )}
             </group>
@@ -419,6 +426,7 @@ export default function Hero3D() {
   const [isHovered, setIsHovered] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
 
   const stateRef = useRef<SceneState>({
     isHovered: false, isModelHovered: false, scrollProgress: 0, mouse: { x: 0, y: 0 }, ringSpeedMultiplier: 1,
@@ -440,6 +448,11 @@ export default function Hero3D() {
   }, []);
 
   useEffect(() => {
+    // Check mobile
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // initial check
+    window.addEventListener('resize', checkMobile);
+
     let animationFrameId: number;
     const handleMouseMove = (event: MouseEvent) => {
       if (containerRef.current) {
@@ -467,13 +480,14 @@ export default function Hero3D() {
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('resize', checkMobile);
       if (typeof cancelAnimationFrame !== 'undefined') cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
   return (
-    <div ref={containerRef} className="absolute inset-0 w-full h-screen z-10 pointer-events-auto" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-      {isLoaded && (
+    <div ref={containerRef} className="hidden md:block absolute inset-0 w-full h-screen z-10 pointer-events-auto" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      {!isMobile && isLoaded && (
         <Canvas
           camera={{ position: [0, 0, 7], fov: 65 }}
           gl={{

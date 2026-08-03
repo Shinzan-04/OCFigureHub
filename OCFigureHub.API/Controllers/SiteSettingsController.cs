@@ -14,11 +14,13 @@ public class SiteSettingsController : ControllerBase
 {
     private readonly AppDbContext _db;
     private readonly IStorageService _storage;
+    private readonly IModelOptimizer _optimizer;
 
-    public SiteSettingsController(AppDbContext db, IStorageService storage)
+    public SiteSettingsController(AppDbContext db, IStorageService storage, IModelOptimizer optimizer)
     {
         _db = db;
         _storage = storage;
+        _optimizer = optimizer;
     }
 
     /// <summary>Get all settings, optionally filtered by group</summary>
@@ -80,7 +82,11 @@ public class SiteSettingsController : ControllerBase
         if (file == null || file.Length == 0) return BadRequest("No file provided");
         
         using var stream = file.OpenReadStream();
-        var (storageKey, _) = await _storage.UploadAsync(stream, file.FileName, file.ContentType, ct);
+        
+        // Cực kỳ quan trọng: Nén file 3D bằng thuật toán Draco trước khi upload
+        var optimizedStream = await _optimizer.OptimizeAsync(stream, "GLB", ct);
+        
+        var (storageKey, _) = await _storage.UploadAsync(optimizedStream, file.FileName, file.ContentType, ct);
         
         return Ok(new { storageKey });
     }
