@@ -73,6 +73,10 @@ export function AdminSettings() {
     fromEmail: 'noreply@ocfigurehub.com',
   });
 
+  const [appearanceSettings, setAppearanceSettings] = useState({
+    heroModels: '[]',
+  });
+
   // Load settings from API
   useEffect(() => {
     const load = async () => {
@@ -97,6 +101,9 @@ export function AdminSettings() {
         if (data.email) {
           setEmailSettings(prev => ({ ...prev, ...data.email }));
         }
+        if (data.appearance) {
+          setAppearanceSettings(prev => ({ ...prev, ...data.appearance }));
+        }
       } catch { /* first time — no settings yet */ }
       setLoading(false);
     };
@@ -117,6 +124,7 @@ export function AdminSettings() {
         security: toStr(securitySettings),
         payment: toStr(paymentSettings),
         email: toStr(emailSettings),
+        appearance: toStr(appearanceSettings),
       });
       setSaved(true);
       toast.success('Settings saved!');
@@ -308,19 +316,66 @@ export function AdminSettings() {
 
             {activeSection === 'appearance' && (
               <div className="space-y-5">
-                <p style={{ color: '#888', fontSize: 13 }}>Visual customization settings coming soon. The site uses a fixed dark theme consistent with the OC Figure Hub brand.</p>
-                <div className="grid grid-cols-3 gap-3">
-                  {['#8B5CF6', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#EC4899'].map(color => (
-                    <div
-                      key={color}
-                      className="h-14 rounded-xl flex items-center justify-center text-xs cursor-pointer transition-all hover:scale-105"
-                      style={{ background: color, color: '#fff', fontWeight: 600 }}
-                    >
-                      {color}
-                    </div>
-                  ))}
+                <div>
+                  <h4 style={{ color: '#fff', fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Hero 3D Models</h4>
+                  <p style={{ color: '#888', fontSize: 12, marginBottom: 16 }}>
+                    Quản lý danh sách các mô hình 3D (.glb) hiển thị động trên màn hình chính (Homepage).
+                  </p>
+                  
+                  <div className="space-y-3">
+                    {(() => {
+                      let models: string[] = [];
+                      try { models = JSON.parse(appearanceSettings.heroModels); } catch {}
+                      
+                      return (
+                        <>
+                          {models.map((m, i) => {
+                            // Extract just the original filename by removing the date and GUID prefix
+                            // e.g. "2026/08/guid_filename.glb" -> "filename.glb"
+                            const displayName = m.includes('_') ? m.substring(m.indexOf('_') + 1) : m;
+                            return (
+                              <div key={i} className="flex items-center justify-between p-3 rounded-lg" style={{ background: '#1A1A1A', border: '1px solid #262626' }}>
+                                <span style={{ color: '#fff', fontSize: 13 }} className="truncate flex-1">{displayName}</span>
+                                <button 
+                                  onClick={() => {
+                                  const next = models.filter((_, idx) => idx !== i);
+                                  setAppearanceSettings(s => ({ ...s, heroModels: JSON.stringify(next) }));
+                                }}
+                                className="text-red-500 hover:text-red-400 text-sm ml-4"
+                              >
+                                Xóa
+                              </button>
+                            </div>
+                            );
+                          })}
+                          <div className="pt-2">
+                            <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all" style={{ background: 'rgba(139,92,246,0.1)', color: '#8B5CF6', fontWeight: 600 }}>
+                              <input 
+                                type="file" 
+                                accept=".glb,.gltf" 
+                                className="hidden" 
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (!file) return;
+                                  try {
+                                    toast.loading('Đang upload...', { id: 'upload-hero' });
+                                    const res = await adminApi.uploadHeroModel(file);
+                                    const next = [...models, res.storageKey];
+                                    setAppearanceSettings(s => ({ ...s, heroModels: JSON.stringify(next) }));
+                                    toast.success('Upload thành công', { id: 'upload-hero' });
+                                  } catch (err) {
+                                    toast.error('Upload thất bại', { id: 'upload-hero' });
+                                  }
+                                }}
+                              />
+                              <span>+ Tải lên Mô hình mới</span>
+                            </label>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>
                 </div>
-                <p style={{ color: '#666', fontSize: 12 }}>Primary color options (non-functional preview)</p>
               </div>
             )}
 

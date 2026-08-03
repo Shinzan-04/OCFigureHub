@@ -2,10 +2,11 @@
 /// <reference types="@react-three/fiber" />
 "use client";
 
-import { useRef, useEffect, useState, Suspense, useMemo } from "react";
+import React, { useRef, useEffect, useState, Suspense, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment, Float, useGLTF, OrbitControls, Preload } from "@react-three/drei";
+import { Environment, Float, useGLTF, OrbitControls, Preload, Html, useProgress } from "@react-three/drei";
 import * as THREE from "three";
+import API from "../../api/client";
 
 interface SceneState {
   isHovered: boolean;
@@ -173,23 +174,34 @@ function ReactiveParticles({ stateRef }: { stateRef: React.MutableRefObject<Scen
   );
 }
 
-const MODELS = [
-  "/rose-gold-sentinel.glb",
-  "/Valkyrie_Mech.glb",
-  "/robot.glb",
-  "/monster.glb"
-];
 
-function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
+class ModelErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError(error: any) {
+    return { hasError: true };
+  }
+  componentDidCatch(error: any, errorInfo: any) {
+    console.error("3D Model load error:", error);
+  }
+  render() {
+    if (this.state.hasError) {
+      return null;
+    }
+    return this.props.children;
+  }
+}
+
+function Model({ stateRef, models }: { stateRef: React.MutableRefObject<SceneState>, models: string[] }) {
   const groupRef = useRef<THREE.Group>(null);
   const forcefieldRef = useRef<THREE.Mesh>(null);
   const shockwaveRef = useRef<THREE.Mesh>(null);
-  const [modelIndex, setModelIndex] = useState(0);
-  const [loadedScene, setLoadedScene] = useState<THREE.Group | null>(null);
-  const loadedSceneRef = useRef<THREE.Group | null>(null);
+  const scenesRef = useRef<THREE.Group[]>([]);
   const modelIndexRef = useRef(0);
 
-  const gltfs = useGLTF(MODELS);
+  const gltfs = useGLTF(models);
 
   const processedScenes = useMemo(() => {
     const _box = new THREE.Box3();
@@ -229,11 +241,6 @@ function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
     });
   }, [gltfs]);
 
-  useEffect(() => {
-    setLoadedScene(processedScenes[modelIndex].scene);
-    loadedSceneRef.current = processedScenes[modelIndex].scene;
-  }, [processedScenes, modelIndex]);
-
   const targetRotation = useRef({ x: 0, y: 0 });
   const jumpProgress = useRef(0);
   const hasSwapped = useRef(false);
@@ -269,8 +276,7 @@ function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
 
       if (jumpProgress.current < 0.5 && !hasSwapped.current) {
         hasSwapped.current = true;
-        modelIndexRef.current = (modelIndexRef.current + 1) % MODELS.length;
-        setModelIndex(modelIndexRef.current);
+        modelIndexRef.current = (modelIndexRef.current + 1) % models.length;
       }
 
       if (forcefieldRef.current) {
@@ -295,6 +301,14 @@ function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
 
     groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotation.current.y, 0.05);
     groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotation.current.x, 0.05);
+
+    // Apply visibility/scale to individual scenes to avoid React re-renders causing lag
+    scenesRef.current.forEach((scene, index) => {
+      if (scene) {
+        const isActive = index === modelIndexRef.current;
+        scene.scale.setScalar(isActive ? 2.5 : 0.000001);
+      }
+    });
   });
 
   const handleClick = (e: any) => {
@@ -307,12 +321,12 @@ function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
       {processedScenes.map((sceneObj, index) => {
-        const isActive = loadedScene === sceneObj.scene;
         return (
           <primitive 
             key={index} 
+            ref={(el: THREE.Group) => { if (el) scenesRef.current[index] = el; }}
             object={sceneObj.scene} 
-            scale={isActive ? 2.5 : 0.000001} 
+            scale={index === 0 ? 2.5 : 0.000001} 
             visible={true}
           />
         );
@@ -339,7 +353,21 @@ function Model({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
   );
 }
 
-function Scene({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
+function LoaderFallback() {
+  const { progress } = useProgress();
+  return (
+    <Html center>
+      <div className="flex flex-col items-center justify-center pointer-events-none">
+        <div className="w-12 h-12 border-4 border-[#8B5CF6] border-t-transparent rounded-full animate-spin mb-4"></div>
+        <div style={{ color: '#8B5CF6', fontWeight: 600, fontSize: 14, textShadow: '0 0 10px rgba(139, 92, 246, 0.5)' }}>
+          {progress.toFixed(0)}%
+        </div>
+      </div>
+    </Html>
+  );
+}
+
+function Scene({ stateRef, models }: { stateRef: React.MutableRefObject<SceneState>, models: string[] }) {
   const { camera } = useThree();
   const targetCamPos = useRef(new THREE.Vector3(0, 0, 7));
 
@@ -366,10 +394,14 @@ function Scene({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
           <HolographicPlatform stateRef={stateRef} />
           <ReactiveParticles stateRef={stateRef} />
         </group>
-        <Suspense fallback={null}>
+        <Suspense fallback={<LoaderFallback />}>
           <Float speed={1} rotationIntensity={0} floatIntensity={0.08} floatingRange={[-0.05, 0.05]}>
             <group position={[0, 1, 0]}>
-              <Model stateRef={stateRef} />
+              {models.length > 0 && (
+                <ModelErrorBoundary>
+                  <Model stateRef={stateRef} models={models} />
+                </ModelErrorBoundary>
+              )}
             </group>
           </Float>
           <Environment preset="warehouse" />
@@ -383,6 +415,7 @@ function Scene({ stateRef }: { stateRef: React.MutableRefObject<SceneState> }) {
 export default function Hero3D() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [models, setModels] = useState<string[]>([]);
   const [isHovered, setIsHovered] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -398,6 +431,13 @@ export default function Hero3D() {
 
   useEffect(() => { stateRef.current.scrollProgress = scrollProgress; }, [scrollProgress]);
   useEffect(() => { stateRef.current.mouse = mousePosition; }, [mousePosition]);
+
+  useEffect(() => {
+    API.get('/publicsettings/hero-models')
+      .then(res => setModels(res.data))
+      .catch(() => setModels([]))
+      .finally(() => setIsLoaded(true));
+  }, []);
 
   useEffect(() => {
     let animationFrameId: number;
@@ -422,7 +462,7 @@ export default function Hero3D() {
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("scroll", handleScroll, { passive: true });
-    setIsLoaded(true);
+    // setIsLoaded(true); is handled by API fetch now
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -447,7 +487,7 @@ export default function Hero3D() {
           dpr={[1, 1.5]}
           shadows={false}
         >
-          <Scene stateRef={stateRef} />
+          <Scene stateRef={stateRef} models={models} />
           <Preload all />
         </Canvas>
       )}

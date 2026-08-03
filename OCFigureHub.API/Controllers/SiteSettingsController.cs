@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Domain.Entities;
 using OCFigureHub.Infrastructure.Persistence;
 
@@ -12,8 +13,13 @@ namespace OCFigureHub.API.Controllers;
 public class SiteSettingsController : ControllerBase
 {
     private readonly AppDbContext _db;
+    private readonly IStorageService _storage;
 
-    public SiteSettingsController(AppDbContext db) => _db = db;
+    public SiteSettingsController(AppDbContext db, IStorageService storage)
+    {
+        _db = db;
+        _storage = storage;
+    }
 
     /// <summary>Get all settings, optionally filtered by group</summary>
     [HttpGet]
@@ -65,5 +71,17 @@ public class SiteSettingsController : ControllerBase
 
         await _db.SaveChangesAsync(ct);
         return Ok(new { message = "Settings saved successfully" });
+    }
+
+    /// <summary>Upload a hero 3D model</summary>
+    [HttpPost("upload-hero")]
+    public async Task<IActionResult> UploadHeroModel(IFormFile file, CancellationToken ct)
+    {
+        if (file == null || file.Length == 0) return BadRequest("No file provided");
+        
+        using var stream = file.OpenReadStream();
+        var (storageKey, _) = await _storage.UploadAsync(stream, file.FileName, file.ContentType, ct);
+        
+        return Ok(new { storageKey });
     }
 }

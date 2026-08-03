@@ -104,6 +104,14 @@ export const adminApi = {
     const res = await API.put('/admin/sitesettings', data);
     return res.data;
   },
+  uploadHeroModel: async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await API.post('/admin/sitesettings/upload-hero', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return res.data;
+  },
 
   // CMS Content
   getCmsAll: async () => {
