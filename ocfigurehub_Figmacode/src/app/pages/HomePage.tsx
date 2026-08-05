@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router';
 import { Search, Sparkles, ChevronLeft, ChevronRight, X, ArrowUpDown, Check, SlidersHorizontal, ChevronUp } from 'lucide-react';
 import { useProducts } from '../../hooks/useProducts';
 import { ProductCard } from '../components/ProductCard';
@@ -7,6 +8,8 @@ import { SkeletonProductCard } from '../components/SkeletonProductCard';
 import { EmptyState } from '../components/EmptyState';
 import type { ProductQueryParams } from '../../types/pagination';
 import { statsApi, type PlatformStats } from '../../api/stats';
+import { productsApi } from '../../api/products';
+import type { Product } from '../../types/product';
 import Hero3D from '../components/Hero3D';
 
 const CATEGORIES = [
@@ -64,6 +67,10 @@ export function HomePage() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
   const [platformStats, setPlatformStats] = useState<PlatformStats | null>(null);
+  const [suggestions, setSuggestions] = useState<Product[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+  const mobileSearchContainerRef = useRef<HTMLDivElement>(null);
   const pageSize = 12;
 
   const activeFilterCount = [
@@ -79,6 +86,12 @@ export function HomePage() {
     const handler = (e: MouseEvent) => {
       if (filterRef.current && !filterRef.current.contains(e.target as Node)) setFilterOpen(false);
       if (sortRef.current && !sortRef.current.contains(e.target as Node)) setSortOpen(false);
+      if (
+        searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node) &&
+        mobileSearchContainerRef.current && !mobileSearchContainerRef.current.contains(e.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
@@ -92,6 +105,27 @@ export function HomePage() {
     }, 400);
     return () => clearTimeout(timer);
   }, [search]);
+
+  // Fetch suggestions
+  useEffect(() => {
+    if (search.trim().length >= 1) {
+      const timer = setTimeout(async () => {
+        try {
+          const res = await productsApi.getAll({ search: search.trim(), pageSize: 5, sort: 'newest' });
+          setSuggestions(res.items || []);
+          setShowSuggestions(true);
+        } catch (e) {}
+      }, 300);
+      return () => clearTimeout(timer);
+    } else {
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  }, [search]);
+
+  const matchingCategories = search.trim().length >= 1
+    ? CATEGORIES.filter(c => c.key && c.label.toLowerCase().includes(search.toLowerCase().trim())).slice(0, 3)
+    : [];
 
   // Fetch platform stats
   useEffect(() => {
@@ -180,17 +214,20 @@ export function HomePage() {
           </div>
 
           {/* Search */}
-          <div className="relative">
+          <div ref={mobileSearchContainerRef} className="relative z-50">
             <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#A1A1A1' }} />
             <input
               type="text"
               placeholder="Tìm model, nhân vật, tag..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#8B5CF6';
+                if (search.trim().length >= 2) setShowSuggestions(true);
+              }}
+              onBlur={(e) => (e.target.style.borderColor = '#262626')}
               className="w-full pl-10 pr-4 py-3 rounded-2xl text-sm outline-none transition-all duration-200"
               style={{ backgroundColor: '#111111', border: '1px solid #262626', color: '#FFFFFF' }}
-              onFocus={(e) => (e.target.style.borderColor = '#8B5CF6')}
-              onBlur={(e) => (e.target.style.borderColor = '#262626')}
             />
             {search && (
               <button
@@ -200,6 +237,52 @@ export function HomePage() {
               >
                 <X size={15} />
               </button>
+            )}
+
+            {/* Mobile Suggestions Dropdown */}
+            {showSuggestions && (matchingCategories.length > 0 || suggestions.length > 0) && (
+              <div className="absolute top-full left-0 right-0 mt-2 rounded-2xl border shadow-2xl overflow-hidden bg-[#111111]" style={{ borderColor: '#262626' }}>
+                {matchingCategories.length > 0 && (
+                  <div className="flex flex-col border-b" style={{ borderColor: '#262626' }}>
+                    {matchingCategories.map((c) => (
+                      <button
+                        key={c.key}
+                        onClick={() => {
+                          setSearch(c.label);
+                          setShowSuggestions(false);
+                        }}
+                        className="flex items-center gap-3 p-3 hover:bg-[#1A1A1A] transition-colors text-left"
+                      >
+                        <Search size={14} style={{ color: '#8B5CF6' }} />
+                        <span className="text-sm text-white font-medium">Tìm kiếm "<span style={{ color: '#8B5CF6' }}>{c.label}</span>"</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {suggestions.length > 0 && (
+                  <div className="flex flex-col">
+                    <div className="px-3 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#6b7280' }}>Sản phẩm gợi ý</div>
+                    {suggestions.map((p) => (
+                      <Link
+                        key={p.id}
+                        to={`/product/${p.id}`}
+                        className="flex items-center gap-3 p-3 hover:bg-[#1A1A1A] transition-colors border-b last:border-0"
+                        style={{ borderColor: '#262626' }}
+                      >
+                        {p.thumbnailUrl ? (
+                          <img src={p.thumbnailUrl} alt={p.name} className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+                        ) : (
+                          <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0" style={{ background: '#1a1a2e', color: '#8B5CF640' }}>{p.name.charAt(0)}</div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-white truncate">{p.name}</p>
+                          <p className="text-xs text-[#A1A1A1] truncate">{p.creator}</p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             )}
           </div>
 
@@ -279,17 +362,20 @@ export function HomePage() {
                 </div>
 
                 {/* Search */}
-                <div className="relative">
+                <div ref={searchContainerRef} className="relative z-50">
                   <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#A1A1A1' }} />
                   <input
                     type="text"
                     placeholder="Tìm model, nhân vật, tag..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#8B5CF6';
+                      if (search.trim().length >= 2) setShowSuggestions(true);
+                    }}
+                    onBlur={(e) => (e.target.style.borderColor = '#262626')}
                     className="w-full pl-11 pr-4 py-3.5 rounded-2xl text-sm outline-none transition-all duration-200"
                     style={{ backgroundColor: '#111111', border: '1px solid #262626', color: '#FFFFFF' }}
-                    onFocus={(e) => (e.target.style.borderColor = '#8B5CF6')}
-                    onBlur={(e) => (e.target.style.borderColor = '#262626')}
                   />
                   {search && (
                     <button
@@ -299,6 +385,58 @@ export function HomePage() {
                     >
                       <X size={16} />
                     </button>
+                  )}
+
+                  {/* Desktop Suggestions Dropdown */}
+                  {showSuggestions && (matchingCategories.length > 0 || suggestions.length > 0) && (
+                    <div className="absolute top-full left-0 right-0 mt-2 rounded-2xl border shadow-2xl overflow-hidden bg-[#111111]" style={{ borderColor: '#262626' }}>
+                      {matchingCategories.length > 0 && (
+                        <div className="flex flex-col border-b" style={{ borderColor: '#262626' }}>
+                          {matchingCategories.map((c) => (
+                            <button
+                              key={c.key}
+                              onClick={() => {
+                                setSearch(c.label);
+                                setShowSuggestions(false);
+                              }}
+                              className="flex items-center gap-3 p-3 hover:bg-[#1A1A1A] transition-colors text-left"
+                            >
+                              <Search size={14} style={{ color: '#8B5CF6' }} />
+                              <span className="text-sm text-white font-medium">Tìm kiếm "<span style={{ color: '#8B5CF6' }}>{c.label}</span>"</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                      {suggestions.length > 0 && (
+                        <div className="flex flex-col max-h-[300px] overflow-y-auto custom-scrollbar">
+                          <div className="px-3 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#6b7280' }}>Sản phẩm gợi ý</div>
+                          {suggestions.map((p) => (
+                            <Link
+                              key={p.id}
+                              to={`/product/${p.id}`}
+                              className="flex items-center gap-3 p-3 hover:bg-[#1A1A1A] transition-colors border-b last:border-0"
+                              style={{ borderColor: '#262626' }}
+                            >
+                              {p.thumbnailUrl ? (
+                                <img src={p.thumbnailUrl} alt={p.name} className="w-12 h-12 rounded-lg object-cover flex-shrink-0" />
+                              ) : (
+                                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0" style={{ background: '#1a1a2e', color: '#8B5CF640' }}>{p.name.charAt(0)}</div>
+                              )}
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-white truncate">{p.name}</p>
+                                <p className="text-xs text-[#A1A1A1] truncate mt-0.5">{p.creator}</p>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-sm font-bold" style={{ color: '#8B5CF6' }}>
+                                  {p.price === 0 ? 'Free' : `₫${(p.price / 1000).toFixed(0)}k`}
+                                </p>
+                                <p className="text-[10px] text-[#A1A1A1]">{p.category}</p>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   )}
                 </div>
 
@@ -352,9 +490,9 @@ export function HomePage() {
           </div>
 
           {/* Filters + Sort + Clear — right side */}
-          <div className="flex items-center gap-2 ml-auto shrink-0">
+          <div className="flex items-center gap-2 ml-auto shrink-0 relative">
             {/* Filters */}
-            <div ref={filterRef} className="relative">
+            <div ref={filterRef}>
               <button
                 onClick={() => { setFilterOpen(!filterOpen); setSortOpen(false); }}
                 className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border transition-all duration-150"
@@ -422,7 +560,7 @@ export function HomePage() {
             </div>
 
             {/* Sort */}
-            <div ref={sortRef} className="relative">
+            <div ref={sortRef}>
               <button
                 onClick={() => { setSortOpen(!sortOpen); setFilterOpen(false); }}
                 className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border transition-all duration-150"

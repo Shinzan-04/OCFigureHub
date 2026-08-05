@@ -162,22 +162,6 @@ export function Footer() {
               </form>
             )}
 
-            {/* Category quick links */}
-            <div className="flex flex-wrap gap-2 pt-2">
-              {['All', 'Free', 'Anime', 'Monsters'].map((cat) => {
-                const href = cat === 'All' ? '/' : `/${cat.toLowerCase()}`;
-                return (
-                  <Link
-                    key={cat}
-                    to={href}
-                    className="px-3 py-1.5 rounded-xl text-xs border transition-colors duration-200 hover:border-[#8B5CF6]"
-                    style={{ borderColor: '#262626', color: '#A1A1A1' }}
-                  >
-                    {cat}
-                  </Link>
-                );
-              })}
-            </div>
           </div>
         </div>
 
