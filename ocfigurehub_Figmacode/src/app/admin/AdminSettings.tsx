@@ -33,7 +33,6 @@ export function AdminSettings() {
     maxUploadSize: '100',
     allowRegistration: true,
     maintenanceMode: false,
-    language: 'vi',
   });
 
   const [notifSettings, setNotifSettings] = useState({
@@ -238,18 +237,6 @@ export function AdminSettings() {
                     className="w-full px-3 py-2 rounded-lg outline-none resize-none"
                     style={{ background: '#1A1A1A', border: '1px solid #262626', color: '#fff', fontSize: 13 }}
                   />
-                </div>
-                <div>
-                  <label style={{ color: '#888', fontSize: 12, display: 'block', marginBottom: 6 }}>Language</label>
-                  <select
-                    value={generalSettings.language}
-                    onChange={e => setGeneralSettings(s => ({ ...s, language: e.target.value }))}
-                    className="px-3 py-2 rounded-lg outline-none"
-                    style={{ background: '#1A1A1A', border: '1px solid #262626', color: '#fff', fontSize: 13 }}
-                  >
-                    <option value="vi">Tiếng Việt</option>
-                    <option value="en">English</option>
-                  </select>
                 </div>
                 <ToggleRow label="Allow Registration" desc="Allow new users to register" checked={generalSettings.allowRegistration} onChange={v => setGeneralSettings(s => ({ ...s, allowRegistration: v }))} />
                 <ToggleRow label="Maintenance Mode" desc="Put site in maintenance mode" checked={generalSettings.maintenanceMode} onChange={v => setGeneralSettings(s => ({ ...s, maintenanceMode: v }))} />
