@@ -272,18 +272,38 @@ export function ChatbotWidget() {
 
   return (
     <>
-      {/* Floating Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
-        style={{
-          backgroundColor: isOpen ? '#6D28D9' : '#8B5CF6',
-          color: '#FFFFFF',
-        }}
-        aria-label={isOpen ? 'Đóng chat' : 'Mở chat'}
-      >
-        {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
-      </button>
+      {/* Floating Action Buttons Container */}
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col gap-3 items-end pointer-events-none">
+        
+        {/* Messenger Button */}
+        {!isOpen && (
+          <a
+            href="https://m.me/61590154153324"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 pointer-events-auto"
+            style={{ backgroundColor: '#00B2FF', color: '#FFFFFF' }}
+            title="Chat với Admin qua Messenger"
+          >
+            <svg viewBox="0 0 36 36" fill="currentColor" width="26" height="26">
+              <path d="M18 1.4C8.7 1.4 1.2 8.5 1.2 17.2c0 4.9 2.4 9.3 6.1 12.3v5.1l5.5-3.1c1.7.5 3.5.7 5.2.7 9.3 0 16.8-7.1 16.8-15.8S27.3 1.4 18 1.4zm1.1 21.3-4.3-4.7-8.4 4.7 9.2-9.9 4.4 4.7 8.3-4.7-9.2 9.9z"/>
+            </svg>
+          </a>
+        )}
+
+        {/* AI Chatbot Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 pointer-events-auto"
+          style={{
+            backgroundColor: isOpen ? '#6D28D9' : '#8B5CF6',
+            color: '#FFFFFF',
+          }}
+          aria-label={isOpen ? 'Đóng chat' : 'Mở chat'}
+        >
+          {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
+        </button>
+      </div>
 
       {/* Chat Panel */}
       {isOpen && (

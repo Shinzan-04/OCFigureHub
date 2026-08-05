@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MessageCircle, Facebook } from 'lucide-react';
 import { newsletterApi } from '../../api/newsletter';
 import { toast } from 'react-hot-toast';
 
@@ -47,7 +47,7 @@ export function Footer() {
             </p>
 
             {/* Links */}
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
               <div className="flex flex-col gap-3">
                 <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#A1A1A1' }}>
                   Navigation
@@ -66,6 +66,33 @@ export function Footer() {
                     {link.label}
                   </Link>
                 ))}
+              </div>
+              <div className="flex flex-col gap-3">
+                <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#A1A1A1' }}>
+                  Hỗ Trợ
+                </span>
+                <a
+                  href="https://m.me/61590154153324"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm transition-colors duration-200 hover:text-white w-fit flex items-center gap-2"
+                  style={{ color: '#00B2FF' }}
+                >
+                  <svg viewBox="0 0 36 36" fill="currentColor" width="16" height="16">
+                    <path d="M18 1.4C8.7 1.4 1.2 8.5 1.2 17.2c0 4.9 2.4 9.3 6.1 12.3v5.1l5.5-3.1c1.7.5 3.5.7 5.2.7 9.3 0 16.8-7.1 16.8-15.8S27.3 1.4 18 1.4zm1.1 21.3-4.3-4.7-8.4 4.7 9.2-9.9 4.4 4.7 8.3-4.7-9.2 9.9z"/>
+                  </svg>
+                  Messenger
+                </a>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61590154153324"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm transition-colors duration-200 hover:text-white w-fit flex items-center gap-2"
+                  style={{ color: '#3b5998' }}
+                >
+                  <Facebook size={16} />
+                  Fanpage Facebook
+                </a>
               </div>
               <div className="flex flex-col gap-3">
                 <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#A1A1A1' }}>
