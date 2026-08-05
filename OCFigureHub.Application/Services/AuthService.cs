@@ -16,19 +16,22 @@ public class AuthService
     private readonly IJwtTokenService _jwt;
     private readonly IEmailService _email;
     private readonly IConfiguration _config;
+    private readonly ISiteSettingRepository _settings;
 
     public AuthService(
         IUserRepository users, 
         IPasswordHasher hasher, 
         IJwtTokenService jwt,
         IEmailService email,
-        IConfiguration config)
+        IConfiguration config,
+        ISiteSettingRepository settings)
     {
         _users = users;
         _hasher = hasher;
         _jwt = jwt;
         _email = email;
         _config = config;
+        _settings = settings;
     }
 
     public async Task ForgotPasswordAsync(ForgotPasswordRequest req, CancellationToken ct)
@@ -89,6 +92,18 @@ public class AuthService
             await _email.SendVerificationEmailAsync(user.Email, verifyLink, ct);
         }
         catch { /* log but don't fail registration */ }
+
+        // Send admin notification (best-effort)
+        try
+        {
+            var notify = await _settings.GetValueAsync("notifications", "newUserEmail", ct);
+            if (notify == "true")
+            {
+                var body = $"<p>A new user has registered.</p><p>Email: {user.Email}</p><p>Name: {user.DisplayName}</p>";
+                await _email.SendAdminNotificationAsync("New User Signup - OC Figure Hub", body, ct);
+            }
+        }
+        catch { /* log */ }
 
         var token = _jwt.Generate(user);
 
@@ -191,6 +206,18 @@ public class AuthService
 
             await _users.AddAsync(user, ct);
             await _users.SaveChangesAsync(ct);
+
+            // Send admin notification (best-effort)
+            try
+            {
+                var notify = await _settings.GetValueAsync("notifications", "newUserEmail", ct);
+                if (notify == "true")
+                {
+                    var body = $"<p>A new user has registered via Google.</p><p>Email: {user.Email}</p><p>Name: {user.DisplayName}</p>";
+                    await _email.SendAdminNotificationAsync("New User Signup - OC Figure Hub", body, ct);
+                }
+            }
+            catch { /* log */ }
         }
 
         var token = _jwt.Generate(user);
@@ -250,6 +277,18 @@ public class AuthService
 
             await _users.AddAsync(user, ct);
             await _users.SaveChangesAsync(ct);
+
+            // Send admin notification (best-effort)
+            try
+            {
+                var notify = await _settings.GetValueAsync("notifications", "newUserEmail", ct);
+                if (notify == "true")
+                {
+                    var body = $"<p>A new user has registered via Facebook.</p><p>Email: {user.Email}</p><p>Name: {user.DisplayName}</p>";
+                    await _email.SendAdminNotificationAsync("New User Signup - OC Figure Hub", body, ct);
+                }
+            }
+            catch { /* log */ }
         }
 
         var token = _jwt.Generate(user);

@@ -403,37 +403,7 @@ export function AdminSettings() {
         </div>
       </div>
 
-      {/* Danger Zone */}
-      <div className="rounded-xl" style={{ background: '#111111', border: '1px solid rgba(239,68,68,0.3)' }}>
-        <div className="px-5 py-4" style={{ borderBottom: '1px solid rgba(239,68,68,0.2)' }}>
-          <h3 style={{ color: '#EF4444', fontSize: 14, fontWeight: 600 }}>⚠ Danger Zone</h3>
-        </div>
-        <div className="p-5 space-y-3">
-          {[
-            { label: 'Clear All Cache', desc: 'Remove all cached data from the server', color: '#F59E0B', icon: Database, action: () => toast.success('All cache cleared successfully!') },
-            { label: 'Reset to Defaults', desc: 'Reset all settings to factory defaults', color: '#EF4444', icon: RefreshCw, action: () => {
-              if (window.confirm('Are you sure you want to reset all settings to defaults? This cannot be undone.')) {
-                toast.success('Settings reset to defaults');
-              }
-            }},
-          ].map(actionItem => (
-            <div key={actionItem.label} className="flex items-center justify-between p-4 rounded-xl" style={{ background: '#1A1A1A', border: '1px solid #262626' }}>
-              <div>
-                <p style={{ color: '#fff', fontSize: 13, fontWeight: 500 }}>{actionItem.label}</p>
-                <p style={{ color: '#888', fontSize: 12 }}>{actionItem.desc}</p>
-              </div>
-              <button
-                onClick={actionItem.action}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-all hover:opacity-80"
-                style={{ background: `${actionItem.color}15`, color: actionItem.color, fontWeight: 600 }}
-              >
-                <actionItem.icon size={14} />
-                {actionItem.label}
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
+
     </div>
   );
 }

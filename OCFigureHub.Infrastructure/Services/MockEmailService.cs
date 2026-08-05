@@ -26,4 +26,14 @@ public class MockEmailService : IEmailService
         Console.WriteLine("======================================================");
         return Task.CompletedTask;
     }
+
+    public Task SendAdminNotificationAsync(string subject, string body, CancellationToken ct = default)
+    {
+        Console.WriteLine("======================================================");
+        Console.WriteLine($"MOCK ADMIN NOTIFICATION SENT");
+        Console.WriteLine($"SUBJECT: {subject}");
+        Console.WriteLine($"BODY: {body}");
+        Console.WriteLine("======================================================");
+        return Task.CompletedTask;
+    }
 }

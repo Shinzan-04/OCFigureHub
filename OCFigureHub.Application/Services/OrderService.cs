@@ -8,10 +8,14 @@ namespace OCFigureHub.Application.Services;
 public class OrderService
 {
     private readonly IOrderRepository _orders;
+    private readonly IEmailService _email;
+    private readonly ISiteSettingRepository _settings;
 
-    public OrderService(IOrderRepository orders)
+    public OrderService(IOrderRepository orders, IEmailService email, ISiteSettingRepository settings)
     {
         _orders = orders;
+        _email = email;
+        _settings = settings;
     }
 
     public async Task<OrderDto> BuyNowPaidImmediatelyAsync(Guid userId, BuyNowRequest req, CancellationToken ct)
@@ -46,6 +50,18 @@ public class OrderService
         await _orders.AddOrderAsync(order, ct);
         await _orders.AddOrderItemAsync(item, ct);
         await _orders.SaveChangesAsync(ct);
+
+        // Send admin notification (best-effort)
+        try
+        {
+            var notify = await _settings.GetValueAsync("notifications", "newOrderEmail", ct);
+            if (notify == "true")
+            {
+                var body = $"<p>A new order has been placed.</p><p>Order ID: {order.Id}</p><p>Total Amount: ${order.TotalAmount}</p><p>Status: {order.Status}</p>";
+                await _email.SendAdminNotificationAsync("New Order - OC Figure Hub", body, ct);
+            }
+        }
+        catch { /* log */ }
 
         return new OrderDto
         {
