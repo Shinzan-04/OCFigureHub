@@ -38,6 +38,7 @@ public class OrderRepository : IOrderRepository
 
     public Task<Order?> GetByIdAsync(Guid id, CancellationToken ct)
         => _db.Orders
+              .Include(x => x.Items)
               .FirstOrDefaultAsync(x => x.Id == id, ct);
 
     public Task UpdateAsync(Order order, CancellationToken ct)

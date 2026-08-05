@@ -6,4 +6,6 @@ public class PaymentCallbackResultDto
     public Guid? OrderId { get; set; }
     public string Message { get; set; } = "";
     public string? PaymentRef { get; set; }
+    public Guid? ProductId { get; set; }
+    public bool IsSubscription { get; set; }
 }

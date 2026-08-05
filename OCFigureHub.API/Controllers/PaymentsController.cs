@@ -136,7 +136,9 @@ public class PaymentsController : ControllerBase
             Success = true,
             OrderId = txn.OrderId,
             PaymentRef = $"PayOS:{orderCode}",
-            Message = order.PlanId.HasValue ? "Subscription ACTIVATED" : "Order marked as PAID"
+            Message = order.PlanId.HasValue ? "Subscription ACTIVATED" : "Order marked as PAID",
+            ProductId = order.Items?.FirstOrDefault()?.ProductId,
+            IsSubscription = order.PlanId.HasValue
         });
     }
 

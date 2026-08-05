@@ -7,6 +7,8 @@ export function PaymentResultPage() {
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState<'loading' | 'success' | 'fail'>('loading');
   const [message, setMessage] = useState('');
+  const [productId, setProductId] = useState<string | null>(null);
+  const [isSubscription, setIsSubscription] = useState(false);
 
   useEffect(() => {
     const verify = async () => {
@@ -16,6 +18,8 @@ export function PaymentResultPage() {
         if (result.success) {
           setStatus('success');
           setMessage(result.message || 'Thanh toán thành công!');
+          if (result.productId) setProductId(result.productId);
+          if (result.isSubscription) setIsSubscription(result.isSubscription);
         } else {
           setStatus('fail');
           setMessage(result.message || 'Thanh toán thất bại.');
@@ -58,7 +62,7 @@ export function PaymentResultPage() {
               <p className="text-sm text-center" style={{ color: '#A1A1A1' }}>
                 {message}
               </p>
-              <div className="flex gap-3 w-full">
+              <div className="flex gap-3 w-full mt-2">
                 <Link
                   to="/"
                   className="flex-1 py-3 rounded-xl text-sm font-semibold text-center border transition-colors hover:border-[#8B5CF6]"
@@ -66,13 +70,31 @@ export function PaymentResultPage() {
                 >
                   Trang chủ
                 </Link>
-                <Link
-                  to="/download-history"
-                  className="flex-1 py-3 rounded-xl text-sm font-semibold text-center transition-opacity hover:opacity-90"
-                  style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
-                >
-                  Xem lịch sử
-                </Link>
+                {isSubscription ? (
+                  <Link
+                    to="/upgrade"
+                    className="flex-1 py-3 rounded-xl text-sm font-semibold text-center transition-opacity hover:opacity-90"
+                    style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
+                  >
+                    Về gói Membership
+                  </Link>
+                ) : productId ? (
+                  <Link
+                    to={`/product/${productId}`}
+                    className="flex-1 py-3 rounded-xl text-sm font-semibold text-center transition-opacity hover:opacity-90"
+                    style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
+                  >
+                    Tải mô hình ngay
+                  </Link>
+                ) : (
+                  <Link
+                    to="/download-history"
+                    className="flex-1 py-3 rounded-xl text-sm font-semibold text-center transition-opacity hover:opacity-90"
+                    style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
+                  >
+                    Xem lịch sử
+                  </Link>
+                )}
               </div>
             </>
           )}

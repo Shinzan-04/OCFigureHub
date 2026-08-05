@@ -17,7 +17,7 @@ export const ordersApi = {
     return res.data;
   },
 
-  verifyPayment: async (queryString: string): Promise<{ success: boolean; orderId?: string; message: string }> => {
+  verifyPayment: async (queryString: string): Promise<{ success: boolean; orderId?: string; message: string; productId?: string; isSubscription?: boolean }> => {
     const res = await API.get(`/payments/payos-return${queryString}`);
     return res.data;
   },

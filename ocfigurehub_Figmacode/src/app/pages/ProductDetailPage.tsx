@@ -383,6 +383,10 @@ export function ProductDetailPage() {
                 )}
 
                 <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    toast.success('Đã sao chép liên kết');
+                  }}
                   className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-semibold border transition-colors hover:border-[#8B5CF6] text-sm"
                   style={{ borderColor: '#262626', color: '#A1A1A1' }}
                 >
