@@ -134,4 +134,21 @@ export const adminApi = {
     const res = await API.delete(`/admin/cms/${id}`);
     return res.data;
   },
+
+  // Membership & Saved Items
+  getMembershipData: async () => {
+    const res = await API.get('/admin/membership');
+    return res.data;
+  },
+  getSavedItemsData: async () => {
+    const res = await API.get('/admin/saved-items');
+    return res.data;
+  },
+
+  // Subscription Plans
+  updateSubscriptionPlan: async (id: string, data: { monthlyPrice: number, monthlyQuotaDownloads: number }) => {
+    const res = await API.put(`/subscription-plans/${id}`, data);
+    return res.data;
+  },
 };
+// Force HMR update

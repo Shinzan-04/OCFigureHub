@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OCFigureHub.Application.Abstractions;
 
@@ -29,4 +30,27 @@ public class SubscriptionPlansController : ControllerBase
             p.MonthlyQuotaDownloads
         }));
     }
+
+    /// <summary>
+    /// Update subscription plan (Admin only)
+    /// </summary>
+    [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateSubscriptionPlanRequest req, CancellationToken ct)
+    {
+        var plan = await _plans.GetByIdAsync(id, ct);
+        if (plan == null) return NotFound();
+
+        plan.MonthlyPrice = req.MonthlyPrice;
+        plan.MonthlyQuotaDownloads = req.MonthlyQuotaDownloads;
+
+        await _plans.UpdateAsync(plan, ct);
+        return Ok(new { message = "Updated successfully" });
+    }
+}
+
+public class UpdateSubscriptionPlanRequest
+{
+    public long MonthlyPrice { get; set; }
+    public int MonthlyQuotaDownloads { get; set; }
 }

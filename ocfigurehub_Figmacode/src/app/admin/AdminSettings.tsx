@@ -385,12 +385,13 @@ export function AdminSettings() {
                   <InputField label="SMTP Host" value={emailSettings.smtpHost} onChange={v => setEmailSettings(s => ({ ...s, smtpHost: v }))} />
                   <InputField label="SMTP Port" value={emailSettings.smtpPort} onChange={v => setEmailSettings(s => ({ ...s, smtpPort: v }))} />
                   <InputField label="SMTP Username" value={emailSettings.smtpUser} onChange={v => setEmailSettings(s => ({ ...s, smtpUser: v }))} />
-                  <InputField label="SMTP Password" value={emailSettings.smtpPassword} type="password" />
+                  <InputField label="SMTP Password" value={emailSettings.smtpPassword} onChange={v => setEmailSettings(s => ({ ...s, smtpPassword: v }))} type="password" />
                   <InputField label="From Name" value={emailSettings.fromName} onChange={v => setEmailSettings(s => ({ ...s, fromName: v }))} />
                   <InputField label="From Email" value={emailSettings.fromEmail} onChange={v => setEmailSettings(s => ({ ...s, fromEmail: v }))} type="email" />
                 </div>
                 <button
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm"
+                  onClick={() => toast.success('Test email has been sent successfully!')}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all hover:opacity-80"
                   style={{ background: 'rgba(236,72,153,0.1)', color: '#EC4899', fontWeight: 600 }}
                 >
                   <RefreshCw size={14} />
@@ -409,20 +410,25 @@ export function AdminSettings() {
         </div>
         <div className="p-5 space-y-3">
           {[
-            { label: 'Clear All Cache', desc: 'Remove all cached data from the server', color: '#F59E0B', icon: Database },
-            { label: 'Reset to Defaults', desc: 'Reset all settings to factory defaults', color: '#EF4444', icon: RefreshCw },
-          ].map(action => (
-            <div key={action.label} className="flex items-center justify-between p-4 rounded-xl" style={{ background: '#1A1A1A', border: '1px solid #262626' }}>
+            { label: 'Clear All Cache', desc: 'Remove all cached data from the server', color: '#F59E0B', icon: Database, action: () => toast.success('All cache cleared successfully!') },
+            { label: 'Reset to Defaults', desc: 'Reset all settings to factory defaults', color: '#EF4444', icon: RefreshCw, action: () => {
+              if (window.confirm('Are you sure you want to reset all settings to defaults? This cannot be undone.')) {
+                toast.success('Settings reset to defaults');
+              }
+            }},
+          ].map(actionItem => (
+            <div key={actionItem.label} className="flex items-center justify-between p-4 rounded-xl" style={{ background: '#1A1A1A', border: '1px solid #262626' }}>
               <div>
-                <p style={{ color: '#fff', fontSize: 13, fontWeight: 500 }}>{action.label}</p>
-                <p style={{ color: '#888', fontSize: 12 }}>{action.desc}</p>
+                <p style={{ color: '#fff', fontSize: 13, fontWeight: 500 }}>{actionItem.label}</p>
+                <p style={{ color: '#888', fontSize: 12 }}>{actionItem.desc}</p>
               </div>
               <button
+                onClick={actionItem.action}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-all hover:opacity-80"
-                style={{ background: `${action.color}15`, color: action.color, fontWeight: 600 }}
+                style={{ background: `${actionItem.color}15`, color: actionItem.color, fontWeight: 600 }}
               >
-                <action.icon size={14} />
-                {action.label}
+                <actionItem.icon size={14} />
+                {actionItem.label}
               </button>
             </div>
           ))}

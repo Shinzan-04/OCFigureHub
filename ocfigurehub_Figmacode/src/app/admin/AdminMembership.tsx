@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Crown, Users, DollarSign, TrendingUp, CheckCircle, XCircle, Clock, Search, Loader2 } from 'lucide-react';
+import { Crown, Users, DollarSign, TrendingUp, CheckCircle, XCircle, Clock, Search, Loader2, Save, Edit3, X } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { toast } from 'react-hot-toast';
 import API from '../../api/client';
-type SubStatus = 'Active' | 'Expired' | 'Cancelled' | 'Trial';
+import { adminApi } from '../../api/admin';
+type SubStatus = 'Active' | 'Expired' | 'Cancelled' | 'Trial' | string;
 
-interface Member {
+export interface Member {
   id: string;
   username: string;
   email: string;
-  plan: 'Monthly' | 'Yearly';
+  plan: string;
   status: SubStatus;
   startDate: string;
   endDate: string;
@@ -16,36 +18,17 @@ interface Member {
   avatar: string;
 }
 
-const STATUS_COLORS: Record<SubStatus, { bg: string; text: string; icon: React.ElementType }> = {
+const STATUS_COLORS: Record<string, { bg: string; text: string; icon: React.ElementType }> = {
   Active: { bg: 'rgba(16,185,129,0.15)', text: '#10B981', icon: CheckCircle },
   Expired: { bg: 'rgba(239,68,68,0.15)', text: '#EF4444', icon: XCircle },
-  Cancelled: { bg: 'rgba(100,100,100,0.15)', text: '#888', icon: XCircle },
-  Trial: { bg: 'rgba(245,158,11,0.15)', text: '#F59E0B', icon: Clock },
+  Cancelled: { bg: 'rgba(245,158,11,0.15)', text: '#F59E0B', icon: XCircle },
+  Pending: { bg: 'rgba(139,92,246,0.15)', text: '#8B5CF6', icon: Clock },
 };
 
-const MEMBERS: Member[] = [
-  { id: '1', username: 'fig_collector', email: 'figcollector@gmail.com', plan: 'Yearly', status: 'Active', startDate: '2024-03-01', endDate: '2025-03-01', amount: 990000, avatar: 'FC' },
-  { id: '2', username: 'anime_lover_vn', email: 'animelover@gmail.com', plan: 'Monthly', status: 'Active', startDate: '2025-02-10', endDate: '2025-03-10', amount: 99000, avatar: 'AL' },
-  { id: '3', username: 'tanaka_kun', email: 'tanaka@gmail.com', plan: 'Monthly', status: 'Active', startDate: '2025-02-15', endDate: '2025-03-15', amount: 99000, avatar: 'TK' },
-  { id: '4', username: 'otaku_dan', email: 'otaku@gmail.com', plan: 'Yearly', status: 'Active', startDate: '2024-09-01', endDate: '2025-09-01', amount: 990000, avatar: 'OD' },
-  { id: '5', username: 'mage_collector', email: 'mage@gmail.com', plan: 'Monthly', status: 'Trial', startDate: '2025-03-08', endDate: '2025-03-22', amount: 0, avatar: 'MC' },
-  { id: '6', username: 'old_member', email: 'oldmember@gmail.com', plan: 'Monthly', status: 'Expired', startDate: '2025-01-01', endDate: '2025-02-01', amount: 99000, avatar: 'OM' },
-  { id: '7', username: 'figure_fan', email: 'figurefan@gmail.com', plan: 'Yearly', status: 'Cancelled', startDate: '2024-06-01', endDate: '2025-06-01', amount: 990000, avatar: 'FF' },
-  { id: '8', username: 'digimon_fan', email: 'digifan@gmail.com', plan: 'Monthly', status: 'Active', startDate: '2025-03-01', endDate: '2025-04-01', amount: 99000, avatar: 'DF' },
-  { id: '9', username: 'jjk_stan', email: 'jjkstan@gmail.com', plan: 'Yearly', status: 'Active', startDate: '2024-12-01', endDate: '2025-12-01', amount: 990000, avatar: 'JS' },
-  { id: '10', username: 'collector_pro', email: 'collectorpro@gmail.com', plan: 'Monthly', status: 'Active', startDate: '2025-03-05', endDate: '2025-04-05', amount: 99000, avatar: 'CP' },
-];
-
-const monthlyRevData = [
-  { month: 'Aug', revenue: 693000 },
-  { month: 'Sep', revenue: 891000 },
-  { month: 'Oct', revenue: 990000 },
-  { month: 'Nov', revenue: 1287000 },
-  { month: 'Dec', revenue: 1386000 },
-  { month: 'Jan', revenue: 1782000 },
-  { month: 'Feb', revenue: 1980000 },
-  { month: 'Mar', revenue: 2277000 },
-];
+function formatPrice(price: number): string {
+  if (price === 0) return 'Miễn phí';
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+}
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -62,18 +45,75 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export function AdminMembership() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [members, setMembers] = useState<Member[]>([]);
+  const [monthlyRevData, setMonthlyRevData] = useState<{ month: string; revenue: number }[]>([]);
+  const [plans, setPlans] = useState<any[]>([]);
+  const [editingPlan, setEditingPlan] = useState<any | null>(null);
+  const [savingPlanId, setSavingPlanId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const activeMembers = MEMBERS.filter(m => m.status === 'Active');
-  const totalRevenue = MEMBERS.filter(m => m.status === 'Active').reduce((s, m) => s + m.amount, 0);
-  const yearlyCount = activeMembers.filter(m => m.plan === 'Yearly').length;
-  const monthlyCount = activeMembers.filter(m => m.plan === 'Monthly').length;
+  useEffect(() => {
+    const fetchMembership = async () => {
+      try {
+        const [data, plansRes] = await Promise.all([
+          adminApi.getMembershipData(),
+          API.get('/subscriptions/plans').catch(() => ({ data: [] }))
+        ]);
+        setMembers(data.members || []);
+        setMonthlyRevData(data.monthlyRevenue || []);
+        
+        // Filter out FREE plan if we only want to manage PRO/ULTIMATE
+        const activePlans = (plansRes.data || []).filter((p: any) => p.monthlyPrice > 0);
+        setPlans(activePlans);
+      } catch (err) {
+        console.error('Failed to fetch membership data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMembership();
+  }, []);
 
-  const filtered = MEMBERS.filter(m => {
-    const matchSearch = m.username.toLowerCase().includes(search.toLowerCase()) ||
-      m.email.toLowerCase().includes(search.toLowerCase());
+  const handleUpdatePlan = async () => {
+    if (!editingPlan) return;
+    setSavingPlanId(editingPlan.id);
+    try {
+      await adminApi.updateSubscriptionPlan(editingPlan.id, {
+        monthlyPrice: Number(editingPlan.monthlyPrice),
+        monthlyQuotaDownloads: Number(editingPlan.monthlyQuotaDownloads)
+      });
+      // Update local plans state
+      setPlans(prev => prev.map(p => p.id === editingPlan.id ? editingPlan : p));
+      setEditingPlan(null);
+      toast.success('Lưu thành công!');
+    } catch (err: any) {
+      console.error('Failed to update plan', err);
+      toast.error(err?.response?.data?.message || err?.message || 'Có lỗi xảy ra khi lưu');
+    } finally {
+      setSavingPlanId(null);
+    }
+  };
+
+  const activeMembers = members.filter(m => m.status === 'Active');
+  const totalRevenue = members.filter(m => m.status === 'Active').reduce((s, m) => s + m.amount, 0);
+  const ultimateCount = activeMembers.filter(m => m.plan.toLowerCase().includes('ultimate')).length;
+  const proCount = activeMembers.filter(m => m.plan.toLowerCase().includes('pro')).length;
+
+  const filtered = members.filter(m => {
+    const matchSearch = m.username?.toLowerCase().includes(search.toLowerCase()) ||
+      m.email?.toLowerCase().includes(search.toLowerCase());
     const matchStatus = statusFilter === 'all' || m.status === statusFilter;
     return matchSearch && matchStatus;
   });
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <Loader2 className="animate-spin" size={36} style={{ color: '#8B5CF6' }} />
+      </div>
+    );
+  }
+
 
   return (
     <div className="space-y-5 pb-20 md:pb-0">
@@ -86,8 +126,8 @@ export function AdminMembership() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
           { label: 'Active Members', value: activeMembers.length, icon: Crown, color: '#F59E0B' },
-          { label: 'Monthly Plans', value: monthlyCount, icon: Users, color: '#8B5CF6' },
-          { label: 'Yearly Plans', value: yearlyCount, icon: TrendingUp, color: '#10B981' },
+          { label: 'Pro Plans', value: proCount, icon: Users, color: '#8B5CF6' },
+          { label: 'Ultimate Plans', value: ultimateCount, icon: TrendingUp, color: '#10B981' },
           { label: 'Current Revenue', value: `₫${(totalRevenue / 1000).toFixed(0)}k`, icon: DollarSign, color: '#06B6D4' },
         ].map(s => (
           <div key={s.label} className="rounded-xl p-4" style={{ background: '#111111', border: '1px solid #262626' }}>
@@ -100,6 +140,48 @@ export function AdminMembership() {
             <p style={{ color: '#888', fontSize: 12, marginTop: 2 }}>{s.label}</p>
           </div>
         ))}
+      </div>
+
+      {/* Dynamic Plan Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {plans.map((p) => {
+          const count = activeMembers.filter(m => m.plan.toLowerCase() === p.name.toLowerCase()).length;
+          const isPro = p.name.toUpperCase() === 'PRO';
+          const color = isPro ? '#8B5CF6' : '#F59E0B';
+          return (
+            <div key={p.id} className="rounded-xl p-5" style={{ background: '#111111', border: '1px solid #262626' }}>
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>Gói {p.name}</h3>
+                  <div style={{ color: '#666', fontSize: 12, marginTop: 4 }}>
+                    Overview & Settings
+                  </div>
+                </div>
+                <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs" style={{ background: `${color}1A`, color }}>
+                  {count}
+                </div>
+              </div>
+              <div className="space-y-3 mb-5">
+                <div className="flex justify-between items-center text-sm">
+                  <span style={{ color: '#888' }}>Price (VND / month)</span>
+                  <span style={{ color: '#fff', fontWeight: 500 }}>{new Intl.NumberFormat('vi-VN').format(p.monthlyPrice)}₫</span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span style={{ color: '#888' }}>Monthly Download Quota</span>
+                  <span style={{ color: '#fff', fontWeight: 500 }}>{p.monthlyQuotaDownloads}</span>
+                </div>
+              </div>
+              <button
+                onClick={() => setEditingPlan({ ...p })}
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-opacity hover:opacity-90"
+                style={{ background: `${color}15`, color }}
+              >
+                <Edit3 size={15} />
+                Edit Plan Settings
+              </button>
+            </div>
+          );
+        })}
       </div>
 
       {/* Revenue Chart */}
@@ -131,34 +213,6 @@ export function AdminMembership() {
         </ResponsiveContainer>
       </div>
 
-      {/* Plans breakdown */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {[
-          { plan: 'Monthly Plan', price: '₫99,000/tháng', desc: 'Gia hạn hàng tháng', count: monthlyCount, color: '#8B5CF6', perks: ['Tải không giới hạn', 'Truy cập file PRO', 'Ưu tiên hỗ trợ'] },
-          { plan: 'Yearly Plan', price: '₫990,000/năm', desc: 'Tiết kiệm 2 tháng', count: yearlyCount, color: '#F59E0B', perks: ['Tất cả Monthly', 'Tiết kiệm 16%', 'Early access models'] },
-        ].map(p => (
-          <div key={p.plan} className="rounded-xl p-5" style={{ background: '#111111', border: '1px solid #262626' }}>
-            <div className="flex items-start justify-between mb-3">
-              <div>
-                <h3 style={{ color: '#fff', fontWeight: 600 }}>{p.plan}</h3>
-                <p style={{ color: p.color, fontWeight: 700, fontSize: 18 }}>{p.price}</p>
-                <p style={{ color: '#888', fontSize: 12 }}>{p.desc}</p>
-              </div>
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: `${p.color}15` }}>
-                <span style={{ color: p.color, fontWeight: 800, fontSize: 18 }}>{p.count}</span>
-              </div>
-            </div>
-            <ul className="space-y-1.5 mt-4">
-              {p.perks.map(perk => (
-                <li key={perk} className="flex items-center gap-2">
-                  <CheckCircle size={13} color="#10B981" />
-                  <span style={{ color: '#bbb', fontSize: 12 }}>{perk}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
 
       {/* Members Table */}
       <div>
@@ -274,6 +328,65 @@ export function AdminMembership() {
           })}
         </div>
       </div>
+      {/* Edit Plan Modal */}
+      {editingPlan && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl p-6" style={{ background: '#111111', border: '1px solid #262626' }}>
+            <div className="flex justify-between items-center mb-6">
+              <h3 style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>Sửa cấu hình Gói {editingPlan.name}</h3>
+              <button onClick={() => setEditingPlan(null)} className="text-[#666] hover:text-[#fff]">
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="space-y-4 mb-6">
+              <div>
+                <label className="text-sm text-[#888] mb-2 block font-medium">Price (VND / month)</label>
+                <input
+                  type="number"
+                  value={editingPlan.monthlyPrice}
+                  onChange={(e) => setEditingPlan((prev: any) => ({ ...prev, monthlyPrice: e.target.value }))}
+                  className="w-full px-4 py-3 rounded-xl outline-none transition-colors"
+                  style={{ background: '#1A1A1A', border: '1px solid #333', color: '#fff', fontSize: 14 }}
+                  onFocus={(e) => e.target.style.borderColor = '#8B5CF6'}
+                  onBlur={(e) => e.target.style.borderColor = '#333'}
+                />
+              </div>
+              <div>
+                <label className="text-sm text-[#888] mb-2 block font-medium">Monthly Download Quota</label>
+                <input
+                  type="number"
+                  value={editingPlan.monthlyQuotaDownloads}
+                  onChange={(e) => setEditingPlan((prev: any) => ({ ...prev, monthlyQuotaDownloads: e.target.value }))}
+                  className="w-full px-4 py-3 rounded-xl outline-none transition-colors"
+                  style={{ background: '#1A1A1A', border: '1px solid #333', color: '#fff', fontSize: 14 }}
+                  onFocus={(e) => e.target.style.borderColor = '#8B5CF6'}
+                  onBlur={(e) => e.target.style.borderColor = '#333'}
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setEditingPlan(null)}
+                className="flex-1 py-3 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-80"
+                style={{ background: '#262626' }}
+              >
+                Hủy
+              </button>
+              <button
+                onClick={handleUpdatePlan}
+                disabled={savingPlanId === editingPlan.id}
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-white transition-opacity disabled:opacity-50"
+                style={{ background: editingPlan.name.toUpperCase() === 'PRO' ? '#8B5CF6' : '#F59E0B' }}
+              >
+                {savingPlanId === editingPlan.id ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
+                Lưu thay đổi
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

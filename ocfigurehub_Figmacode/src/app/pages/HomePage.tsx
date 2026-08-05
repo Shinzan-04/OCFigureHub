@@ -10,8 +10,14 @@ import type { ProductQueryParams } from '../../types/pagination';
 import { statsApi, type PlatformStats } from '../../api/stats';
 import { productsApi } from '../../api/products';
 import type { Product } from '../../types/product';
+import API from '../../api/client';
 import Hero3D from '../components/Hero3D';
 
+interface Hero3dData {
+  titleLine1: string;
+  titleLine2: string;
+  subtitle: string;
+}
 const CATEGORIES = [
   { key: '', label: 'All' },
   { key: 'Anime', label: 'Anime' },
@@ -56,6 +62,11 @@ const SORT_OPTIONS = [
 ];
 
 export function HomePage() {
+  const [hero3dData, setHero3dData] = useState<Hero3dData>({
+    titleLine1: 'Chào mừng đến với',
+    titleLine2: 'OC Figure HUB',
+    subtitle: 'Kho tàng mô hình 3D anime chất lượng cao — khám phá, tải về và sáng tạo.',
+  });
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [category, setCategory] = useState('');
@@ -127,9 +138,18 @@ export function HomePage() {
     ? CATEGORIES.filter(c => c.key && c.label.toLowerCase().includes(search.toLowerCase().trim())).slice(0, 3)
     : [];
 
-  // Fetch platform stats
+  // Fetch platform stats and hero content
   useEffect(() => {
     statsApi.getPlatformStats().then(setPlatformStats).catch(console.error);
+    API.get('/admin/cms/hero_3d').then(res => {
+      if (res.data && res.data.length > 0) {
+        setHero3dData({
+          titleLine1: res.data[0].title || 'Chào mừng đến với',
+          titleLine2: res.data[0].ctaText || 'OC Figure HUB',
+          subtitle: res.data[0].subtitle || 'Kho tàng mô hình 3D anime chất lượng cao — khám phá, tải về và sáng tạo.',
+        });
+      }
+    }).catch(console.error);
   }, []);
 
   // Build query params
@@ -197,7 +217,7 @@ export function HomePage() {
           {/* Headline */}
           <div className="flex flex-col gap-2">
             <h1 className="text-[2rem] font-black leading-tight tracking-tight" style={{ color: '#FFFFFF' }}>
-              Chào mừng đến với{' '}
+              {hero3dData.titleLine1}{' '}
               <span
                 style={{
                   background: 'linear-gradient(135deg, #8B5CF6, #A78BFA)',
@@ -205,11 +225,11 @@ export function HomePage() {
                   WebkitTextFillColor: 'transparent',
                 }}
               >
-                OC Figure HUB
+                {hero3dData.titleLine2}
               </span>
             </h1>
             <p className="text-sm leading-relaxed" style={{ color: '#A1A1A1' }}>
-              Kho tàng mô hình 3D anime chất lượng cao — khám phá, tải về và sáng tạo.
+              {hero3dData.subtitle}
             </p>
           </div>
 
@@ -344,7 +364,7 @@ export function HomePage() {
                     className="text-5xl xl:text-6xl font-black leading-tight tracking-tight"
                     style={{ color: '#FFFFFF' }}
                   >
-                    Chào mừng đến với{' '}
+                    {hero3dData.titleLine1}{' '}
                     <span
                       className="inline-block"
                       style={{
@@ -353,11 +373,11 @@ export function HomePage() {
                         WebkitTextFillColor: 'transparent',
                       }}
                     >
-                      OC Figure HUB
+                      {hero3dData.titleLine2}
                     </span>
                   </h1>
                   <p className="text-lg leading-relaxed" style={{ color: '#A1A1A1' }}>
-                    Nâng tầm sáng tạo với kho tàng file mô hình 3D chất lượng cao. Khám phá hàng ngàn thiết kế anime, monsters và nhiều hơn nữa.
+                    {hero3dData.subtitle}
                   </p>
                 </div>
 

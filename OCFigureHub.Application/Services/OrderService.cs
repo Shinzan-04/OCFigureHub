@@ -75,4 +75,18 @@ public class OrderService
         return order;
     }
 
+    public async Task<Order> MarkCancelledAsync(Guid orderId, CancellationToken ct = default)
+    {
+        var order = await _orders.GetByIdAsync(orderId, ct)
+                    ?? throw new Exception("Order not found");
+
+        if (order.Status != OrderStatus.Pending)
+            return order;
+
+        order.Status = OrderStatus.Expired;
+        await _orders.UpdateAsync(order, ct);
+        await _orders.SaveChangesAsync(ct);
+        
+        return order;
+    }
 }

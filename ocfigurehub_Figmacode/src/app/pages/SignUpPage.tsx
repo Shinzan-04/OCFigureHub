@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
-import { Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight, AlertCircle, ShieldAlert } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { configApi, PublicConfig } from '../../api/config';
 
 export function SignUpPage() {
+  const [config, setConfig] = useState<PublicConfig | null>(null);
+  
+  useEffect(() => {
+    configApi.getPublicConfig().then(setConfig);
+  }, []);
+
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -108,7 +115,18 @@ export function SignUpPage() {
           className="rounded-2xl border p-6 md:p-8"
           style={{ backgroundColor: '#111111', borderColor: '#262626' }}
         >
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          {config && config.allowRegistration === false ? (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mb-4">
+                <ShieldAlert size={32} className="text-red-500" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Đăng ký tạm khóa</h3>
+              <p className="text-[#888] max-w-sm">
+                Quản trị viên đã tạm thời vô hiệu hóa chức năng tạo tài khoản mới. Vui lòng quay lại sau!
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             {error && (
               <div
                 className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm"
@@ -199,6 +217,7 @@ export function SignUpPage() {
               {!loading && <ArrowRight size={16} />}
             </button>
           </form>
+          )}
         </div>
 
         <p className="text-center mt-6 text-sm" style={{ color: '#A1A1A1' }}>

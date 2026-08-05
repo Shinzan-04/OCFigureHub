@@ -36,6 +36,7 @@ const statusColors: Record<string, { bg: string; text: string; label: string }> 
   Paid: { bg: 'rgba(16,185,129,0.1)', text: '#10B981', label: 'Đã thanh toán' },
   Cancelled: { bg: 'rgba(239,68,68,0.1)', text: '#EF4444', label: 'Đã huỷ' },
   Failed: { bg: 'rgba(239,68,68,0.1)', text: '#EF4444', label: 'Thất bại' },
+  Expired: { bg: 'rgba(239,68,68,0.1)', text: '#EF4444', label: 'Hết hạn' },
 };
 
 export function OrderHistoryPage() {

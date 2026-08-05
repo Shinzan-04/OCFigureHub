@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
 using OCFigureHub.Application.DTOs.Auth;
 using OCFigureHub.Application.Services;
 using OCFigureHub.API.Services;
+using OCFigureHub.Infrastructure.Persistence;
 
 namespace OCFigureHub.API.Controllers;
 
@@ -13,27 +15,50 @@ public class AuthController : ControllerBase
 {
     private readonly AuthService _auth;
     private readonly NotificationService _notif;
+    private readonly AppDbContext _db;
 
-    public AuthController(AuthService auth, NotificationService notif)
+    public AuthController(AuthService auth, NotificationService notif, AppDbContext db)
     {
         _auth = auth;
         _notif = notif;
+        _db = db;
+    }
+
+    private async Task<bool> IsRegistrationAllowed(CancellationToken ct)
+    {
+        var setting = await _db.SiteSettings.FirstOrDefaultAsync(s => s.Group == "general" && s.Key == "allowRegistration", ct);
+        return setting?.Value.ToLower() != "false";
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequest req, CancellationToken ct)
     {
-        var res = await _auth.RegisterAsync(req, ct);
-        // Send welcome notification
-        try { await _notif.NotifyWelcome(res.UserId, req.DisplayName ?? req.Email, ct); } catch { }
-        return Ok(res);
+        try
+        {
+            var allowReg = await IsRegistrationAllowed(ct);
+            var res = await _auth.RegisterAsync(req, allowReg, ct);
+            // Send welcome notification
+            try { await _notif.NotifyWelcome(res.UserId, req.DisplayName ?? req.Email, ct); } catch { }
+            return Ok(res);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest req, CancellationToken ct)
     {
-        var res = await _auth.LoginAsync(req, ct);
-        return Ok(res);
+        try
+        {
+            var res = await _auth.LoginAsync(req, ct);
+            return Ok(res);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
     }
 
     [HttpPost("google")]
@@ -41,7 +66,8 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var res = await _auth.LoginWithGoogleAsync(req, ct);
+            var allowReg = await IsRegistrationAllowed(ct);
+            var res = await _auth.LoginWithGoogleAsync(req, allowReg, ct);
             return Ok(res);
         }
         catch (Exception ex)
@@ -55,9 +81,11 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var res = await _auth.LoginWithFacebookAsync(req, ct);
+            var allowReg = await IsRegistrationAllowed(ct);
+            var res = await _auth.LoginWithFacebookAsync(req, allowReg, ct);
             return Ok(res);
         }
+
         catch (Exception ex)
         {
             return BadRequest(new { error = ex.Message });

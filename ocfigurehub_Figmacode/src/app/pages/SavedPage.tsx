@@ -60,17 +60,20 @@ export function SavedPage() {
       ) : savedItems.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {savedItems.map((item) => (
-            <div key={item.productId} className="relative">
-              <ProductCard product={savedItemToProduct(item)} />
-              <button
-                onClick={(e) => handleRemove(item.productId, e)}
-                className="absolute top-3 right-3 z-10 p-2 rounded-full transition-all duration-200 hover:scale-110 hover:bg-red-500/80"
-                style={{ backgroundColor: 'rgba(239,68,68,0.7)', backdropFilter: 'blur(4px)' }}
-                title="Xóa khỏi danh sách yêu thích"
-              >
-                <Trash2 size={14} className="text-white" />
-              </button>
-            </div>
+            <ProductCard
+              key={item.productId}
+              product={savedItemToProduct(item)}
+              actionNode={
+                <button
+                  onClick={(e) => handleRemove(item.productId, e)}
+                  className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full transition-all duration-200 hover:scale-110 hover:bg-red-500/80"
+                  style={{ backgroundColor: 'rgba(239,68,68,0.7)', backdropFilter: 'blur(4px)' }}
+                  title="Xóa khỏi danh sách yêu thích"
+                >
+                  <Trash2 size={14} className="text-white sm:w-4 sm:h-4" />
+                </button>
+              }
+            />
           ))}
         </div>
       ) : (

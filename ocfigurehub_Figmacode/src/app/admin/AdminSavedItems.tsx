@@ -3,41 +3,43 @@ import { Bookmark, Search, Loader2 } from 'lucide-react';
 import { productsApi } from '../../api/products';
 import type { Product } from '../../types/product';
 
-// Saved entries are client-side only (no backend API for admin saved items yet)
-// This page shows an overview of the saved items feature
-interface SavedEntry {
+import { adminApi } from '../../api/admin';
+
+export interface SavedEntry {
   userId: string;
   username: string;
-  avatar: string;
-  savedProducts: string[];
+  avatar: string | null;
   totalSaved: number;
   lastActive: string;
 }
 
-const SAVED_ENTRIES: SavedEntry[] = [
-  { userId: '1', username: 'fig_collector', avatar: 'FC', savedProducts: [], totalSaved: 6, lastActive: '2025-03-10' },
-  { userId: '2', username: 'anime_lover_vn', avatar: 'AL', savedProducts: [], totalSaved: 4, lastActive: '2025-03-09' },
-  { userId: '3', username: 'tanaka_kun', avatar: 'TK', savedProducts: [], totalSaved: 3, lastActive: '2025-03-08' },
-  { userId: '4', username: 'otaku_dan', avatar: 'OD', savedProducts: [], totalSaved: 3, lastActive: '2025-03-07' },
-  { userId: '5', username: 'collector_pro', avatar: 'CP', savedProducts: [], totalSaved: 8, lastActive: '2025-03-06' },
-  { userId: '6', username: 'digimon_fan', avatar: 'DF', savedProducts: [], totalSaved: 5, lastActive: '2025-03-05' },
-];
-
-const totalSavedActions = SAVED_ENTRIES.reduce((s, e) => s + e.totalSaved, 0);
-
 export function AdminSavedItems() {
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
+  const [savedEntries, setSavedEntries] = useState<SavedEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    productsApi.getAll({ pageSize: 10 }).then(data => {
-      setProducts(data.items || []);
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    const fetchData = async () => {
+      try {
+        const [prodData, savedData] = await Promise.all([
+          productsApi.getAll({ pageSize: 10 }),
+          adminApi.getSavedItemsData(),
+        ]);
+        setProducts(prodData.items || []);
+        setSavedEntries(savedData.savedEntries || []);
+      } catch (err) {
+        console.error('Failed to load saved items data', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
-  const filtered = SAVED_ENTRIES.filter(e =>
+  const totalSavedActions = savedEntries.reduce((s, e) => s + e.totalSaved, 0);
+
+  const filtered = savedEntries.filter(e =>
     e.username.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -59,9 +61,9 @@ export function AdminSavedItems() {
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
-          { label: 'Total Users Saving', value: SAVED_ENTRIES.length, color: '#8B5CF6' },
+          { label: 'Total Users Saving', value: savedEntries.length, color: '#8B5CF6' },
           { label: 'Total Saves', value: totalSavedActions, color: '#EC4899' },
-          { label: 'Avg per User', value: (totalSavedActions / SAVED_ENTRIES.length).toFixed(1), color: '#06B6D4' },
+          { label: 'Avg per User', value: savedEntries.length ? (totalSavedActions / savedEntries.length).toFixed(1) : 0, color: '#06B6D4' },
           { label: 'Products Available', value: products.length, color: '#F59E0B' },
         ].map(s => (
           <div key={s.label} className="rounded-xl p-4" style={{ background: '#111111', border: '1px solid #262626' }}>

@@ -96,6 +96,15 @@ public class PaymentsController : ControllerBase
 
         if (status != "PAID")
         {
+            var txnErr = await _transactions.GetByProviderTxnIdAsync(orderCode.ToString(), ct);
+            if (txnErr != null)
+            {
+                txnErr.Status = PaymentStatus.Failed;
+                await _transactions.UpdateAsync(txnErr, ct);
+                await _transactions.SaveChangesAsync(ct);
+                try { await _orders.MarkCancelledAsync(txnErr.OrderId, ct); } catch { }
+            }
+
             return Ok(new PaymentCallbackResultDto
             {
                 Success = false,

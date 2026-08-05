@@ -6,18 +6,23 @@ export const analyticsApi = {
     return res.data;
   },
 
-  weeklyActivity: async () => {
-    const res = await API.get('/admin/analytics/weekly-activity');
+  activity: async (period = 'week') => {
+    const res = await API.get('/admin/analytics/activity', { params: { period } });
     return res.data;
   },
 
-  topProducts: async (limit = 10) => {
-    const res = await API.get('/admin/analytics/top-products', { params: { limit } });
+  topProducts: async (period = 'week', limit = 10) => {
+    const res = await API.get('/admin/analytics/top-products', { params: { period, limit } });
     return res.data;
   },
 
-  categoryDistribution: async () => {
-    const res = await API.get('/admin/analytics/category-distribution');
+  categoryDistribution: async (period = 'week') => {
+    const res = await API.get('/admin/analytics/category-distribution', { params: { period } });
+    return res.data;
+  },
+
+  dashboardStats: async (period = 'week') => {
+    const res = await API.get('/admin/analytics/dashboard-stats', { params: { period } });
     return res.data;
   },
 

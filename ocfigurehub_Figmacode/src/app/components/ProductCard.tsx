@@ -14,9 +14,11 @@ function formatPrice(price: number): string {
 interface ProductCardProps {
   product: Product;
   featured?: boolean;
+  hideHeart?: boolean;
+  actionNode?: React.ReactNode;
 }
 
-export function ProductCard({ product, featured = false }: ProductCardProps) {
+export function ProductCard({ product, featured = false, hideHeart = false, actionNode }: ProductCardProps) {
   const navigate = useNavigate();
   const { toggleSaved, isSaved } = useSavedStore();
   const saved = isSaved(product.id);
@@ -82,14 +84,18 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
           )}
         </div>
 
-        {/* Heart */}
-        <button
-          onClick={handleHeartClick}
-          className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full transition-all duration-200 hover:scale-110"
-          style={{ backgroundColor: saved ? '#8B5CF6' : 'rgba(0,0,0,0.6)' }}
-        >
-          <Heart size={14} fill={saved ? 'white' : 'none'} className="text-white sm:w-4 sm:h-4" />
-        </button>
+        {/* Action Button */}
+        {actionNode ? (
+          actionNode
+        ) : !hideHeart ? (
+          <button
+            onClick={handleHeartClick}
+            className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full transition-all duration-200 hover:scale-110"
+            style={{ backgroundColor: saved ? '#8B5CF6' : 'rgba(0,0,0,0.6)' }}
+          >
+            <Heart size={14} fill={saved ? 'white' : 'none'} className="text-white sm:w-4 sm:h-4" />
+          </button>
+        ) : null}
       </div>
 
       {/* Info */}

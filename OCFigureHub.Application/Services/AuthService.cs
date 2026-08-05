@@ -58,8 +58,10 @@ public class AuthService
         await _users.SaveChangesAsync(ct);
     }
 
-    public async Task<AuthResponse> RegisterAsync(RegisterRequest req, CancellationToken ct)
+    public async Task<AuthResponse> RegisterAsync(RegisterRequest req, bool allowRegistration = true, CancellationToken ct = default)
     {
+        if (!allowRegistration) throw new Exception("Registration is currently disabled.");
+        
         var exists = await _users.GetByEmailAsync(req.Email, ct);
         if (exists != null) throw new Exception("Email already exists");
 
@@ -154,7 +156,7 @@ public class AuthService
         await _email.SendVerificationEmailAsync(user.Email, verifyLink, ct);
     }
 
-    public async Task<AuthResponse> LoginWithGoogleAsync(GoogleAuthRequest req, CancellationToken ct)
+    public async Task<AuthResponse> LoginWithGoogleAsync(GoogleAuthRequest req, bool allowRegistration = true, CancellationToken ct = default)
     {
         GoogleJsonWebSignature.Payload payload;
         try
@@ -175,6 +177,8 @@ public class AuthService
 
         if (user == null)
         {
+            if (!allowRegistration) throw new Exception("Registration is currently disabled.");
+            
             user = new User
             {
                 Id = Guid.NewGuid(),
@@ -202,7 +206,7 @@ public class AuthService
         };
     }
 
-    public async Task<AuthResponse> LoginWithFacebookAsync(FacebookAuthRequest req, CancellationToken ct)
+    public async Task<AuthResponse> LoginWithFacebookAsync(FacebookAuthRequest req, bool allowRegistration = true, CancellationToken ct = default)
     {
         var url = $"https://graph.facebook.com/me?fields=id,name,email&access_token={req.AccessToken}";
         using var client = new HttpClient();
@@ -233,6 +237,8 @@ public class AuthService
 
         if (user == null)
         {
+            if (!allowRegistration) throw new Exception("Registration is currently disabled.");
+            
             user = new User
             {
                 Id = Guid.NewGuid(),

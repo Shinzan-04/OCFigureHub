@@ -36,7 +36,9 @@ public class AdminOrdersController : ControllerBase
                 o.UserId,
                 UserEmail = o.User?.Email,
                 UserName = o.User?.DisplayName,
-                Status = o.Status.ToString(),
+                Status = (o.Status == Domain.Enums.OrderStatus.Pending && (DateTime.UtcNow - o.CreatedAt).TotalHours > 1)
+                    ? Domain.Enums.OrderStatus.Expired.ToString()
+                    : o.Status.ToString(),
                 o.TotalAmount,
                 PlanName = o.Plan?.Name,
                 o.CreatedAt,

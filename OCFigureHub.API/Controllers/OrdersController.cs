@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Application.DTOs.Orders;
 using OCFigureHub.Application.Services;
 using OCFigureHub.Infrastructure.Persistence;
@@ -15,11 +16,13 @@ public class OrdersController : ControllerBase
 {
     private readonly OrderService _orders;
     private readonly AppDbContext _db;
+    private readonly IStorageService _storage;
 
-    public OrdersController(OrderService orders, AppDbContext db)
+    public OrdersController(OrderService orders, AppDbContext db, IStorageService storage)
     {
         _orders = orders;
         _db = db;
+        _storage = storage;
     }
 
     [HttpPost("buy-now")]
@@ -51,27 +54,32 @@ public class OrdersController : ControllerBase
         var orders = await query
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
-            .Select(o => new
-            {
-                o.Id,
-                Status = o.Status.ToString(),
-                o.TotalAmount,
-                o.CreatedAt,
-                o.PaidAt,
-                PlanName = o.Plan != null ? o.Plan.Name : null,
-                Items = o.Items.Select(i => new
-                {
-                    i.ProductId,
-                    ProductName = i.Product.Name,
-                    ProductThumbnail = i.Product.ThumbnailUrl,
-                    i.UnitPrice
-                })
-            })
             .ToListAsync(ct);
+
+        var result = orders.Select(o => new
+        {
+            o.Id,
+            Status = (o.Status == Domain.Enums.OrderStatus.Pending && (DateTime.UtcNow - o.CreatedAt).TotalHours > 1) 
+                ? Domain.Enums.OrderStatus.Expired.ToString() 
+                : o.Status.ToString(),
+            o.TotalAmount,
+            o.CreatedAt,
+            o.PaidAt,
+            PlanName = o.Plan != null ? o.Plan.Name : null,
+            Items = o.Items.Select(i => new
+            {
+                i.ProductId,
+                ProductName = i.Product.Name,
+                ProductThumbnail = !string.IsNullOrEmpty(i.Product.ThumbnailUrl)
+                    ? _storage.GenerateReadSasUrl(i.Product.ThumbnailUrl, TimeSpan.FromHours(24))
+                    : null,
+                i.UnitPrice
+            })
+        }).ToList();
 
         return Ok(new
         {
-            items = orders,
+            items = result,
             page,
             pageSize,
             totalItems = total,

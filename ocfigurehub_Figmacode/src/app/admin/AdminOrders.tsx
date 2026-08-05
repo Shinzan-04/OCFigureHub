@@ -8,6 +8,7 @@ const STATUS_COLORS: Record<string, { bg: string; text: string; icon: React.Elem
   Pending: { bg: 'rgba(245,158,11,0.15)', text: '#F59E0B', icon: Clock },
   Failed: { bg: 'rgba(239,68,68,0.15)', text: '#EF4444', icon: XCircle },
   Cancelled: { bg: 'rgba(100,100,100,0.15)', text: '#999', icon: XCircle },
+  Expired: { bg: 'rgba(239,68,68,0.15)', text: '#EF4444', icon: XCircle },
 };
 
 function formatPrice(price: number): string {
