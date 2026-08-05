@@ -5,6 +5,7 @@ using OCFigureHub.Domain.Enums;
 using Google.Apis.Auth;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
 
 namespace OCFigureHub.Application.Services;
@@ -56,6 +57,16 @@ public class AuthService
         if (user == null || user.Email.ToLower() != req.Email.ToLower()) 
             throw new Exception("Invalid request.");
 
+        var requireStrongPwd = await _settings.GetValueAsync("security", "requireStrongPassword", ct);
+        if (requireStrongPwd == "true")
+        {
+            var regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
+            if (!regex.IsMatch(req.NewPassword))
+            {
+                throw new Exception("Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.");
+            }
+        }
+
         user.PasswordHash = _hasher.Hash(req.NewPassword);
         
         await _users.SaveChangesAsync(ct);
@@ -67,6 +78,16 @@ public class AuthService
         
         var exists = await _users.GetByEmailAsync(req.Email, ct);
         if (exists != null) throw new Exception("Email already exists");
+
+        var requireStrongPwd = await _settings.GetValueAsync("security", "requireStrongPassword", ct);
+        if (requireStrongPwd == "true")
+        {
+            var regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
+            if (!regex.IsMatch(req.Password))
+            {
+                throw new Exception("Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.");
+            }
+        }
 
         var verificationToken = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
 
@@ -105,7 +126,7 @@ public class AuthService
         }
         catch { /* log */ }
 
-        var token = _jwt.Generate(user);
+        var token = await _jwt.GenerateAsync(user);
 
         return new AuthResponse
         {
@@ -127,7 +148,14 @@ public class AuthService
         if (!_hasher.Verify(req.Password, user.PasswordHash))
             throw new Exception("Invalid credentials");
 
-        var token = _jwt.Generate(user);
+        // Check email verification setting
+        var requireVerify = await _settings.GetValueAsync("security", "requireEmailVerification", ct);
+        if (requireVerify == "true" && !user.IsEmailVerified)
+        {
+            throw new Exception("Vui lòng xác thực email trước khi đăng nhập.");
+        }
+
+        var token = await _jwt.GenerateAsync(user);
 
         return new AuthResponse
         {
@@ -220,7 +248,7 @@ public class AuthService
             catch { /* log */ }
         }
 
-        var token = _jwt.Generate(user);
+        var token = await _jwt.GenerateAsync(user);
 
         return new AuthResponse
         {
@@ -291,7 +319,7 @@ public class AuthService
             catch { /* log */ }
         }
 
-        var token = _jwt.Generate(user);
+        var token = await _jwt.GenerateAsync(user);
 
         return new AuthResponse
         {

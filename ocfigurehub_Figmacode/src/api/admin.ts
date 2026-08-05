@@ -113,6 +113,11 @@ export const adminApi = {
     return res.data;
   },
 
+  sendTestEmail: async () => {
+    const res = await API.post('/admin/sitesettings/test-email');
+    return res.data as { message: string };
+  },
+
   // CMS Content
   getCmsAll: async () => {
     const res = await API.get('/admin/cms');

@@ -20,15 +20,16 @@ public class DownloadsController : ControllerBase
         _notif = notif;
     }
 
-    [Authorize(Roles = "Customer,Admin")]
+    [AllowAnonymous]
     [HttpPost("request")]
     public async Task<IActionResult> RequestDownload([FromBody] DownloadRequestDto req, CancellationToken ct)
     {
         var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (string.IsNullOrWhiteSpace(userIdStr))
-            return Unauthorized();
-
-        var userId = Guid.Parse(userIdStr);
+        Guid? userId = null;
+        if (!string.IsNullOrWhiteSpace(userIdStr) && Guid.TryParse(userIdStr, out var uid))
+        {
+            userId = uid;
+        }
 
         var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
         var userAgent = Request.Headers.UserAgent.ToString();
@@ -36,7 +37,10 @@ public class DownloadsController : ControllerBase
         var result = await _downloadService.RequestTokenAsync(userId, req, ip, userAgent, ct);
 
         // Send download notification
-        try { await _notif.NotifyDownload(userId, req.ProductId.ToString(), ct); } catch { }
+        try { 
+            if (userId != null)
+                await _notif.NotifyDownload(userId.Value, req.ProductId.ToString(), ct); 
+        } catch { }
 
         return Ok(result);
     }

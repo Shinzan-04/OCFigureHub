@@ -15,12 +15,14 @@ public class SiteSettingsController : ControllerBase
     private readonly AppDbContext _db;
     private readonly IStorageService _storage;
     private readonly IModelOptimizer _optimizer;
+    private readonly IEmailService _email;
 
-    public SiteSettingsController(AppDbContext db, IStorageService storage, IModelOptimizer optimizer)
+    public SiteSettingsController(AppDbContext db, IStorageService storage, IModelOptimizer optimizer, IEmailService email)
     {
         _db = db;
         _storage = storage;
         _optimizer = optimizer;
+        _email = email;
     }
 
     /// <summary>Get all settings, optionally filtered by group</summary>
@@ -89,5 +91,32 @@ public class SiteSettingsController : ControllerBase
         var (storageKey, _) = await _storage.UploadAsync(optimizedStream, file.FileName, file.ContentType, ct);
         
         return Ok(new { storageKey });
+    }
+
+    /// <summary>Send a test email using current Email settings</summary>
+    [HttpPost("test-email")]
+    public async Task<IActionResult> SendTestEmail(CancellationToken ct)
+    {
+        var adminEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+        if (string.IsNullOrEmpty(adminEmail))
+            return BadRequest(new { message = "Không xác định được email admin." });
+
+        try
+        {
+            var subject = "✅ Test Email - OC Figure Hub";
+            var body = $@"
+                <h3>Email cấu hình hoạt động tốt!</h3>
+                <p>Đây là email kiểm tra được gửi từ hệ thống <strong>OC Figure Hub Admin Panel</strong>.</p>
+                <p>Nếu bạn nhận được email này, cấu hình SMTP của bạn đã chính xác.</p>
+                <br/>
+                <p>Thời gian gửi: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC</p>
+            ";
+            await _email.SendAdminNotificationAsync(subject, body, ct);
+            return Ok(new { message = $"Test email đã được gửi thành công đến {adminEmail}." });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = $"Gửi thất bại: {ex.Message}" });
+        }
     }
 }

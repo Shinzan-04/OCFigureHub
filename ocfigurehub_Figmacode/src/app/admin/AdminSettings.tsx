@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Save, Globe, Bell, Shield, CreditCard, Palette, Mail, Database, RefreshCw, Loader2 } from 'lucide-react';
+import { Save, Globe, Bell, Shield, Palette, Mail, RefreshCw, Loader2 } from 'lucide-react';
 import { adminApi } from '../../api/admin';
 import toast from 'react-hot-toast';
 
@@ -14,7 +14,6 @@ const SECTIONS: SettingSection[] = [
   { id: 'general', icon: Globe, label: 'General', color: '#8B5CF6' },
   { id: 'notifications', icon: Bell, label: 'Notifications', color: '#F59E0B' },
   { id: 'security', icon: Shield, label: 'Security', color: '#EF4444' },
-  { id: 'payment', icon: CreditCard, label: 'Payment', color: '#10B981' },
   { id: 'appearance', icon: Palette, label: 'Appearance', color: '#06B6D4' },
   { id: 'email', icon: Mail, label: 'Email', color: '#EC4899' },
 ];
@@ -24,6 +23,7 @@ export function AdminSettings() {
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isSendingTest, setIsSendingTest] = useState(false);
 
   const [generalSettings, setGeneralSettings] = useState({
     siteName: 'OC Figure Hub',
@@ -47,21 +47,9 @@ export function AdminSettings() {
 
   const [securitySettings, setSecuritySettings] = useState({
     requireEmailVerification: true,
-    twoFactorAuth: false,
-    maxLoginAttempts: '5',
     sessionTimeout: '24',
     allowGuestDownload: false,
     requireStrongPassword: true,
-  });
-
-  const [paymentSettings, setPaymentSettings] = useState({
-    momoEnabled: true,
-    vnpayEnabled: true,
-    zalopayEnabled: true,
-    bankTransferEnabled: true,
-    monthlyPrice: '99000',
-    yearlyPrice: '990000',
-    currency: 'VND',
   });
 
   const [emailSettings, setEmailSettings] = useState({
@@ -93,11 +81,9 @@ export function AdminSettings() {
           });
         }
         if (data.security) {
-          setSecuritySettings(prev => ({ ...prev, ...data.security, requireEmailVerification: data.security.requireEmailVerification === 'true', twoFactorAuth: data.security.twoFactorAuth === 'true', allowGuestDownload: data.security.allowGuestDownload === 'true', requireStrongPassword: data.security.requireStrongPassword === 'true' }));
+          setSecuritySettings(prev => ({ ...prev, ...data.security, requireEmailVerification: data.security.requireEmailVerification === 'true', allowGuestDownload: data.security.allowGuestDownload === 'true', requireStrongPassword: data.security.requireStrongPassword === 'true' }));
         }
-        if (data.payment) {
-          setPaymentSettings(prev => ({ ...prev, ...data.payment, momoEnabled: data.payment.momoEnabled === 'true', vnpayEnabled: data.payment.vnpayEnabled === 'true', zalopayEnabled: data.payment.zalopayEnabled === 'true', bankTransferEnabled: data.payment.bankTransferEnabled === 'true' }));
-        }
+
         if (data.email) {
           setEmailSettings(prev => ({ ...prev, ...data.email }));
         }
@@ -122,7 +108,6 @@ export function AdminSettings() {
         general: toStr(generalSettings),
         notifications: toStr(notifSettings),
         security: toStr(securitySettings),
-        payment: toStr(paymentSettings),
         email: toStr(emailSettings),
         appearance: toStr(appearanceSettings),
       });
@@ -284,35 +269,15 @@ export function AdminSettings() {
 
             {activeSection === 'security' && (
               <div>
-                <ToggleRow label="Email Verification" desc="Require email verification on signup" checked={securitySettings.requireEmailVerification} onChange={v => setSecuritySettings(s => ({ ...s, requireEmailVerification: v }))} />
-                <ToggleRow label="Two-Factor Auth" desc="Enable 2FA for admin accounts" checked={securitySettings.twoFactorAuth} onChange={v => setSecuritySettings(s => ({ ...s, twoFactorAuth: v }))} />
-                <ToggleRow label="Guest Downloads" desc="Allow non-logged-in users to download free resources" checked={securitySettings.allowGuestDownload} onChange={v => setSecuritySettings(s => ({ ...s, allowGuestDownload: v }))} />
-                <ToggleRow label="Strong Password Policy" desc="Require strong passwords on registration" checked={securitySettings.requireStrongPassword} onChange={v => setSecuritySettings(s => ({ ...s, requireStrongPassword: v }))} />
-                <div className="mt-4 grid grid-cols-2 gap-4">
-                  <InputField label="Max Login Attempts" value={securitySettings.maxLoginAttempts} onChange={v => setSecuritySettings(s => ({ ...s, maxLoginAttempts: v }))} type="number" />
+                <ToggleRow label="Email Verification" desc="Yêu cầu xác thực email khi đăng ký" checked={securitySettings.requireEmailVerification} onChange={v => setSecuritySettings(s => ({ ...s, requireEmailVerification: v }))} />
+                <ToggleRow label="Guest Downloads" desc="Cho phép người dùng chưa đăng nhập tải file miễn phí" checked={securitySettings.allowGuestDownload} onChange={v => setSecuritySettings(s => ({ ...s, allowGuestDownload: v }))} />
+                <ToggleRow label="Strong Password Policy" desc="Bắt buộc mật khẩu mạnh khi đăng ký" checked={securitySettings.requireStrongPassword} onChange={v => setSecuritySettings(s => ({ ...s, requireStrongPassword: v }))} />
+                <div className="mt-4">
                   <InputField label="Session Timeout (hours)" value={securitySettings.sessionTimeout} onChange={v => setSecuritySettings(s => ({ ...s, sessionTimeout: v }))} type="number" />
                 </div>
               </div>
             )}
 
-            {activeSection === 'payment' && (
-              <div className="space-y-4">
-                <div>
-                  <p style={{ color: '#888', fontSize: 12, marginBottom: 12 }}>Payment Gateways</p>
-                  <ToggleRow label="MoMo" desc="Enable MoMo payment" checked={paymentSettings.momoEnabled} onChange={v => setPaymentSettings(s => ({ ...s, momoEnabled: v }))} />
-                  <ToggleRow label="VNPay" desc="Enable VNPay payment" checked={paymentSettings.vnpayEnabled} onChange={v => setPaymentSettings(s => ({ ...s, vnpayEnabled: v }))} />
-                  <ToggleRow label="ZaloPay" desc="Enable ZaloPay payment" checked={paymentSettings.zalopayEnabled} onChange={v => setPaymentSettings(s => ({ ...s, zalopayEnabled: v }))} />
-                  <ToggleRow label="Bank Transfer" desc="Enable manual bank transfer" checked={paymentSettings.bankTransferEnabled} onChange={v => setPaymentSettings(s => ({ ...s, bankTransferEnabled: v }))} />
-                </div>
-                <div>
-                  <p style={{ color: '#888', fontSize: 12, marginBottom: 12 }}>Membership Pricing</p>
-                  <div className="grid grid-cols-2 gap-4">
-                    <InputField label="Monthly Price (VND)" value={paymentSettings.monthlyPrice} onChange={v => setPaymentSettings(s => ({ ...s, monthlyPrice: v }))} type="number" />
-                    <InputField label="Yearly Price (VND)" value={paymentSettings.yearlyPrice} onChange={v => setPaymentSettings(s => ({ ...s, yearlyPrice: v }))} type="number" />
-                  </div>
-                </div>
-              </div>
-            )}
 
             {activeSection === 'appearance' && (
               <div className="space-y-5">
@@ -390,12 +355,24 @@ export function AdminSettings() {
                   <InputField label="From Email" value={emailSettings.fromEmail} onChange={v => setEmailSettings(s => ({ ...s, fromEmail: v }))} type="email" />
                 </div>
                 <button
-                  onClick={() => toast.success('Test email has been sent successfully!')}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all hover:opacity-80"
+                  disabled={isSendingTest}
+                  onClick={async () => {
+                    setIsSendingTest(true);
+                    try {
+                      const result = await adminApi.sendTestEmail();
+                      toast.success(result.message);
+                    } catch (err: any) {
+                      const msg = err?.response?.data?.message || 'Gửi email thất bại. Kiểm tra lại cấu hình SMTP.';
+                      toast.error(msg);
+                    } finally {
+                      setIsSendingTest(false);
+                    }
+                  }}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ background: 'rgba(236,72,153,0.1)', color: '#EC4899', fontWeight: 600 }}
                 >
-                  <RefreshCw size={14} />
-                  Send Test Email
+                  {isSendingTest ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
+                  {isSendingTest ? 'Đang gửi...' : 'Send Test Email'}
                 </button>
               </div>
             )}

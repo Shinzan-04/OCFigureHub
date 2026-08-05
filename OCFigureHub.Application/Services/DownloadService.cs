@@ -12,31 +12,47 @@ public class DownloadService
     private readonly IDownloadRepository _repo;
     private readonly IStorageService _storage;
     private readonly IAntiLeakService _antiLeak;
+    private readonly ISiteSettingRepository _settings;
 
-    public DownloadService(IDownloadRepository repo, IStorageService storage, IAntiLeakService antiLeak)
+    public DownloadService(IDownloadRepository repo, IStorageService storage, IAntiLeakService antiLeak, ISiteSettingRepository settings)
     {
         _repo = repo;
         _storage = storage;
         _antiLeak = antiLeak;
+        _settings = settings;
     }
 
     public async Task<DownloadResponseDto> RequestTokenAsync(
-        Guid userId,
+        Guid? userId,
         DownloadRequestDto req,
         string? ip,
         string? userAgent,
         CancellationToken ct)
     {
         // Phase 3: Anti-leak rate limit check
-        await _antiLeak.CheckRateLimitAsync(userId, ct);
-
-        var user = await _repo.GetUserAsync(userId, ct)
-                   ?? throw new Exception("User not found");
-
-        if (user.Status == UserStatus.Locked)
+        if (userId != null)
         {
-            await LogFail(userId, req.ProductId, "User locked", ip, userAgent, ct);
-            throw new UnauthorizedAccessException("User locked");
+            await _antiLeak.CheckRateLimitAsync(userId.Value, ct);
+        }
+
+        if (userId == null)
+        {
+            var allowGuest = await _settings.GetValueAsync("security", "allowGuestDownload", ct);
+            if (allowGuest != "true")
+            {
+                throw new UnauthorizedAccessException("Guest downloads are disabled.");
+            }
+        }
+        else
+        {
+            var user = await _repo.GetUserAsync(userId.Value, ct)
+                       ?? throw new Exception("User not found");
+
+            if (user.Status == UserStatus.Locked)
+            {
+                await LogFail(userId, req.ProductId, "User locked", ip, userAgent, ct);
+                throw new UnauthorizedAccessException("User locked");
+            }
         }
 
         var product = await _repo.GetProductAsync(req.ProductId, ct);
@@ -52,17 +68,22 @@ public class DownloadService
         // If product is free, skip purchase and subscription checks
         if (product.Price > 0)
         {
+            if (userId == null)
+            {
+                throw new UnauthorizedAccessException("Guests can only download free products.");
+            }
+
             // 1) Check purchase
-            var hasPaidOrder = await _repo.HasPaidOrderForProductAsync(userId, req.ProductId, ct);
+            var hasPaidOrder = await _repo.HasPaidOrderForProductAsync(userId.Value, req.ProductId, ct);
 
             if (hasPaidOrder)
             {
-                orderId = await _repo.GetAnyPaidOrderIdAsync(userId, ct);
+                orderId = await _repo.GetAnyPaidOrderIdAsync(userId.Value, ct);
             }
             else
             {
             // 2) Subscription entitlement + quota
-            var sub = await _repo.GetActiveSubscriptionWithPlanAsync(userId, ct);
+            var sub = await _repo.GetActiveSubscriptionWithPlanAsync(userId.Value, ct);
             if (sub == null)
             {
                 await LogFail(userId, req.ProductId, "No entitlement (not purchased, no subscription)", ip, userAgent, ct);
@@ -72,14 +93,14 @@ public class DownloadService
             subscriptionId = sub.Id;
 
             var ym = DateTime.UtcNow.ToString("yyyy-MM");
-            var quota = await _repo.GetQuotaUsageAsync(userId, ym, ct);
+            var quota = await _repo.GetQuotaUsageAsync(userId.Value, ym, ct);
 
             if (quota == null)
             {
                 quota = new QuotaUsage
                 {
                     Id = Guid.NewGuid(),
-                    UserId = userId,
+                    UserId = userId.Value,
                     YearMonth = ym,
                     UsedDownloads = 0,
                     LimitDownloads = sub.Plan.MonthlyQuotaDownloads,
@@ -114,7 +135,7 @@ public class DownloadService
         var token = new DownloadToken
         {
             Id = Guid.NewGuid(),
-            UserId = userId,
+            UserId = userId ?? Guid.Empty,
             ProductId = req.ProductId,
             ProductFileId = file.Id,
             ExpiresAt = expiresAt,
@@ -127,7 +148,7 @@ public class DownloadService
         await _repo.AddDownloadHistoryAsync(new DownloadHistory
         {
             Id = Guid.NewGuid(),
-            UserId = userId,
+            UserId = userId ?? Guid.Empty,
             ProductId = req.ProductId,
             OrderId = orderId,
             SubscriptionId = subscriptionId,
@@ -141,7 +162,7 @@ public class DownloadService
         await _repo.SaveChangesAsync(ct);
 
         // 6) Phase 3: Record watermark metadata for anti-leak tracing
-        await _antiLeak.RecordWatermarkAsync(userId, req.ProductId, token.Id, ct);
+        await _antiLeak.RecordWatermarkAsync(userId ?? Guid.Empty, req.ProductId, token.Id, ct);
 
         return new DownloadResponseDto
         {
@@ -179,12 +200,12 @@ public class DownloadService
         return (stream, fileName, contentType);
     }
 
-    private async Task LogFail(Guid userId, Guid productId, string reason, string? ip, string? ua, CancellationToken ct)
+    private async Task LogFail(Guid? userId, Guid productId, string reason, string? ip, string? ua, CancellationToken ct)
     {
         await _repo.AddDownloadHistoryAsync(new DownloadHistory
         {
             Id = Guid.NewGuid(),
-            UserId = userId,
+            UserId = userId ?? Guid.Empty,
             ProductId = productId,
             IpAddress = ip,
             UserAgent = ua,

@@ -48,7 +48,7 @@ public class SmtpEmailService : IEmailService
 
         int port = int.TryParse(portStr, out var p) ? p : 587;
         
-        return (host, port, user, pass, fromEmail, fromName);
+        return (host!, port, user!, pass!, fromEmail, fromName);
     }
 
     private async Task SendMailInternalAsync(string toEmail, string subject, string body, CancellationToken ct)

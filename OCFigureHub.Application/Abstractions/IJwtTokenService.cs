@@ -4,7 +4,7 @@ namespace OCFigureHub.Application.Abstractions;
 
 public interface IJwtTokenService
 {
-    string Generate(User user);
+    Task<string> GenerateAsync(User user);
     string GenerateResetToken(User user);
     Guid? ValidateResetToken(string token);
 }

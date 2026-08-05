@@ -1,7 +1,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Domain.Entities;
+using OCFigureHub.Infrastructure.Persistence;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -11,18 +14,28 @@ namespace OCFigureHub.Infrastructure.Security;
 public class JwtTokenService : IJwtTokenService
 {
     private readonly IConfiguration _cfg;
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    public JwtTokenService(IConfiguration cfg)
+    public JwtTokenService(IConfiguration cfg, IServiceScopeFactory scopeFactory)
     {
         _cfg = cfg;
+        _scopeFactory = scopeFactory;
     }
 
-    public string Generate(User user)
+    public async Task<string> GenerateAsync(User user)
     {
         var issuer = _cfg["Jwt:Issuer"];
         var audience = _cfg["Jwt:Audience"];
         var key = _cfg["Jwt:Key"];
-        var expireMinutes = int.Parse(_cfg["Jwt:ExpireMinutes"] ?? "120");
+        
+        using var scope = _scopeFactory.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var sessionTimeoutStr = await db.SiteSettings
+            .Where(s => s.Group == "security" && s.Key == "sessionTimeout")
+            .Select(s => s.Value)
+            .FirstOrDefaultAsync();
+
+        var expireMinutes = int.TryParse(sessionTimeoutStr, out int hours) ? hours * 60 : int.Parse(_cfg["Jwt:ExpireMinutes"] ?? "120");
 
         var claims = new List<Claim>
         {
