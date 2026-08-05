@@ -26,19 +26,22 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export function AdminDashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+  const [topProducts, setTopProducts] = useState<Product[]>([]);
   const [monthlyData, setMonthlyData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [dashData, prodData, trendsData] = await Promise.all([
+        const [dashData, recentData, topData, trendsData] = await Promise.all([
           adminApi.getDashboard(),
-          productsApi.getAll({ page: 1, pageSize: 6, sort: 'newest' }),
+          productsApi.getAll({ page: 1, pageSize: 5, sort: 'newest' }),
+          productsApi.getAll({ page: 1, pageSize: 5, sort: 'popular' }),
           analyticsApi.monthlyTrends(8).catch(() => []),
         ]);
         setStats(dashData);
-        setRecentProducts(prodData.items || []);
+        setRecentProducts(recentData.items || []);
+        setTopProducts(topData.items || []);
         setMonthlyData(trendsData);
       } catch (err) {
         console.error('Failed to load dashboard', err);
@@ -232,7 +235,7 @@ export function AdminDashboard() {
             </div>
           </div>
           <div className="p-5 space-y-3">
-            {recentProducts.slice(0, 5).map((p, i) => (
+            {topProducts.length > 0 ? topProducts.map((p, i) => (
               <div key={p.id} className="flex items-center gap-3">
                 <span
                   className="w-6 h-6 rounded-full flex items-center justify-center text-xs flex-shrink-0"
@@ -255,7 +258,9 @@ export function AdminDashboard() {
                   <p style={{ color: '#666', fontSize: 11 }}>{p.category}</p>
                 </div>
               </div>
-            ))}
+            )) : (
+              <p className="text-center text-sm" style={{ color: '#666' }}>Chưa có dữ liệu</p>
+            )}
           </div>
         </div>
       </div>
