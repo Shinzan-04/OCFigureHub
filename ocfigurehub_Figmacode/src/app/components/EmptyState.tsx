@@ -7,8 +7,8 @@ interface EmptyStateProps {
 }
 
 export function EmptyState({
-  message = 'Không tìm thấy kết quả',
-  description = 'Thử lại sau hoặc thay đổi bộ lọc',
+  message = 'No results found',
+  description = 'Please try again later or change your filters',
   icon,
 }: EmptyStateProps) {
   return (

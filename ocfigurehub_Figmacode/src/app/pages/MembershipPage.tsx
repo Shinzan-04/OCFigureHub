@@ -22,27 +22,27 @@ interface CurrentSub {
 
 const FEATURE_LISTS: Record<string, { text: string; included: boolean }[]> = {
   'FREE': [
-    { text: 'Truy cập models miễn phí', included: true },
-    { text: 'Tải xuống models free', included: true },
-    { text: 'Tham gia cộng đồng', included: true },
-    { text: 'Lưu yêu thích', included: true },
-    { text: 'Truy cập models Pro', included: false },
-    { text: 'Source file gốc', included: false },
+    { text: 'Access free models', included: true },
+    { text: 'Download free models', included: true },
+    { text: 'Join community', included: true },
+    { text: 'Save favorites', included: true },
+    { text: 'Access Pro models', included: false },
+    { text: 'Original source files', included: false },
   ],
   'PRO': [
-    { text: 'Tất cả tính năng Free', included: true },
-    { text: 'Truy cập models Pro', included: true },
-    { text: 'Tải xuống theo gói tháng', included: true },
-    { text: 'Hỗ trợ ưu tiên 24/7', included: true },
-    { text: 'Early access models mới', included: true },
-    { text: 'Source file gốc', included: true },
+    { text: 'All Free features', included: true },
+    { text: 'Access Pro models', included: true },
+    { text: 'Monthly download quota', included: true },
+    { text: '24/7 Priority support', included: true },
+    { text: 'Early access to new models', included: true },
+    { text: 'Original source files', included: true },
   ],
   'ULTIMATE': [
-    { text: 'Tất cả tính năng Pro', included: true },
-    { text: 'Mọi models Exclusive', included: true },
-    { text: 'Tải xuống không giới hạn (demo)', included: true },
-    { text: 'Cloud storage cá nhân', included: true },
-    { text: 'Hỗ trợ 1-on-1 Artist', included: true },
+    { text: 'All Pro features', included: true },
+    { text: 'All Exclusive models', included: true },
+    { text: 'Unlimited downloads (demo)', included: true },
+    { text: 'Personal cloud storage', included: true },
+    { text: '1-on-1 Artist support', included: true },
     { text: 'Commercial license', included: true },
   ]
 };
@@ -119,7 +119,7 @@ export function MembershipPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <Loader2 className="animate-spin text-[#8B5CF6]" size={40} />
-        <p className="text-[#A1A1A1]">Đang tải danh sách gói...</p>
+        <p className="text-[#A1A1A1]">Loading plans...</p>
       </div>
     );
   }
@@ -136,10 +136,10 @@ export function MembershipPage() {
           Membership
         </div>
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-4">
-          Nâng tầm trải nghiệm của bạn
+          Elevate your experience
         </h1>
         <p className="text-base md:text-lg max-w-xl mx-auto" style={{ color: '#A1A1A1' }}>
-          Mở khóa quyền truy cập vào các mô hình 3D cao cấp nhất và nhận các ưu đãi đặc quyền.
+          Unlock access to premium 3D models and exclusive perks.
         </p>
       </div>
 
@@ -163,7 +163,7 @@ export function MembershipPage() {
             >
               {isCurrent && (
                 <div className="absolute top-0 right-0 bg-[#10B981] text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg">
-                  GÓI HIỆN TẠI
+                  CURRENT PLAN
                 </div>
               )}
 
@@ -180,19 +180,19 @@ export function MembershipPage() {
                 </div>
                 <h2 className="text-2xl font-black text-white mb-2">{plan.name}</h2>
                 <p className="text-xs" style={{ color: '#A1A1A1' }}>
-                  {plan.monthlyQuotaDownloads} lượt tải mỗi tháng
+                  {plan.monthlyQuotaDownloads} downloads per month
                 </p>
               </div>
 
               <div className="flex items-baseline gap-1">
                 <span className="text-4xl font-black text-white">{formatPrice(plan.monthlyPrice)}</span>
-                <span className="text-sm font-semibold" style={{ color: '#A1A1A1' }}>₫/tháng</span>
+                <span className="text-sm font-semibold" style={{ color: '#A1A1A1' }}>₫/month</span>
               </div>
 
               {isCurrent && (
                 <div className="p-3 rounded-lg bg-[#1A1A1A] border border-[#8B5CF640] mb-2">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-xs text-[#A1A1A1]">Lượt tải còn lại</span>
+                    <span className="text-xs text-[#A1A1A1]">Downloads remaining</span>
                     <span className="text-sm font-bold text-white">
                       {currentSub.remainingDownloads} / {currentSub.limitDownloads}
                     </span>
@@ -217,7 +217,7 @@ export function MembershipPage() {
                 }}
               >
                 {processingId === plan.id ? <Loader2 className="animate-spin" size={18} /> : null}
-                {isCurrent ? 'Đang sử dụng' : (plan.monthlyPrice === 0 ? 'Bắt đầu ngay' : 'Nâng cấp ngay')}
+                {isCurrent ? 'Current Plan' : (plan.monthlyPrice === 0 ? 'Get Started' : 'Upgrade Now')}
               </button>
 
               <ul className="flex flex-col gap-3 mt-4">
@@ -247,8 +247,8 @@ export function MembershipPage() {
       {/* Support text */}
       <div className="text-center max-w-2xl mx-auto">
           <p className="text-xs" style={{ color: '#666' }}>
-            Bằng cách đăng ký, bạn đồng ý với các Điều khoản Dịch vụ của chúng tôi. 
-            Việc gia hạn sẽ tự động diễn ra mỗi tháng trừ khi bạn hủy bỏ.
+            By subscribing, you agree to our Terms of Service. 
+            Renewal will occur automatically every month unless cancelled.
           </p>
       </div>
     </div>

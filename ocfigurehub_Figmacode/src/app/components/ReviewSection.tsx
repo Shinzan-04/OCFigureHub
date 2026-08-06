@@ -17,7 +17,7 @@ interface Props {
   productId: string;
 }
 
-const RATING_LABELS = ['', 'Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Tuyệt vời'];
+const RATING_LABELS = ['', 'Very Bad', 'Bad', 'Average', 'Good', 'Excellent'];
 
 const RatingStars = ({
   value,
@@ -61,10 +61,10 @@ const RatingStars = ({
 const timeAgo = (dateStr: string) => {
   const diff = Date.now() - new Date(dateStr).getTime();
   const days = Math.floor(diff / 86400000);
-  if (days < 1) return 'Hôm nay';
-  if (days < 30) return `${days} ngày trước`;
+  if (days < 1) return 'Today';
+  if (days < 30) return `${days} days ago`;
   const months = Math.floor(days / 30);
-  return `${months} tháng trước`;
+  return `${months} months ago`;
 };
 
 export function ReviewSection({ productId }: Props) {
@@ -157,7 +157,7 @@ export function ReviewSection({ productId }: Props) {
     <div className="mt-8">
       <div className="flex items-center gap-2 mb-6">
         <MessageSquare size={18} style={{ color: '#8B5CF6' }} />
-        <h2 className="text-lg font-bold text-white">Đánh giá sản phẩm</h2>
+        <h2 className="text-lg font-bold text-white">Product Reviews</h2>
         {totalReviews > 0 && (
           <span className="text-sm px-2.5 py-0.5 rounded-full font-semibold" style={{ backgroundColor: '#8B5CF620', color: '#8B5CF6' }}>
             {totalReviews}
@@ -175,7 +175,7 @@ export function ReviewSection({ productId }: Props) {
                 <div className="text-center">
                   <div className="text-5xl font-black text-white">{averageRating}</div>
                   <RatingStars value={Math.round(averageRating)} size={14} />
-                  <div className="text-xs mt-1" style={{ color: '#666' }}>{totalReviews} đánh giá</div>
+                  <div className="text-xs mt-1" style={{ color: '#666' }}>{totalReviews} reviews</div>
                 </div>
               </div>
 
@@ -201,7 +201,7 @@ export function ReviewSection({ productId }: Props) {
           {isLoggedIn ? (
             <div className="rounded-2xl border p-5" style={{ borderColor: '#262626', backgroundColor: '#111111' }}>
               <p className="text-sm font-semibold text-white mb-3">
-                {hasReviewed ? 'Cập nhật đánh giá' : 'Viết đánh giá của bạn'}
+                {hasReviewed ? 'Update Review' : 'Write your review'}
               </p>
 
               <div
@@ -228,7 +228,7 @@ export function ReviewSection({ productId }: Props) {
                   ref={textareaRef}
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này... (tuỳ chọn)"
+                  placeholder="Share your experience with this product... (optional)"
                   maxLength={500}
                   rows={3}
                   className="w-full px-3 py-2.5 rounded-xl text-sm outline-none resize-none transition-colors focus:border-[#8B5CF6]"
@@ -250,7 +250,7 @@ export function ReviewSection({ productId }: Props) {
                     className="px-4 py-2.5 rounded-xl text-sm font-medium border transition-colors hover:bg-red-500/10"
                     style={{ borderColor: '#EF444440', color: '#EF4444' }}
                   >
-                    Xoá
+                    Delete
                   </button>
                 )}
                 <button
@@ -260,14 +260,14 @@ export function ReviewSection({ productId }: Props) {
                   style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
                 >
                   {submitting ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
-                  {hasReviewed ? 'Cập nhật' : 'Gửi đánh giá'}
+                  {hasReviewed ? 'Update' : 'Submit Review'}
                 </button>
               </div>
             </div>
           ) : (
             <div className="rounded-2xl border p-5 text-center" style={{ borderColor: '#262626', backgroundColor: '#111111' }}>
               <p className="text-sm" style={{ color: '#A1A1A1' }}>
-                <a href="/sign-in" className="font-semibold hover:underline" style={{ color: '#8B5CF6' }}>Đăng nhập</a> để viết đánh giá
+                <a href="/sign-in" className="font-semibold hover:underline" style={{ color: '#8B5CF6' }}>Log in</a> to write a review
               </p>
             </div>
           )}
@@ -282,8 +282,8 @@ export function ReviewSection({ productId }: Props) {
           ) : reviews.length === 0 ? (
             <div className="rounded-2xl border p-10 text-center" style={{ borderColor: '#262626', backgroundColor: '#111111' }}>
               <div className="text-4xl mb-3 opacity-20">&#9734;</div>
-              <p className="text-sm" style={{ color: '#666' }}>Chưa có đánh giá nào.</p>
-              <p className="text-xs mt-1" style={{ color: '#555' }}>Hãy là người đầu tiên đánh giá sản phẩm này!</p>
+              <p className="text-sm" style={{ color: '#666' }}>No reviews yet.</p>
+              <p className="text-xs mt-1" style={{ color: '#555' }}>Be the first to review this product!</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -315,7 +315,7 @@ export function ReviewSection({ productId }: Props) {
                             <button
                               onClick={() => handleDelete(review.id)}
                               className="ml-auto p-1.5 rounded-lg hover:bg-red-500/10 transition-colors"
-                              title="Xoá đánh giá"
+                              title="Delete review"
                             >
                               <Trash2 size={13} style={{ color: '#EF4444' }} />
                             </button>
@@ -331,7 +331,7 @@ export function ReviewSection({ productId }: Props) {
                                 className="text-xs mt-1 font-medium hover:underline"
                                 style={{ color: '#8B5CF6' }}
                               >
-                                {isExpanded ? 'Thu gọn' : 'Xem thêm'}
+                                {isExpanded ? 'Show less' : 'Show more'}
                               </button>
                             )}
                           </div>

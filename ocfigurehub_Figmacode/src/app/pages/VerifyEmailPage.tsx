@@ -58,9 +58,9 @@ export default function VerifyEmailPage() {
               animation: 'spin 1s linear infinite'
             }} />
             <h2 style={{ color: '#fff', fontSize: '1.5rem', marginBottom: '0.5rem' }}>
-              Đang xác thực email...
+              Verifying email...
             </h2>
-            <p style={{ color: 'rgba(255,255,255,0.6)' }}>Vui lòng chờ trong giây lát</p>
+            <p style={{ color: 'rgba(255,255,255,0.6)' }}>Please wait a moment</p>
           </>
         )}
 
@@ -74,7 +74,7 @@ export default function VerifyEmailPage() {
               fontSize: '2.5rem'
             }}>✓</div>
             <h2 style={{ color: '#10B981', fontSize: '1.8rem', marginBottom: '0.75rem' }}>
-              Xác thực thành công!
+              Verification Successful!
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '2rem', lineHeight: 1.6 }}>
               {message}
@@ -90,7 +90,7 @@ export default function VerifyEmailPage() {
               fontSize: '1rem',
               transition: 'transform 0.2s, box-shadow 0.2s',
             }}>
-              Đăng nhập ngay
+              Login Now
             </Link>
           </>
         )}
@@ -105,7 +105,7 @@ export default function VerifyEmailPage() {
               fontSize: '2.5rem'
             }}>✕</div>
             <h2 style={{ color: '#EF4444', fontSize: '1.8rem', marginBottom: '0.75rem' }}>
-              Xác thực thất bại
+              Verification Failed
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '2rem', lineHeight: 1.6 }}>
               {message}
@@ -121,7 +121,7 @@ export default function VerifyEmailPage() {
               border: '1px solid rgba(255,255,255,0.2)',
               transition: 'background 0.2s',
             }}>
-              Quay lại đăng nhập
+              Back to Login
             </Link>
           </>
         )}

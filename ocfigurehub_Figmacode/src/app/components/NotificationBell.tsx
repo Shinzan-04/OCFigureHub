@@ -89,12 +89,12 @@ export function NotificationBell() {
   const timeAgo = (dateStr: string) => {
     const diff = Date.now() - new Date(dateStr).getTime();
     const mins = Math.floor(diff / 60000);
-    if (mins < 1) return 'Vừa xong';
-    if (mins < 60) return `${mins} phút trước`;
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return `${mins} mins ago`;
     const hours = Math.floor(mins / 60);
-    if (hours < 24) return `${hours} giờ trước`;
+    if (hours < 24) return `${hours} hours ago`;
     const days = Math.floor(hours / 24);
-    return `${days} ngày trước`;
+    return `${days} days ago`;
   };
 
   if (!isLoggedIn) return null;
@@ -124,14 +124,14 @@ export function NotificationBell() {
         >
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: '#262626' }}>
-            <h3 className="text-sm font-semibold text-white">Thông báo</h3>
+            <h3 className="text-sm font-semibold text-white">Notifications</h3>
             <div className="flex items-center gap-2">
               {unreadCount > 0 && (
                 <button
                   onClick={handleMarkAllRead}
                   className="text-[11px] px-2 py-1 rounded-lg transition-colors hover:bg-[#1A1A1A]"
                   style={{ color: '#8B5CF6' }}
-                  title="Đánh dấu tất cả đã đọc"
+                  title="Mark all as read"
                 >
                   <CheckCheck size={14} />
                 </button>
@@ -155,7 +155,7 @@ export function NotificationBell() {
             ) : notifications.length === 0 ? (
               <div className="py-10 text-center">
                 <Bell size={28} className="mx-auto mb-2" style={{ color: '#333' }} />
-                <p className="text-xs" style={{ color: '#666' }}>Chưa có thông báo nào</p>
+                <p className="text-xs" style={{ color: '#666' }}>No notifications yet</p>
               </div>
             ) : (
               notifications.map((n) => (
@@ -183,7 +183,7 @@ export function NotificationBell() {
                       <button
                         onClick={() => handleMarkRead(n.id)}
                         className="p-1 rounded hover:bg-[#262626]"
-                        title="Đánh dấu đã đọc"
+                        title="Mark as read"
                       >
                         <Check size={12} style={{ color: '#10B981' }} />
                       </button>
@@ -191,7 +191,7 @@ export function NotificationBell() {
                     <button
                       onClick={() => handleDelete(n.id)}
                       className="p-1 rounded hover:bg-[#262626]"
-                      title="Xoá"
+                      title="Delete"
                     >
                       <Trash2 size={12} style={{ color: '#EF4444' }} />
                     </button>

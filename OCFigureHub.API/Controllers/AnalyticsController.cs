@@ -11,8 +11,13 @@ namespace OCFigureHub.API.Controllers;
 public class AnalyticsController : ControllerBase
 {
     private readonly AppDbContext _db;
+    private readonly OCFigureHub.Application.Abstractions.IStorageService _storage;
 
-    public AnalyticsController(AppDbContext db) => _db = db;
+    public AnalyticsController(AppDbContext db, OCFigureHub.Application.Abstractions.IStorageService storage)
+    {
+        _db = db;
+        _storage = storage;
+    }
 
     /// <summary>Monthly trends (downloads, revenue, new users) for last N months</summary>
     [HttpGet("monthly-trends")]
@@ -21,21 +26,35 @@ public class AnalyticsController : ControllerBase
         var now = DateTime.UtcNow;
         var results = new List<object>();
 
+        var minDate = new DateTime(now.Year, now.Month, 1).AddMonths(-(months - 1));
+        var maxDate = minDate.AddMonths(months);
+
+        var downloadsData = await _db.DownloadHistories
+            .Where(d => d.DownloadedAt >= minDate && d.DownloadedAt < maxDate)
+            .GroupBy(d => new { d.DownloadedAt.Year, d.DownloadedAt.Month })
+            .Select(g => new { g.Key.Year, g.Key.Month, Count = g.Count() })
+            .ToListAsync(ct);
+
+        var revenueData = await _db.PaymentTransactions
+            .Where(p => p.Status == OCFigureHub.Domain.Enums.PaymentStatus.Paid && p.CreatedAt >= minDate && p.CreatedAt < maxDate)
+            .GroupBy(p => new { p.CreatedAt.Year, p.CreatedAt.Month })
+            .Select(g => new { g.Key.Year, g.Key.Month, Revenue = g.Sum(x => (decimal?)x.Amount ?? 0) })
+            .ToListAsync(ct);
+
+        var usersData = await _db.Users
+            .Where(u => u.CreatedAt >= minDate && u.CreatedAt < maxDate)
+            .GroupBy(u => new { u.CreatedAt.Year, u.CreatedAt.Month })
+            .Select(g => new { g.Key.Year, g.Key.Month, Count = g.Count() })
+            .ToListAsync(ct);
+
         for (int i = months - 1; i >= 0; i--)
         {
             var start = new DateTime(now.Year, now.Month, 1).AddMonths(-i);
-            var end = start.AddMonths(1);
             var monthLabel = start.ToString("MMM");
 
-            var downloads = await _db.DownloadHistories
-                .CountAsync(d => d.DownloadedAt >= start && d.DownloadedAt < end, ct);
-
-            var revenue = await _db.PaymentTransactions
-                .Where(p => p.Status == OCFigureHub.Domain.Enums.PaymentStatus.Paid && p.CreatedAt >= start && p.CreatedAt < end)
-                .SumAsync(p => (decimal?)p.Amount ?? 0, ct);
-
-            var newUsers = await _db.Users
-                .CountAsync(u => u.CreatedAt >= start && u.CreatedAt < end, ct);
+            var downloads = downloadsData.FirstOrDefault(d => d.Year == start.Year && d.Month == start.Month)?.Count ?? 0;
+            var revenue = revenueData.FirstOrDefault(r => r.Year == start.Year && r.Month == start.Month)?.Revenue ?? 0;
+            var newUsers = usersData.FirstOrDefault(u => u.Year == start.Year && u.Month == start.Month)?.Count ?? 0;
 
             results.Add(new
             {
@@ -64,41 +83,48 @@ public class AnalyticsController : ControllerBase
         else
             startDate = now.Date.AddDays(-6);
 
-        var downloadDates = await _db.DownloadHistories
-            .Where(d => d.DownloadedAt >= startDate)
-            .Select(d => d.DownloadedAt)
-            .ToListAsync(ct);
+        var groupQuery = _db.DownloadHistories.Where(d => d.DownloadedAt >= startDate);
 
         if (period.ToLower() == "year")
         {
+            var aggregated = await groupQuery
+                .GroupBy(d => new { d.DownloadedAt.Year, d.DownloadedAt.Month })
+                .Select(g => new { g.Key.Year, g.Key.Month, Count = g.Count() })
+                .ToListAsync(ct);
+
             for (int i = 11; i >= 0; i--)
             {
                 var start = new DateTime(now.Year, now.Month, 1).AddMonths(-i);
-                var end = start.AddMonths(1);
-                var downloads = downloadDates.Count(d => d >= start && d < end);
+                var downloads = aggregated.FirstOrDefault(x => x.Year == start.Year && x.Month == start.Month)?.Count ?? 0;
                 results.Add(new { day = start.ToString("MMM"), views = downloads * 4, downloads });
-            }
-        }
-        else if (period.ToLower() == "month")
-        {
-            for (int i = 29; i >= 0; i--)
-            {
-                var date = now.Date.AddDays(-i);
-                var nextDate = date.AddDays(1);
-                var downloads = downloadDates.Count(d => d >= date && d < nextDate);
-                results.Add(new { day = date.ToString("dd/MM"), views = downloads * 4, downloads });
             }
         }
         else
         {
-            var days = new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
-            for (int i = 6; i >= 0; i--)
+            var aggregated = await groupQuery
+                .GroupBy(d => new { d.DownloadedAt.Year, d.DownloadedAt.Month, d.DownloadedAt.Day })
+                .Select(g => new { g.Key.Year, g.Key.Month, g.Key.Day, Count = g.Count() })
+                .ToListAsync(ct);
+
+            if (period.ToLower() == "month")
             {
-                var date = now.Date.AddDays(-i);
-                var nextDate = date.AddDays(1);
-                var dayName = days[(int)date.DayOfWeek == 0 ? 6 : (int)date.DayOfWeek - 1];
-                var downloads = downloadDates.Count(d => d >= date && d < nextDate);
-                results.Add(new { day = dayName, views = downloads * 4, downloads });
+                for (int i = 29; i >= 0; i--)
+                {
+                    var date = now.Date.AddDays(-i);
+                    var downloads = aggregated.FirstOrDefault(x => x.Year == date.Year && x.Month == date.Month && x.Day == date.Day)?.Count ?? 0;
+                    results.Add(new { day = date.ToString("dd/MM"), views = downloads * 4, downloads });
+                }
+            }
+            else
+            {
+                var days = new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+                for (int i = 6; i >= 0; i--)
+                {
+                    var date = now.Date.AddDays(-i);
+                    var dayName = days[(int)date.DayOfWeek == 0 ? 6 : (int)date.DayOfWeek - 1];
+                    var downloads = aggregated.FirstOrDefault(x => x.Year == date.Year && x.Month == date.Month && x.Day == date.Day)?.Count ?? 0;
+                    results.Add(new { day = dayName, views = downloads * 4, downloads });
+                }
             }
         }
 
@@ -136,11 +162,16 @@ public class AnalyticsController : ControllerBase
         var result = products.Select(p =>
         {
             var detail = productDetails.FirstOrDefault(d => d.Id == p.ProductId);
+            var thumbUrl = detail?.ThumbnailUrl;
+            if (!string.IsNullOrEmpty(thumbUrl))
+            {
+                thumbUrl = _storage.GenerateReadSasUrl(thumbUrl, TimeSpan.FromHours(24));
+            }
             return new
             {
                 id = p.ProductId,
                 name = detail?.Name ?? "Unknown",
-                thumbnailUrl = detail?.ThumbnailUrl,
+                thumbnailUrl = thumbUrl,
                 category = detail?.Category,
                 price = detail?.Price ?? 0,
                 creator = detail?.CreatorName ?? "Unknown",

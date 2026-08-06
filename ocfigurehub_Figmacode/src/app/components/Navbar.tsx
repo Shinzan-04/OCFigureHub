@@ -189,7 +189,7 @@ export function Navbar() {
                       className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors hover:bg-[#1A1A1A]"
                       style={{ color: '#A1A1A1' }}
                     >
-                      <Download size={15} /> Lịch sử download
+                      <Download size={15} /> Download History
                     </Link>
                     <Link
                       to="/order-history"
@@ -197,7 +197,7 @@ export function Navbar() {
                       className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors hover:bg-[#1A1A1A]"
                       style={{ color: '#A1A1A1' }}
                     >
-                      <ShoppingBag size={15} /> Đơn hàng
+                      <ShoppingBag size={15} /> Orders
                     </Link>
                     <Link
                       to="/settings"
@@ -205,7 +205,7 @@ export function Navbar() {
                       className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors hover:bg-[#1A1A1A]"
                       style={{ color: '#A1A1A1' }}
                     >
-                      <Settings size={15} /> Cài đặt
+                      <Settings size={15} /> Settings
                     </Link>
                     <Link
                       to="/profile"
@@ -213,7 +213,7 @@ export function Navbar() {
                       className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors hover:bg-[#1A1A1A]"
                       style={{ color: '#A1A1A1' }}
                     >
-                      <User size={15} /> Hồ sơ
+                      <User size={15} /> Profile
                     </Link>
                     <div className="h-px my-1" style={{ backgroundColor: '#262626' }} />
                     <button
@@ -221,7 +221,7 @@ export function Navbar() {
                       className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors hover:bg-[#1A1A1A]"
                       style={{ color: '#EF4444' }}
                     >
-                      <LogOut size={15} /> Đăng xuất
+                      <LogOut size={15} /> Log Out
                     </button>
                   </div>
                 </>
@@ -327,14 +327,14 @@ export function Navbar() {
                   className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium"
                   style={{ color: '#A1A1A1' }}
                 >
-                  <Settings size={15} /> Cài đặt tài khoản
+                  <Settings size={15} /> Account Settings
                 </Link>
                 <button
                   onClick={handleLogout}
                   className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium"
                   style={{ color: '#EF4444' }}
                 >
-                  <LogOut size={15} /> Đăng xuất
+                  <LogOut size={15} /> Log Out
                 </button>
               </div>
             ) : (

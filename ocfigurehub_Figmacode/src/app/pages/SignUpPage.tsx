@@ -74,10 +74,10 @@ export function SignUpPage() {
             >
               <span style={{ fontSize: '2rem' }}>✉️</span>
             </div>
-            <h2 className="text-xl font-bold text-white mb-2">Kiểm tra email của bạn</h2>
+            <h2 className="text-xl font-bold text-white mb-2">Check your email</h2>
             <p className="text-sm mb-6" style={{ color: '#A1A1A1', lineHeight: 1.6 }}>
-              Chúng tôi đã gửi một link xác thực đến <strong style={{ color: '#8B5CF6' }}>{email}</strong>.
-              Vui lòng kiểm tra hộp thư (và spam) để xác thực tài khoản.
+              We have sent a verification link to <strong style={{ color: '#8B5CF6' }}>{email}</strong>.
+              Please check your inbox (and spam folder) to verify your account.
             </p>
             <button
               onClick={handleResend}
@@ -85,10 +85,10 @@ export function SignUpPage() {
               className="w-full py-3 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 disabled:opacity-50 mb-3"
               style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
             >
-              {resendLoading ? 'Đang gửi lại...' : 'Gửi lại email xác thực'}
+              {resendLoading ? 'Resending...' : 'Resend verification email'}
             </button>
             <Link to="/sign-in" className="text-sm font-medium hover:opacity-80" style={{ color: '#A1A1A1' }}>
-              Quay lại đăng nhập
+              Back to login
             </Link>
           </div>
         </div>
@@ -103,9 +103,9 @@ export function SignUpPage() {
         <div className="flex flex-col items-center gap-3 mb-8">
           <img src="/logo.png" alt="OC Figure Hub" className="h-12 w-auto" style={{ filter: 'invert(1)' }} />
           <div className="text-center">
-            <h1 className="text-2xl font-black text-white">Tạo tài khoản</h1>
+            <h1 className="text-2xl font-black text-white">Create Account</h1>
             <p className="text-sm mt-1" style={{ color: '#A1A1A1' }}>
-              Bắt đầu hành trình cùng OC Figure HUB
+              Start your journey with OC Figure Hub
             </p>
           </div>
         </div>
@@ -120,9 +120,9 @@ export function SignUpPage() {
               <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mb-4">
                 <ShieldAlert size={32} className="text-red-500" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Đăng ký tạm khóa</h3>
+              <h3 className="text-xl font-bold text-white mb-2">Registration Temporarily Locked</h3>
               <p className="text-[#888] max-w-sm">
-                Quản trị viên đã tạm thời vô hiệu hóa chức năng tạo tài khoản mới. Vui lòng quay lại sau!
+                Administrators have temporarily disabled new account creation. Please check back later!
               </p>
             </div>
           ) : (
@@ -138,10 +138,10 @@ export function SignUpPage() {
             )}
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-white">Tên hiển thị</label>
+              <label className="text-sm font-medium text-white">Display Name</label>
               <input
                 type="text"
-                placeholder="Tên của bạn"
+                placeholder="Your Name"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 required
@@ -168,7 +168,7 @@ export function SignUpPage() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-white">Mật khẩu</label>
+              <label className="text-sm font-medium text-white">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -193,7 +193,7 @@ export function SignUpPage() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-white">Xác nhận mật khẩu</label>
+              <label className="text-sm font-medium text-white">Confirm Password</label>
               <input
                 type="password"
                 placeholder="••••••••"
@@ -213,7 +213,7 @@ export function SignUpPage() {
               className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 mt-1 disabled:opacity-50"
               style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
             >
-              {loading ? 'Đang tạo tài khoản...' : 'Đăng ký'}
+              {loading ? 'Creating account...' : 'Sign Up'}
               {!loading && <ArrowRight size={16} />}
             </button>
           </form>
@@ -221,9 +221,9 @@ export function SignUpPage() {
         </div>
 
         <p className="text-center mt-6 text-sm" style={{ color: '#A1A1A1' }}>
-          Đã có tài khoản?{' '}
+          Already have an account?{' '}
           <Link to="/sign-in" className="font-medium hover:opacity-80" style={{ color: '#8B5CF6' }}>
-            Đăng nhập
+            Log in
           </Link>
         </p>
       </div>

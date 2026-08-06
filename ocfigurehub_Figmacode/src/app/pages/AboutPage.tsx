@@ -6,23 +6,23 @@ import { statsApi, type PlatformStats } from '../../api/stats';
 const FEATURES = [
   {
     icon: <Shield size={22} />,
-    title: 'Chất lượng đảm bảo',
-    desc: 'Mọi file mô hình đều được kiểm duyệt kỹ lưỡng trước khi đăng tải, đảm bảo tương thích với các máy in phổ biến.',
+    title: 'Guaranteed Quality',
+    desc: 'Every model file is carefully vetted before publication, ensuring compatibility with popular 3D printers.',
   },
   {
     icon: <Zap size={22} />,
-    title: 'Tải xuống nhanh chóng',
-    desc: 'Hệ thống CDN tối ưu, tốc độ tải xuống nhanh và ổn định cho dù bạn đang ở đâu tại Việt Nam.',
+    title: 'Fast Downloads',
+    desc: 'Optimized CDN system for fast and stable download speeds, no matter where you are.',
   },
   {
     icon: <Globe size={22} />,
-    title: 'Cộng đồng toàn cầu',
-    desc: 'Kết nối với các artists và collectors anime trên toàn thế giới. Chia sẻ đam mê và học hỏi lẫn nhau.',
+    title: 'Global Community',
+    desc: 'Connect with anime artists and collectors worldwide. Share your passion and learn from each other.',
   },
   {
     icon: <Heart size={22} />,
     title: 'Made with Love',
-    desc: 'Được xây dựng bởi những người đam mê anime và 3D printing, cho cộng đồng đam mê anime Việt Nam.',
+    desc: 'Built by anime and 3D printing enthusiasts, for the community.',
   },
 ];
 
@@ -52,7 +52,7 @@ export function AboutPage() {
           About Us
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-white mb-5 leading-tight">
-          Về{' '}
+          About{' '}
           <span
             style={{
               background: 'linear-gradient(135deg, #8B5CF6, #A78BFA)',
@@ -64,7 +64,7 @@ export function AboutPage() {
           </span>
         </h1>
         <p className="text-base md:text-xl max-w-2xl mx-auto leading-relaxed" style={{ color: '#A1A1A1' }}>
-          Marketplace 3D figure số 1 Việt Nam — nơi kết nối các designers, printers và collectors trong cộng đồng anime Việt Nam.
+          Vietnam's #1 3D figure marketplace — connecting designers, printers, and collectors in the community.
         </p>
       </section>
 
@@ -107,13 +107,13 @@ export function AboutPage() {
               🎯 Mission
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-4 leading-tight">
-              Sứ mệnh của chúng tôi
+              Our Mission
             </h2>
             <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: '#A1A1A1' }}>
-              OC Figure HUB ra đời với mục tiêu trở thành ngôi nhà số cho những ai đam mê mô hình 3D anime tại Việt Nam. Chúng tôi tin rằng sáng tạo không nên bị giới hạn bởi chi phí hay khó khăn trong việc tìm kiếm tài nguyên.
+              OC Figure HUB was born with the goal of becoming the digital home for 3D anime model enthusiasts. We believe that creativity should not be limited by cost or difficulty in finding resources.
             </p>
             <p className="text-sm md:text-base leading-relaxed" style={{ color: '#A1A1A1' }}>
-              Chúng tôi kết nối các designers tài năng với cộng đồng người yêu thích in 3D, tạo ra một hệ sinh thái sáng tạo bền vững và phát triển.
+              We connect talented designers with the 3D printing community, creating a sustainable and thriving creative ecosystem.
             </p>
           </div>
           <div
@@ -121,9 +121,9 @@ export function AboutPage() {
             style={{ backgroundColor: '#111111', borderColor: '#262626' }}
           >
             {[
-              { emoji: '🌟', title: 'Dân chủ hóa sáng tạo', desc: 'Đưa các file 3D chất lượng cao đến tay mọi người với giá cả phải chăng' },
-              { emoji: '🤝', title: 'Hỗ trợ creators', desc: 'Tạo thu nhập bền vững cho các designers và artists Việt Nam' },
-              { emoji: '🔥', title: 'Xây dựng cộng đồng', desc: 'Kết nối những người có cùng đam mê anime và 3D printing' },
+              { emoji: '🌟', title: 'Democratizing Creativity', desc: 'Bringing high-quality 3D files to everyone at affordable prices' },
+              { emoji: '🤝', title: 'Supporting Creators', desc: 'Creating sustainable income for designers and artists' },
+              { emoji: '🔥', title: 'Building Community', desc: 'Connecting people with a shared passion for anime and 3D printing' },
             ].map((item) => (
               <div key={item.title} className="flex gap-4">
                 <span className="text-2xl shrink-0 mt-0.5">{item.emoji}</span>
@@ -152,7 +152,7 @@ export function AboutPage() {
             ✨ Features
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-white">
-            Tại sao chọn chúng tôi?
+            Why Choose Us?
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
@@ -193,10 +193,10 @@ export function AboutPage() {
             Community
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
-            Cộng đồng của chúng tôi
+            Our Community
           </h2>
           <p className="text-base max-w-2xl mx-auto" style={{ color: '#A1A1A1' }}>
-            Hàng nghìn thành viên đang cùng nhau chia sẻ đam mê, học hỏi và phát triển trong cộng đồng OC Figure HUB
+            Thousands of members are sharing their passion, learning, and growing together in the OC Figure HUB community.
           </p>
         </div>
 
@@ -206,19 +206,19 @@ export function AboutPage() {
             {
               emoji: '🎨',
               title: 'Designers',
-              desc: 'Các artists và designers tài năng chia sẻ tác phẩm và kiếm thu nhập từ đam mê',
+              desc: 'Talented artists and designers share their work and earn income from their passion',
               count: '120+ creators',
             },
             {
               emoji: '🖨️',
               title: 'Printers',
-              desc: 'Cộng đồng người yêu thích 3D printing, từ người mới đến pro',
+              desc: 'A community of 3D printing enthusiasts, from beginners to pros',
               count: '5K+ printers',
             },
             {
               emoji: '🏆',
               title: 'Collectors',
-              desc: 'Những người sưu tập figures anime với niềm đam mê không giới hạn',
+              desc: 'Anime figure collectors with an unlimited passion',
               count: '10K+ collectors',
             },
           ].map((group) => (
@@ -248,7 +248,7 @@ export function AboutPage() {
             style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
           >
             <Star size={16} />
-            Tham gia cộng đồng ngay
+            Join the community now
           </Link>
         </div>
       </section>

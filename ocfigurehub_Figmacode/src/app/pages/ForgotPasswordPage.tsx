@@ -32,9 +32,9 @@ export function ForgotPasswordPage() {
         <div className="flex flex-col items-center gap-3 mb-8">
           <img src="/logo.png" alt="OC Figure Hub" className="h-12 w-auto" style={{ filter: 'invert(1)' }} />
           <div className="text-center">
-            <h1 className="text-2xl font-black text-white">Khôi phục mật khẩu</h1>
+            <h1 className="text-2xl font-black text-white">Reset Password</h1>
             <p className="text-sm mt-1" style={{ color: '#A1A1A1' }}>
-              Nhập email để nhận link đặt lại mật khẩu
+              Enter your email to receive a password reset link
             </p>
           </div>
         </div>
@@ -53,9 +53,9 @@ export function ForgotPasswordPage() {
                 <Mail size={28} style={{ color: '#8B5CF6' }} />
               </div>
               <div>
-                <p className="text-lg font-bold text-white mb-2">Email đã được gửi!</p>
+                <p className="text-lg font-bold text-white mb-2">Email sent!</p>
                 <p className="text-sm" style={{ color: '#A1A1A1' }}>
-                  Kiểm tra hộp thư của bạn và làm theo hướng dẫn để đặt lại mật khẩu.
+                  Check your inbox and follow the instructions to reset your password.
                 </p>
               </div>
               <Link
@@ -63,7 +63,7 @@ export function ForgotPasswordPage() {
                 className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90"
                 style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
               >
-                Về trang đăng nhập
+                Back to Login
               </Link>
             </div>
           ) : (
@@ -106,7 +106,7 @@ export function ForgotPasswordPage() {
                 className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 mt-1 disabled:opacity-70"
                 style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
               >
-                {loading ? <Loader2 size={16} className="animate-spin" /> : 'Gửi link khôi phục'}
+                {loading ? <Loader2 size={16} className="animate-spin" /> : 'Send reset link'}
                 {!loading && <ArrowRight size={16} />}
               </button>
             </form>
@@ -120,7 +120,7 @@ export function ForgotPasswordPage() {
           style={{ color: '#A1A1A1' }}
         >
           <ArrowLeft size={16} />
-          Quay lại đăng nhập
+          Back to login
         </Link>
       </div>
     </div>

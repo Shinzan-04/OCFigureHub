@@ -4,7 +4,7 @@ import type { Product } from '../../types/product';
 import { useSavedStore } from '../../store/savedStore';
 
 function formatPrice(price: number): string {
-  if (price === 0) return 'Miễn phí';
+  if (price === 0) return 'Free';
   return new Intl.NumberFormat('vi-VN', {
     style: 'currency',
     currency: 'VND',

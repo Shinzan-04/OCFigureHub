@@ -5,10 +5,10 @@ import { chatApi } from '../../api/chat';
 import type { ChatMessage, ChatMessageResponse } from '../../types/chat';
 
 const SUGGESTIONS = [
-  'Tìm model anime miễn phí',
-  'Gói membership có gì?',
-  'Tôi tải file STL như thế nào?',
-  'License commercial là gì?',
+  'Find free anime models',
+  'What is in the membership plan?',
+  'How do I download STL files?',
+  'What is a commercial license?',
 ];
 
 const SESSION_KEY = 'oc-chatbot-session';
@@ -194,7 +194,7 @@ export function ChatbotWidget() {
         {
           id: 'welcome',
           role: 'assistant',
-          content: 'Xin chào! 👋 Tôi là OC Assistant, trợ lý AI của OC Figure Hub. Tôi có thể giúp bạn tìm model 3D, hiểu về membership, license và cách tải file. Bạn cần hỗ trợ gì?',
+          content: 'Hello! 👋 I am OC Assistant, the AI assistant of OC Figure Hub. I can help you find 3D models, understand membership, licenses, and how to download files. How can I help you?',
           createdAt: new Date().toISOString(),
         },
       ]);
@@ -245,7 +245,7 @@ export function ChatbotWidget() {
       const errorMessage: MessageItem = {
         id: `error-${Date.now()}`,
         role: 'assistant',
-        content: 'Xin lỗi, đã xảy ra lỗi khi xử lý tin nhắn. Vui lòng thử lại.',
+        content: 'Sorry, an error occurred while processing your message. Please try again.',
         createdAt: new Date().toISOString(),
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -283,7 +283,7 @@ export function ChatbotWidget() {
             rel="noopener noreferrer"
             className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 pointer-events-auto"
             style={{ backgroundColor: '#00B2FF', color: '#FFFFFF' }}
-            title="Chat với Admin qua Messenger"
+            title="Chat with Admin via Messenger"
           >
             <svg viewBox="0 0 36 36" fill="currentColor" width="26" height="26">
               <path d="M18 1.4C8.7 1.4 1.2 8.5 1.2 17.2c0 4.9 2.4 9.3 6.1 12.3v5.1l5.5-3.1c1.7.5 3.5.7 5.2.7 9.3 0 16.8-7.1 16.8-15.8S27.3 1.4 18 1.4zm1.1 21.3-4.3-4.7-8.4 4.7 9.2-9.9 4.4 4.7 8.3-4.7-9.2 9.9z"/>
@@ -299,7 +299,7 @@ export function ChatbotWidget() {
             backgroundColor: isOpen ? '#6D28D9' : '#8B5CF6',
             color: '#FFFFFF',
           }}
-          aria-label={isOpen ? 'Đóng chat' : 'Mở chat'}
+          aria-label={isOpen ? 'Close chat' : 'Open chat'}
         >
           {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
         </button>
@@ -331,7 +331,7 @@ export function ChatbotWidget() {
                   OC Assistant
                 </h3>
                 <p className="text-xs" style={{ color: '#A1A1A1' }}>
-                  Trực tuyến
+                  Online
                 </p>
               </div>
             </div>
@@ -383,7 +383,7 @@ export function ChatbotWidget() {
                   {message.isLoading ? (
                     <div className="flex items-center gap-2">
                       <Loader2 size={16} className="animate-spin" />
-                      <span>Đang trả lời...</span>
+                      <span>Replying...</span>
                     </div>
                   ) : (
                     <div className="space-y-1" style={{ whiteSpace: 'pre-wrap' }}>
@@ -453,7 +453,7 @@ export function ChatbotWidget() {
               ref={inputRef}
               onChange={(e) => setHasValue(!!e.target.value.trim())}
               onKeyDown={handleKeyDown}
-              placeholder="Nhập tin nhắn..."
+              placeholder="Type a message..."
               rows={1}
               maxLength={1000}
               className="flex-1 px-4 py-2.5 rounded-xl text-sm resize-none outline-none transition-all"

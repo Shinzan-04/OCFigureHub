@@ -210,7 +210,7 @@ export function HomePage() {
               style={{ borderColor: '#8B5CF640', backgroundColor: '#8B5CF615', color: '#8B5CF6' }}
             >
               <Sparkles size={11} />
-              Marketplace 3D hàng đầu Việt Nam
+              Vietnam's leading 3D Marketplace
             </div>
           </div>
 
@@ -238,7 +238,7 @@ export function HomePage() {
             <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#A1A1A1' }} />
             <input
               type="text"
-              placeholder="Tìm model, nhân vật, tag..."
+              placeholder="Search models, characters, tags..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onFocus={(e) => {
@@ -274,14 +274,14 @@ export function HomePage() {
                         className="flex items-center gap-3 p-3 hover:bg-[#1A1A1A] transition-colors text-left"
                       >
                         <Search size={14} style={{ color: '#8B5CF6' }} />
-                        <span className="text-sm text-white font-medium">Tìm kiếm "<span style={{ color: '#8B5CF6' }}>{c.label}</span>"</span>
+                        <span className="text-sm text-white font-medium">Search for "<span style={{ color: '#8B5CF6' }}>{c.label}</span>"</span>
                       </button>
                     ))}
                   </div>
                 )}
                 {suggestions.length > 0 && (
                   <div className="flex flex-col">
-                    <div className="px-3 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#6b7280' }}>Sản phẩm gợi ý</div>
+                    <div className="px-3 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#6b7280' }}>Suggested Products</div>
                     {suggestions.map((p) => (
                       <Link
                         key={p.id}
@@ -354,7 +354,7 @@ export function HomePage() {
                     style={{ borderColor: '#8B5CF640', backgroundColor: '#8B5CF610', color: '#8B5CF6' }}
                   >
                     <Sparkles size={12} />
-                    Marketplace 3D Figure hàng đầu Việt Nam
+                    Vietnam's leading 3D Figure Marketplace
                   </div>
                 </div>
 
@@ -386,7 +386,7 @@ export function HomePage() {
                   <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#A1A1A1' }} />
                   <input
                     type="text"
-                    placeholder="Tìm model, nhân vật, tag..."
+                    placeholder="Search models, characters, tags..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     onFocus={(e) => {
@@ -422,14 +422,14 @@ export function HomePage() {
                               className="flex items-center gap-3 p-3 hover:bg-[#1A1A1A] transition-colors text-left"
                             >
                               <Search size={14} style={{ color: '#8B5CF6' }} />
-                              <span className="text-sm text-white font-medium">Tìm kiếm "<span style={{ color: '#8B5CF6' }}>{c.label}</span>"</span>
+                              <span className="text-sm text-white font-medium">Search for "<span style={{ color: '#8B5CF6' }}>{c.label}</span>"</span>
                             </button>
                           ))}
                         </div>
                       )}
                       {suggestions.length > 0 && (
                         <div className="flex flex-col max-h-[300px] overflow-y-auto custom-scrollbar">
-                          <div className="px-3 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#6b7280' }}>Sản phẩm gợi ý</div>
+                          <div className="px-3 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#6b7280' }}>Suggested Products</div>
                           {suggestions.map((p) => (
                             <Link
                               key={p.id}
@@ -631,7 +631,7 @@ export function HomePage() {
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1">
               {debouncedSearch ? (
                 <>
-                  Kết quả cho "<span style={{ color: '#8B5CF6' }}>{debouncedSearch}</span>"
+                  Results for "<span style={{ color: '#8B5CF6' }}>{debouncedSearch}</span>"
                 </>
               ) : category ? (
                 `${category} models`
@@ -640,7 +640,7 @@ export function HomePage() {
               )}
             </h2>
             <p className="text-sm" style={{ color: '#A1A1A1' }}>
-              {isLoading ? 'Đang tải...' : `${totalItems} kết quả`}
+              {isLoading ? 'Loading...' : `${totalItems} results`}
             </p>
           </div>
         </div>
@@ -697,8 +697,8 @@ export function HomePage() {
           </>
         ) : (
           <EmptyState
-            message={debouncedSearch ? `Không tìm thấy "${debouncedSearch}"` : "Không tìm thấy kết quả"}
-            description="Thử tìm kiếm với từ khóa khác hoặc xóa bộ lọc"
+            message={debouncedSearch ? `No results for "${debouncedSearch}"` : "No results found"}
+            description="Try searching with different keywords or clear filters"
           />
         )}
       </section>

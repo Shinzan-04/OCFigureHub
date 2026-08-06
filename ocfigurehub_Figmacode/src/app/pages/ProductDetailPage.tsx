@@ -24,7 +24,7 @@ import toast from 'react-hot-toast';
 
 
 function formatPrice(price: number): string {
-  if (price === 0) return 'Miễn phí';
+  if (price === 0) return 'Free';
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
 }
 
@@ -108,9 +108,9 @@ export function ProductDetailPage() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4">
         <p className="text-2xl font-bold text-white">404</p>
-        <p style={{ color: '#A1A1A1' }}>Không tìm thấy sản phẩm</p>
+        <p style={{ color: '#A1A1A1' }}>Product not found</p>
         <Link to="/" className="px-4 py-2 rounded-xl text-sm" style={{ backgroundColor: '#8B5CF6', color: '#fff' }}>
-          Về trang chủ
+          Back to home
         </Link>
       </div>
     );
@@ -165,7 +165,7 @@ export function ProductDetailPage() {
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1 sm:gap-2 mb-6 sm:mb-8 flex-wrap" style={{ color: '#A1A1A1' }}>
         <button onClick={() => navigate(-1)} className="flex items-center gap-1 text-sm hover:text-white transition-colors">
-          <ArrowLeft size={16} /> Quay lại
+          <ArrowLeft size={16} /> Back
         </button>
         <ChevronRight size={14} />
         <span className="text-sm capitalize">{product.category}</span>
@@ -241,7 +241,7 @@ export function ProductDetailPage() {
 
           {/* Description */}
           <div className="rounded-2xl border p-6" style={{ borderColor: '#262626', backgroundColor: '#111111' }}>
-            <h2 className="text-lg font-bold text-white mb-3">Mô tả</h2>
+            <h2 className="text-lg font-bold text-white mb-3">Description</h2>
             <p className="text-sm leading-relaxed" style={{ color: '#A1A1A1' }}>
               {product.description}
             </p>
@@ -325,7 +325,7 @@ export function ProductDetailPage() {
                     className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-semibold transition-opacity hover:opacity-90 text-sm"
                     style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
                   >
-                    Đăng nhập để xem giá
+                    Login to view price
                   </button>
                 ) : (
                   <>
@@ -337,7 +337,7 @@ export function ProductDetailPage() {
                         style={{ backgroundColor: '#10B981', color: '#fff' }}
                       >
                         {downloading ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
-                        {downloading ? 'Đang tải...' : 'Tải xuống ngay'}
+                        {downloading ? 'Downloading...' : 'Download Now'}
                       </button>
                     ) : (
                       <>
@@ -349,7 +349,7 @@ export function ProductDetailPage() {
                             style={{ backgroundColor: '#10B981', color: '#fff' }}
                           >
                             {downloading ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
-                            {downloading ? 'Đang tải...' : `Tải bằng gói (${product.remainingDownloads} lượt)`}
+                            {downloading ? 'Downloading...' : `Download with Plan (${product.remainingDownloads} left)`}
                           </button>
                         ) : null}
 
@@ -365,7 +365,7 @@ export function ProductDetailPage() {
                           }}
                         >
                           {buying ? <Loader2 size={18} className="animate-spin" /> : <ShoppingBag size={18} />}
-                          {buying ? 'Đang xử lý...' : `Mua lẻ — ${formatPrice(product.price)}`}
+                          {buying ? 'Processing...' : `Buy Single — ${formatPrice(product.price)}`}
                         </button>
 
                         {!product.hasActiveSubscription && (
@@ -374,7 +374,7 @@ export function ProductDetailPage() {
                             className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-semibold border transition-colors hover:border-[#8B5CF6] text-sm"
                             style={{ borderColor: '#262626', color: '#A1A1A1' }}
                           >
-                            Đăng ký gói (Tải rẻ hơn)
+                            Subscribe to Plan (Cheaper)
                           </button>
                         )}
                       </>
@@ -390,36 +390,36 @@ export function ProductDetailPage() {
                   className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-semibold border transition-colors hover:border-[#8B5CF6] text-sm"
                   style={{ borderColor: '#262626', color: '#A1A1A1' }}
                 >
-                  <Share2 size={18} /> Chia sẻ
+                  <Share2 size={18} /> Share
                 </button>
               </div>
 
               {!isLoggedIn && !isFree && (
                 <p className="text-xs mt-3 text-center" style={{ color: '#A1A1A1' }}>
-                  <Link to="/sign-in" style={{ color: '#8B5CF6' }}>Đăng nhập</Link>{' '}
-                  hoặc{' '}
-                  <Link to="/sign-up" style={{ color: '#8B5CF6' }}>đăng ký</Link>{' '}
-                  để mua sản phẩm
+                  <Link to="/sign-in" style={{ color: '#8B5CF6' }}>Log in</Link>{' '}
+                  or{' '}
+                  <Link to="/sign-up" style={{ color: '#8B5CF6' }}>sign up</Link>{' '}
+                  to buy products
                 </p>
               )}
             </div>
 
             {/* Category Card */}
             <div className="rounded-2xl border p-5" style={{ borderColor: '#262626', backgroundColor: '#111111' }}>
-              <h3 className="text-sm font-semibold text-white mb-4">Thông tin</h3>
+              <h3 className="text-sm font-semibold text-white mb-4">Information</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-xs" style={{ color: '#A1A1A1' }}>Danh mục</span>
+                  <span className="text-xs" style={{ color: '#A1A1A1' }}>Category</span>
                   <span className="text-xs text-white capitalize">{product.category}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-xs" style={{ color: '#A1A1A1' }}>Số file</span>
+                  <span className="text-xs" style={{ color: '#A1A1A1' }}>Files count</span>
                   <span className="text-xs text-white">{product.files.length}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-xs" style={{ color: '#A1A1A1' }}>Trạng thái</span>
+                  <span className="text-xs" style={{ color: '#A1A1A1' }}>Status</span>
                   <span className="text-xs" style={{ color: product.isEnabled ? '#10B981' : '#EF4444' }}>
-                    {product.isEnabled ? 'Đang bán' : 'Ngừng bán'}
+                    {product.isEnabled ? 'On Sale' : 'Not for Sale'}
                   </span>
                 </div>
               </div>

@@ -152,7 +152,7 @@ export function AdminMembership() {
             <div key={p.id} className="rounded-xl p-5" style={{ background: '#111111', border: '1px solid #262626' }}>
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h3 style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>Gói {p.name}</h3>
+                  <h3 style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}> {p.name}</h3>
                   <div style={{ color: '#666', fontSize: 12, marginTop: 4 }}>
                     Overview & Settings
                   </div>
@@ -333,7 +333,7 @@ export function AdminMembership() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-2xl p-6" style={{ background: '#111111', border: '1px solid #262626' }}>
             <div className="flex justify-between items-center mb-6">
-              <h3 style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>Sửa cấu hình Gói {editingPlan.name}</h3>
+              <h3 style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>Sửa cấu hình {editingPlan.name}</h3>
               <button onClick={() => setEditingPlan(null)} className="text-[#666] hover:text-[#fff]">
                 <X size={20} />
               </button>
@@ -343,9 +343,13 @@ export function AdminMembership() {
               <div>
                 <label className="text-sm text-[#888] mb-2 block font-medium">Price (VND / month)</label>
                 <input
-                  type="number"
-                  value={editingPlan.monthlyPrice}
-                  onChange={(e) => setEditingPlan((prev: any) => ({ ...prev, monthlyPrice: e.target.value }))}
+                  type="text"
+                  inputMode="numeric"
+                  value={editingPlan.monthlyPrice === 0 ? '' : editingPlan.monthlyPrice}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/[^0-9]/g, '');
+                    setEditingPlan((prev: any) => ({ ...prev, monthlyPrice: val ? Number(val) : 0 }));
+                  }}
                   className="w-full px-4 py-3 rounded-xl outline-none transition-colors"
                   style={{ background: '#1A1A1A', border: '1px solid #333', color: '#fff', fontSize: 14 }}
                   onFocus={(e) => e.target.style.borderColor = '#8B5CF6'}
@@ -355,9 +359,13 @@ export function AdminMembership() {
               <div>
                 <label className="text-sm text-[#888] mb-2 block font-medium">Monthly Download Quota</label>
                 <input
-                  type="number"
-                  value={editingPlan.monthlyQuotaDownloads}
-                  onChange={(e) => setEditingPlan((prev: any) => ({ ...prev, monthlyQuotaDownloads: e.target.value }))}
+                  type="text"
+                  inputMode="numeric"
+                  value={editingPlan.monthlyQuotaDownloads === 0 ? '' : editingPlan.monthlyQuotaDownloads}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/[^0-9]/g, '');
+                    setEditingPlan((prev: any) => ({ ...prev, monthlyQuotaDownloads: val ? Number(val) : 0 }));
+                  }}
                   className="w-full px-4 py-3 rounded-xl outline-none transition-colors"
                   style={{ background: '#1A1A1A', border: '1px solid #333', color: '#fff', fontSize: 14 }}
                   onFocus={(e) => e.target.style.borderColor = '#8B5CF6'}

@@ -46,16 +46,16 @@ export function SavedPage() {
           <Heart size={12} />
           Saved Items
         </div>
-        <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-2">Đã lưu</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-2">Saved</h1>
         <p className="text-sm" style={{ color: '#A1A1A1' }}>
-          {isLoading ? 'Đang tải...' : `${savedItems.length} items đã lưu`}
+          {isLoading ? 'Loading...' : `${savedItems.length} saved items`}
         </p>
       </div>
 
       {isLoading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-4">
           <Loader2 size={40} className="animate-spin" style={{ color: '#8B5CF6' }} />
-          <p className="text-sm" style={{ color: '#A1A1AA' }}>Đang tải danh sách yêu thích...</p>
+          <p className="text-sm" style={{ color: '#A1A1AA' }}>Loading your saved items...</p>
         </div>
       ) : savedItems.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
@@ -68,7 +68,7 @@ export function SavedPage() {
                   onClick={(e) => handleRemove(item.productId, e)}
                   className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full transition-all duration-200 hover:scale-110 hover:bg-red-500/80"
                   style={{ backgroundColor: 'rgba(239,68,68,0.7)', backdropFilter: 'blur(4px)' }}
-                  title="Xóa khỏi danh sách yêu thích"
+                  title="Remove from saved items"
                 >
                   <Trash2 size={14} className="text-white sm:w-4 sm:h-4" />
                 </button>
@@ -88,9 +88,9 @@ export function SavedPage() {
             <Heart size={36} style={{ color: '#8B5CF6' }} />
           </div>
           <div>
-            <p className="text-xl font-bold text-white mb-2">Chưa có item nào được lưu</p>
+            <p className="text-xl font-bold text-white mb-2">No saved items yet</p>
             <p className="text-sm" style={{ color: '#A1A1A1' }}>
-              Nhấn vào icon trái tim trên các sản phẩm để lưu vào danh sách yêu thích
+              Click the heart icon on products to save them to your favorites list
             </p>
           </div>
           <Link
@@ -98,7 +98,7 @@ export function SavedPage() {
             className="px-6 py-3 rounded-2xl text-sm font-semibold transition-opacity hover:opacity-90"
             style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
           >
-            Khám phá ngay
+            Explore now
           </Link>
         </div>
       )}

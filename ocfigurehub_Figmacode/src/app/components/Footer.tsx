@@ -43,7 +43,7 @@ export function Footer() {
             </Link>
 
             <p className="text-sm leading-relaxed max-w-xs" style={{ color: '#A1A1A1' }}>
-              The new home for your digital goods — kho tàng file mô hình 3D anime chất lượng cao cho cộng đồng sáng tạo Việt Nam.
+              The new home for your digital goods — high-quality 3D anime model repository for the creative community.
             </p>
 
             {/* Links */}
@@ -69,7 +69,7 @@ export function Footer() {
               </div>
               <div className="flex flex-col gap-3">
                 <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#A1A1A1' }}>
-                  Hỗ Trợ
+                  Support
                 </span>
                 <a
                   href="https://m.me/61590154153324"
@@ -90,8 +90,7 @@ export function Footer() {
                   className="text-sm transition-colors duration-200 hover:text-white w-fit flex items-center gap-2"
                   style={{ color: '#3b5998' }}
                 >
-                  <Facebook size={16} />
-                  Fanpage Facebook
+                  Facebook Fanpage
                 </a>
               </div>
               <div className="flex flex-col gap-3">
@@ -119,9 +118,9 @@ export function Footer() {
           {/* Right - Newsletter */}
           <div className="flex flex-col gap-5">
             <div>
-              <h3 className="font-bold text-white text-lg mb-2">Nhận thông báo mới nhất</h3>
+              <h3 className="font-bold text-white text-lg mb-2">Get the latest updates</h3>
               <p className="text-sm" style={{ color: '#A1A1A1' }}>
-                Đăng ký để nhận thông báo về các file mới, giảm giá và cập nhật từ cộng đồng OC Figure HUB.
+                Subscribe to receive notifications about new files, discounts, and updates from the OC Figure HUB community.
               </p>
             </div>
 
@@ -131,14 +130,14 @@ export function Footer() {
                 style={{ borderColor: '#8B5CF6', backgroundColor: '#8B5CF610' }}
               >
                 <p className="text-sm font-medium" style={{ color: '#8B5CF6' }}>
-                  🎉 Cảm ơn bạn đã đăng ký!
+                  🎉 Thanks for subscribing!
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="email"
-                  placeholder="Nhập email của bạn..."
+                  placeholder="Enter your email..."
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -174,7 +173,7 @@ export function Footer() {
             © 2026 OC Figure HUB. All rights reserved.
           </p>
           <p className="text-xs" style={{ color: '#A1A1A1' }}>
-            Made with ❤️ cho cộng đồng anime Việt Nam
+            Made with ❤️ for the anime community
           </p>
         </div>
       </div>

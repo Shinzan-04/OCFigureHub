@@ -5,18 +5,18 @@ import { SkeletonProductCard } from '../components/SkeletonProductCard';
 
 const CATEGORY_CONFIG: Record<string, { title: string; subtitle: string; emoji: string }> = {
   free: {
-    title: 'Miễn phí',
-    subtitle: 'Khám phá các file mô hình 3D hoàn toàn miễn phí dành cho cộng đồng',
+    title: 'Free',
+    subtitle: 'Explore completely free 3D models for the community',
     emoji: '🎁',
   },
   anime: {
     title: 'Anime',
-    subtitle: 'Bộ sưu tập file mô hình 3D nhân vật anime từ nhiều series nổi tiếng',
+    subtitle: 'A collection of 3D anime character models from famous series',
     emoji: '⚡',
   },
   monsters: {
     title: 'Monsters',
-    subtitle: 'Bộ sưu tập các mô hình quái vật, sinh vật huyền thoại độc đáo',
+    subtitle: 'A collection of unique monsters and mythical creatures',
     emoji: '👾',
   },
 };
@@ -26,8 +26,8 @@ export function CategoryPage() {
   const category = location.pathname.replace('/', '') as 'free' | 'anime' | 'monsters';
   
   const config = CATEGORY_CONFIG[category] ?? {
-    title: 'Danh mục',
-    subtitle: 'Khám phá các mô hình 3D',
+    title: 'Category',
+    subtitle: 'Explore 3D models',
     emoji: '📦',
   };
 
@@ -81,9 +81,9 @@ export function CategoryPage() {
           style={{ borderColor: '#262626', backgroundColor: '#111111' }}
         >
           <span className="text-5xl">{config.emoji}</span>
-          <p className="text-lg font-semibold text-white">Chưa có sản phẩm nào</p>
+          <p className="text-lg font-semibold text-white">No products found</p>
           <p className="text-sm" style={{ color: '#A1A1A1' }}>
-            Danh mục này đang được cập nhật. Vui lòng quay lại sau!
+            This category is currently being updated. Please come back later!
           </p>
         </div>
       )}

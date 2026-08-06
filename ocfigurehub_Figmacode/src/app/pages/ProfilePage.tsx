@@ -104,7 +104,7 @@ export function ProfilePage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <AlertCircle size={48} className="mx-auto mb-4" style={{ color: '#EF4444' }} />
-          <p className="text-white font-bold">Không thể tải hồ sơ</p>
+          <p className="text-white font-bold">Failed to load profile</p>
         </div>
       </div>
     );
@@ -169,8 +169,8 @@ export function ProfilePage() {
       {/* Tabs */}
       <div className="flex gap-1 mb-6 p-1 rounded-xl" style={{ background: '#111111', border: '1px solid #262626' }}>
         {[
-          { key: 'info' as const, label: 'Thông tin', icon: User },
-          { key: 'password' as const, label: 'Đổi mật khẩu', icon: Lock },
+          { key: 'info' as const, label: 'Information', icon: User },
+          { key: 'password' as const, label: 'Change Password', icon: Lock },
         ].map(t => (
           <button
             key={t.key}
@@ -201,11 +201,11 @@ export function ProfilePage() {
                 <Mail size={14} style={{ color: '#666' }} />
                 {profile.email}
               </div>
-              <p style={{ color: '#666', fontSize: 11 }}>Email không thể thay đổi</p>
+              <p style={{ color: '#666', fontSize: 11 }}>Email cannot be changed</p>
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-white">Tên hiển thị</label>
+              <label className="text-sm font-medium text-white">Display Name</label>
               <input
                 type="text"
                 value={displayName}
@@ -218,7 +218,7 @@ export function ProfilePage() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-white">Vai trò</label>
+              <label className="text-sm font-medium text-white">Role</label>
               <div className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm" style={{ ...inputStyle, opacity: 0.6 }}>
                 <Shield size={14} style={{ color: '#666' }} />
                 {profile.role}
@@ -227,14 +227,14 @@ export function ProfilePage() {
 
             {profile.subscription && (
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium text-white">Gói thành viên</label>
+                <label className="text-sm font-medium text-white">Membership Plan</label>
                 <div className="px-4 py-3 rounded-xl text-sm flex items-center justify-between" style={inputStyle}>
                   <div className="flex items-center gap-2">
                     <Crown size={14} style={{ color: '#8B5CF6' }} />
                     <span style={{ color: '#8B5CF6' }}>{profile.subscription.planName}</span>
                   </div>
                   <span style={{ color: '#666', fontSize: 11 }}>
-                    Hết hạn: {new Date(profile.subscription.expiresAt).toLocaleDateString('vi-VN')}
+                    Expires: {new Date(profile.subscription.expiresAt).toLocaleDateString('vi-VN')}
                   </span>
                 </div>
               </div>
@@ -247,13 +247,13 @@ export function ProfilePage() {
               style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
             >
               {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-              {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
+              {saving ? 'Saving...' : 'Save changes'}
             </button>
           </div>
         ) : (
           <form onSubmit={handleChangePassword} className="space-y-5">
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-white">Mật khẩu hiện tại</label>
+              <label className="text-sm font-medium text-white">Current password</label>
               <input
                 type="password"
                 value={currentPassword}
@@ -267,7 +267,7 @@ export function ProfilePage() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-white">Mật khẩu mới</label>
+              <label className="text-sm font-medium text-white">New password</label>
               <input
                 type="password"
                 value={newPassword}
@@ -281,7 +281,7 @@ export function ProfilePage() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-white">Xác nhận mật khẩu mới</label>
+              <label className="text-sm font-medium text-white">Confirm new password</label>
               <input
                 type="password"
                 value={confirmPassword}
@@ -301,7 +301,7 @@ export function ProfilePage() {
               style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
             >
               {changingPw ? <Loader2 size={16} className="animate-spin" /> : <Lock size={16} />}
-              {changingPw ? 'Đang đổi...' : 'Đổi mật khẩu'}
+              {changingPw ? 'Changing...' : 'Change password'}
             </button>
           </form>
         )}
@@ -313,7 +313,7 @@ export function ProfilePage() {
         className="w-full mt-4 py-3 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90"
         style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)' }}
       >
-        Đăng xuất
+        Log out
       </button>
     </div>
   );

@@ -197,7 +197,7 @@ export function AdminCategories() {
                 </td>
                 <td className="px-5 py-3">
                   <span className="px-2 py-0.5 rounded-full text-xs" style={{ background: `${cat.color}1A`, color: cat.color }}>
-                    {cat.resourceCount}
+                    {cat.productCount}
                   </span>
                 </td>
                 <td className="px-5 py-3">

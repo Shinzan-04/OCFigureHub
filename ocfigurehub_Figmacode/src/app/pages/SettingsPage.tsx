@@ -128,9 +128,9 @@ export function SettingsPage() {
           <Shield size={12} />
           Account Settings
         </div>
-        <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-2">Cài đặt tài khoản</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-2">Account Settings</h1>
         <p className="text-sm" style={{ color: '#A1A1A1' }}>
-          Quản lý thông tin cá nhân và ảnh đại diện của bạn
+          Manage your personal information and avatar
         </p>
       </div>
 
@@ -142,7 +142,7 @@ export function SettingsPage() {
         >
           <h2 className="text-base font-semibold text-white mb-5 flex items-center gap-2">
             <Camera size={16} style={{ color: '#8B5CF6' }} />
-            Ảnh đại diện
+            Avatar
           </h2>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
@@ -183,7 +183,7 @@ export function SettingsPage() {
               <div>
                 <p className="text-sm font-medium text-white">{user?.displayName}</p>
                 <p className="text-xs" style={{ color: '#A1A1A1' }}>
-                  JPG, PNG, GIF hoặc WebP. Tối đa 5MB.
+                  JPG, PNG, GIF or WebP. Max 5MB.
                 </p>
               </div>
 
@@ -202,11 +202,11 @@ export function SettingsPage() {
                       {isUploadingAvatar ? (
                         <>
                           <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          Đang tải lên...
+                          Uploading...
                         </>
                       ) : (
                         <>
-                          <Save size={12} /> Lưu ảnh
+                          <Save size={12} /> Save Image
                         </>
                       )}
                     </button>
@@ -218,7 +218,7 @@ export function SettingsPage() {
                       className="px-3 py-1.5 rounded-xl text-xs font-medium border transition-colors hover:border-red-500"
                       style={{ borderColor: '#262626', color: '#A1A1A1' }}
                     >
-                      Hủy
+                      Cancel
                     </button>
                   </div>
                 </div>
@@ -240,7 +240,7 @@ export function SettingsPage() {
           className="rounded-2xl border p-6"
           style={{ backgroundColor: '#111111', borderColor: '#262626' }}
         >
-          <h2 className="text-base font-semibold text-white mb-5">Thông tin cá nhân</h2>
+          <h2 className="text-base font-semibold text-white mb-5">Personal Information</h2>
 
           <div className="flex flex-col gap-5">
             {/* Email (read-only) */}
@@ -265,14 +265,14 @@ export function SettingsPage() {
             {/* Display Name */}
             <div className="flex flex-col gap-1.5">
               <label className="text-xs font-medium" style={{ color: '#A1A1A1' }}>
-                Tên hiển thị <span style={{ color: '#EF4444' }}>*</span>
+                Display Name <span style={{ color: '#EF4444' }}>*</span>
               </label>
               <input
                 type="text"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 maxLength={100}
-                placeholder="Nhập tên hiển thị của bạn"
+                placeholder="Enter your display name"
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-colors focus:border-[#8B5CF6]"
                 style={{
                   backgroundColor: '#1A1A1A',
@@ -285,14 +285,14 @@ export function SettingsPage() {
             {/* Bio */}
             <div className="flex flex-col gap-1.5">
               <label className="text-xs font-medium flex items-center justify-between" style={{ color: '#A1A1A1' }}>
-                <span>Giới thiệu bản thân</span>
+                <span>Bio</span>
                 <span>{bio.length}/500</span>
               </label>
               <textarea
                 value={bio}
                 onChange={(e) => setBio(e.target.value.slice(0, 500))}
                 rows={4}
-                placeholder="Mô tả ngắn về bạn..."
+                placeholder="Short description about you..."
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none transition-colors focus:border-[#8B5CF6]"
                 style={{
                   backgroundColor: '#1A1A1A',
@@ -311,11 +311,11 @@ export function SettingsPage() {
               {isSavingProfile ? (
                 <>
                   <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Đang lưu...
+                  Saving...
                 </>
               ) : (
                 <>
-                  <Save size={15} /> Lưu thông tin
+                  <Save size={15} /> Save Profile
                 </>
               )}
             </button>
@@ -328,7 +328,7 @@ export function SettingsPage() {
             className="rounded-2xl border p-6"
             style={{ backgroundColor: '#111111', borderColor: '#262626' }}
           >
-            <h2 className="text-base font-semibold text-white mb-5">Tóm tắt tài khoản</h2>
+            <h2 className="text-base font-semibold text-white mb-5">Account Summary</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Role */}
               <div className="flex items-center gap-3 p-4 rounded-xl" style={{ backgroundColor: '#1A1A1A' }}>
@@ -339,9 +339,9 @@ export function SettingsPage() {
                   <Shield size={18} style={{ color: '#8B5CF6' }} />
                 </div>
                 <div>
-                  <p className="text-xs" style={{ color: '#A1A1A1' }}>Vai trò</p>
+                  <p className="text-xs" style={{ color: '#A1A1A1' }}>Role</p>
                   <p className="text-sm font-semibold text-white">
-                    {profile.role === 'Admin' ? 'Quản trị viên' : 'Khách hàng'}
+                    {profile.role === 'Admin' ? 'Admin' : 'User'}
                   </p>
                 </div>
               </div>
@@ -356,7 +356,7 @@ export function SettingsPage() {
                     <Calendar size={18} style={{ color: '#8B5CF6' }} />
                   </div>
                   <div>
-                    <p className="text-xs" style={{ color: '#A1A1A1' }}>Tham gia</p>
+                    <p className="text-xs" style={{ color: '#A1A1A1' }}>Joined</p>
                     <p className="text-sm font-semibold text-white">{memberSince}</p>
                   </div>
                 </div>
@@ -372,7 +372,7 @@ export function SettingsPage() {
                     <Crown size={18} style={{ color: '#F59E0B' }} />
                   </div>
                   <div>
-                    <p className="text-xs" style={{ color: '#A1A1A1' }}>Gói VIP</p>
+                    <p className="text-xs" style={{ color: '#A1A1A1' }}>VIP Plan</p>
                     <p className="text-sm font-semibold" style={{ color: '#F59E0B' }}>
                       {vip.planName} — {vip.downloadsUsed}/{vip.monthlyQuota} downloads
                     </p>
@@ -387,13 +387,13 @@ export function SettingsPage() {
                     <Crown size={18} style={{ color: '#EF4444' }} />
                   </div>
                   <div>
-                    <p className="text-xs" style={{ color: '#A1A1A1' }}>Gói VIP</p>
+                    <p className="text-xs" style={{ color: '#A1A1A1' }}>VIP Plan</p>
                     <button
                       onClick={() => navigate('/upgrade')}
                       className="text-sm font-semibold transition-opacity hover:opacity-80"
                       style={{ color: '#8B5CF6' }}
                     >
-                      Nâng cấp ngay →
+                      Upgrade now →
                     </button>
                   </div>
                 </div>

@@ -39,9 +39,9 @@ export function SignInPage() {
         <div className="flex flex-col items-center gap-3 mb-8">
           <img src="/logo.png" alt="OC Figure Hub" className="h-12 w-auto" style={{ filter: 'invert(1)' }} />
           <div className="text-center">
-            <h1 className="text-2xl font-black text-white">Đăng nhập</h1>
+            <h1 className="text-2xl font-black text-white">Log in</h1>
             <p className="text-sm mt-1" style={{ color: '#A1A1A1' }}>
-              Chào mừng trở lại OC Figure HUB
+              Welcome back to OC Figure Hub
             </p>
           </div>
         </div>
@@ -79,9 +79,9 @@ export function SignInPage() {
 
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-white">Mật khẩu</label>
+                <label className="text-sm font-medium text-white">Password</label>
                 <Link to="/forgot-password" className="text-xs transition-colors hover:text-white" style={{ color: '#8B5CF6' }}>
-                  Quên mật khẩu?
+                  Forgot password?
                 </Link>
               </div>
               <div className="relative">
@@ -113,7 +113,7 @@ export function SignInPage() {
               className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 mt-1 disabled:opacity-50"
               style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
             >
-              {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+              {loading ? 'Logging in...' : 'Log in'}
               {!loading && <ArrowRight size={16} />}
             </button>
           </form>
@@ -123,7 +123,7 @@ export function SignInPage() {
               <span className="w-full border-t" style={{ borderColor: '#262626' }}></span>
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="px-2 bg-[#111111]" style={{ color: '#A1A1A1' }}>Hoặc tiếp tục với</span>
+              <span className="px-2 bg-[#111111]" style={{ color: '#A1A1A1' }}>Or continue with</span>
             </div>
           </div>
 
@@ -149,9 +149,9 @@ export function SignInPage() {
         </div>
 
         <p className="text-center mt-6 text-sm" style={{ color: '#A1A1A1' }}>
-          Chưa có tài khoản?{' '}
+          Don't have an account?{' '}
           <Link to="/sign-up" className="font-medium hover:opacity-80" style={{ color: '#8B5CF6' }}>
-            Đăng ký ngay
+            Sign up now
           </Link>
         </p>
       </div>

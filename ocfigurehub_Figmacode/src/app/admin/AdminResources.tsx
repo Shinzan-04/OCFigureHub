@@ -374,9 +374,13 @@ export function AdminResources() {
                 <div>
                   <label style={{ color: '#ccc', fontSize: 12, display: 'block', marginBottom: 6 }}>Price (VND)</label>
                   <input
-                    type="number"
-                    value={form.price}
-                    onChange={e => setForm(f => ({ ...f, price: Number(e.target.value) }))}
+                    type="text"
+                    inputMode="numeric"
+                    value={form.price === 0 ? '' : form.price}
+                    onChange={e => {
+                      const val = e.target.value.replace(/[^0-9]/g, '');
+                      setForm(f => ({ ...f, price: val ? Number(val) : 0 }));
+                    }}
                     disabled={form.isFree}
                     className="w-full px-3 py-2 rounded-lg outline-none"
                     style={{ background: '#1A1A1A', border: '1px solid #262626', color: form.isFree ? '#555' : '#fff', fontSize: 13 }}
