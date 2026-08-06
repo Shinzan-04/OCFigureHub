@@ -192,13 +192,13 @@ export function PaymentProductPage() {
             className="rounded-2xl border p-6"
             style={{ backgroundColor: '#111111', borderColor: '#262626' }}
           >
-            <h3 className="text-base font-semibold text-white mb-4">Hướng dẫn thanh toán</h3>
+            <h3 className="text-base font-semibold text-white mb-4">Payment Instructions</h3>
             <ol className="flex flex-col gap-4">
               {[
-                'Mở app ngân hàng và chọn chức năng Quét QR',
-                `Chuyển khoản đúng số tiền ${formatPrice(product.price)}`,
-                `Nội dung chuyển khoản: ${transferContent}`,
-                'Nhấn "Tôi đã thanh toán" để mở khóa tải xuống',
+                'Open banking app and select QR scan',
+                `Transfer the exact amount of ${formatPrice(product.price)}`,
+                'Confirm you have paid in the mobile app',
+                'Click "I have paid" to unlock download',
               ].map((step, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <span
@@ -310,7 +310,7 @@ export function PaymentProductPage() {
                 ) : (
                   <>
                     <CheckCircle2 size={18} />
-                    Tôi đã thanh toán
+                    I have paid
                   </>
                 )}
               </button>

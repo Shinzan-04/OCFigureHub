@@ -21,7 +21,7 @@ interface Order {
 }
 
 function formatPrice(price: number): string {
-  if (price === 0) return 'Miễn phí';
+  if (price === 0) return 'Free';
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
 }
 
@@ -32,11 +32,11 @@ function formatDate(dateStr: string): string {
 }
 
 const statusColors: Record<string, { bg: string; text: string; label: string }> = {
-  Pending: { bg: 'rgba(245,158,11,0.1)', text: '#F59E0B', label: 'Chờ thanh toán' },
-  Paid: { bg: 'rgba(16,185,129,0.1)', text: '#10B981', label: 'Đã thanh toán' },
-  Cancelled: { bg: 'rgba(239,68,68,0.1)', text: '#EF4444', label: 'Đã huỷ' },
-  Failed: { bg: 'rgba(239,68,68,0.1)', text: '#EF4444', label: 'Thất bại' },
-  Expired: { bg: 'rgba(239,68,68,0.1)', text: '#EF4444', label: 'Hết hạn' },
+  Pending: { bg: 'rgba(245,158,11,0.1)', text: '#F59E0B', label: 'Pending' },
+  Paid: { bg: 'rgba(16,185,129,0.1)', text: '#10B981', label: 'Paid' },
+  Cancelled: { bg: 'rgba(239,68,68,0.1)', text: '#EF4444', label: 'Cancelled' },
+  Failed: { bg: 'rgba(239,68,68,0.1)', text: '#EF4444', label: 'Failed' },
+  Expired: { bg: 'rgba(239,68,68,0.1)', text: '#EF4444', label: 'Expired' },
 };
 
 export function OrderHistoryPage() {
@@ -73,8 +73,8 @@ export function OrderHistoryPage() {
             <ShoppingBag size={20} style={{ color: '#8B5CF6' }} />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white">Lịch sử đơn hàng</h1>
-            <p className="text-xs" style={{ color: '#666' }}>Theo dõi tất cả đơn hàng của bạn</p>
+            <h1 className="text-xl font-bold text-white">Order History</h1>
+            <p className="text-xs" style={{ color: '#666' }}>Track all your orders</p>
           </div>
         </div>
 
@@ -87,14 +87,14 @@ export function OrderHistoryPage() {
           /* Empty State */
           <div className="text-center py-20">
             <ShoppingBag size={48} className="mx-auto mb-4" style={{ color: '#333' }} />
-            <p className="text-sm font-medium text-white mb-1">Chưa có đơn hàng nào</p>
-            <p className="text-xs mb-6" style={{ color: '#666' }}>Bắt đầu khám phá và mua sản phẩm đầu tiên!</p>
+            <p className="text-sm font-medium text-white mb-1">No orders yet</p>
+            <p className="text-xs mb-6" style={{ color: '#666' }}>Start exploring and get your first product!</p>
             <Link
               to="/"
               className="inline-block px-6 py-2.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90"
               style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
             >
-              Khám phá ngay
+              Explore Now
             </Link>
           </div>
         ) : (
@@ -176,7 +176,7 @@ export function OrderHistoryPage() {
                       <div className="flex items-center gap-1.5">
                         <CreditCard size={12} style={{ color: '#10B981' }} />
                         <span className="text-[11px]" style={{ color: '#10B981' }}>
-                          Thanh toán: {formatDate(order.paidAt)}
+                          Paid on: {formatDate(order.paidAt)}
                         </span>
                       </div>
                     )}
@@ -200,7 +200,7 @@ export function OrderHistoryPage() {
                   <ChevronLeft size={16} />
                 </button>
                 <span className="text-xs" style={{ color: '#666' }}>
-                  Trang {page}/{totalPages}
+                  Page {page}/{totalPages}
                 </span>
                 <button
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}

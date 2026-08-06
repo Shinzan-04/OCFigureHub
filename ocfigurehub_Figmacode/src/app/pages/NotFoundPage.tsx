@@ -9,16 +9,16 @@ export function NotFoundPage() {
       >
         404
       </div>
-      <h1 className="text-3xl font-black text-white">Trang không tồn tại</h1>
+      <h1 className="text-3xl font-black text-white">Page Not Found</h1>
       <p className="text-sm max-w-sm" style={{ color: '#A1A1A1' }}>
-        Trang bạn đang tìm kiếm không tồn tại hoặc đã bị xóa. Hãy quay về trang chủ để tiếp tục khám phá.
+        The page you are looking for does not exist or has been removed. Go back home to continue exploring.
       </p>
       <Link
         to="/"
         className="px-6 py-3 rounded-2xl text-sm font-semibold transition-opacity hover:opacity-90"
         style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
       >
-        Về trang chủ
+        Back to Home
       </Link>
     </div>
   );

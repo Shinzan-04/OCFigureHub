@@ -243,7 +243,7 @@ export function PaymentMembershipPage() {
                     {new Intl.NumberFormat('vi-VN').format(dynamicPrice)}₫
                   </div>
                 )}
-                <div className="text-xs" style={{ color: '#10B981' }}>Đã bao gồm VAT</div>
+                <div className="text-xs" style={{ color: '#10B981' }}>VAT included</div>
               </div>
             </div>
           </div>
@@ -330,14 +330,14 @@ export function PaymentMembershipPage() {
                 {loading ? (
                   <>
                     <Loader2 className="animate-spin" size={20} />
-                    Đang xử lý thanh toán...
+                    Processing payment...
                   </>
                 ) : (
-                  <>Xác nhận đã thanh toán</>
+                  <>Confirm Payment</>
                 )}
               </button>
               <p className="text-xs text-center mt-4" style={{ color: '#666' }}>
-                Hệ thống sẽ tự động kích hoạt tài khoản trong vòng 1-3 phút sau khi nhận được thanh toán.
+                The system will automatically activate your account within 1-3 minutes after payment is received.
               </p>
             </div>
 

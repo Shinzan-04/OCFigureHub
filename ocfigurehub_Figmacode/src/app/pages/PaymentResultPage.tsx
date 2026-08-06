@@ -43,9 +43,9 @@ export function PaymentResultPage() {
           {status === 'loading' && (
             <>
               <Loader2 size={48} className="animate-spin" style={{ color: '#8B5CF6' }} />
-              <h1 className="text-xl font-bold text-white">Đang xác minh thanh toán...</h1>
+              <h1 className="text-xl font-bold text-white">Verifying payment...</h1>
               <p className="text-sm text-center" style={{ color: '#A1A1A1' }}>
-                Vui lòng đợi trong giây lát
+                Please wait a moment
               </p>
             </>
           )}
@@ -58,7 +58,7 @@ export function PaymentResultPage() {
               >
                 <CheckCircle2 size={40} style={{ color: '#10B981' }} />
               </div>
-              <h1 className="text-xl font-bold text-white">Thanh toán thành công!</h1>
+              <h1 className="text-xl font-bold text-white">Payment Successful!</h1>
               <p className="text-sm text-center" style={{ color: '#A1A1A1' }}>
                 {message}
               </p>
@@ -68,7 +68,7 @@ export function PaymentResultPage() {
                   className="flex-1 py-3 rounded-xl text-sm font-semibold text-center border transition-colors hover:border-[#8B5CF6]"
                   style={{ borderColor: '#262626', color: '#A1A1A1' }}
                 >
-                  Trang chủ
+                  Home
                 </Link>
                 {isSubscription ? (
                   <Link
@@ -76,7 +76,7 @@ export function PaymentResultPage() {
                     className="flex-1 py-3 rounded-xl text-sm font-semibold text-center transition-opacity hover:opacity-90"
                     style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
                   >
-                    Về gói Membership
+                    Back to Membership
                   </Link>
                 ) : productId ? (
                   <Link
@@ -84,7 +84,7 @@ export function PaymentResultPage() {
                     className="flex-1 py-3 rounded-xl text-sm font-semibold text-center transition-opacity hover:opacity-90"
                     style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
                   >
-                    Tải mô hình ngay
+                    Download Model Now
                   </Link>
                 ) : (
                   <Link
@@ -92,7 +92,7 @@ export function PaymentResultPage() {
                     className="flex-1 py-3 rounded-xl text-sm font-semibold text-center transition-opacity hover:opacity-90"
                     style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
                   >
-                    Xem lịch sử
+                    View History
                   </Link>
                 )}
               </div>
@@ -107,7 +107,7 @@ export function PaymentResultPage() {
               >
                 <XCircle size={40} style={{ color: '#EF4444' }} />
               </div>
-              <h1 className="text-xl font-bold text-white">Thanh toán thất bại</h1>
+              <h1 className="text-xl font-bold text-white">Payment Failed</h1>
               <p className="text-sm text-center" style={{ color: '#A1A1A1' }}>
                 {message}
               </p>
@@ -117,14 +117,14 @@ export function PaymentResultPage() {
                   className="flex-1 py-3 rounded-xl text-sm font-semibold text-center border transition-colors hover:border-[#8B5CF6]"
                   style={{ borderColor: '#262626', color: '#A1A1A1' }}
                 >
-                  Trang chủ
+                  Home
                 </Link>
                 <button
                   onClick={() => window.history.back()}
                   className="flex-1 py-3 rounded-xl text-sm font-semibold text-center transition-opacity hover:opacity-90"
                   style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
                 >
-                  Thử lại
+                  Try Again
                 </button>
               </div>
             </>

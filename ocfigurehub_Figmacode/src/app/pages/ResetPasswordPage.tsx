@@ -48,10 +48,10 @@ export function ResetPasswordPage() {
       <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-6">
         <div className="text-center">
           <AlertCircle size={48} className="mx-auto text-red-500 mb-4" />
-          <h1 className="text-xl font-bold text-white mb-2">Liên kết không hợp lệ</h1>
-          <p className="text-[#a1a1a1] mb-6">Liên kết đặt lại mật khẩu của bạn đã hết hạn hoặc không đúng.</p>
+          <h1 className="text-xl font-bold text-white mb-2">Invalid Link</h1>
+          <p className="text-[#a1a1a1] mb-6">Your password reset link is invalid or has expired.</p>
           <Link to="/forgot-password" className="text-[#8B5CF6] hover:underline">
-            Yêu cầu liên kết mới
+            Request new link
           </Link>
         </div>
       </div>
@@ -69,9 +69,9 @@ export function ResetPasswordPage() {
             <span className="text-white font-black text-lg">OC</span>
           </div>
           <div className="text-center">
-            <h1 className="text-2xl font-black text-white">Đặt lại mật khẩu</h1>
+            <h1 className="text-2xl font-black text-white">Reset Password</h1>
             <p className="text-sm mt-1" style={{ color: '#A1A1A1' }}>
-              Nhập mật khẩu mới cho tài khoản của bạn
+              Enter a new password for your account
             </p>
           </div>
         </div>
@@ -84,9 +84,9 @@ export function ResetPasswordPage() {
             <div className="flex flex-col items-center gap-5 text-center py-4">
               <CheckCircle2 size={48} className="text-green-500" />
               <div>
-                <p className="text-lg font-bold text-white mb-2">Thành công!</p>
+                <p className="text-lg font-bold text-white mb-2">Success!</p>
                 <p className="text-sm" style={{ color: '#A1A1A1' }}>
-                  Mật khẩu của bạn đã được đặt lại thành công. Đang chuyển hướng đến trang đăng nhập...
+                  Your password has been reset successfully. Redirecting to login page...
                 </p>
               </div>
             </div>
@@ -103,7 +103,7 @@ export function ResetPasswordPage() {
               )}
 
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium text-white">Mật khẩu mới</label>
+                <label className="text-sm font-medium text-white">New Password</label>
                 <input
                   type="password"
                   value={password}
@@ -118,7 +118,7 @@ export function ResetPasswordPage() {
               </div>
 
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium text-white">Xác nhận mật khẩu mới</label>
+                <label className="text-sm font-medium text-white">Confirm New Password</label>
                 <input
                   type="password"
                   value={confirmPassword}
@@ -138,7 +138,7 @@ export function ResetPasswordPage() {
                 className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 mt-1 disabled:opacity-70"
                 style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
               >
-                {loading ? <Loader2 size={16} className="animate-spin" /> : 'Lưu mật khẩu'}
+                {loading ? <Loader2 size={16} className="animate-spin" /> : 'Save Password'}
                 {!loading && <ArrowRight size={16} />}
               </button>
             </form>

@@ -10,7 +10,7 @@ export function DownloadHistoryPage() {
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12">
       <div className="flex items-center gap-3 mb-8">
         <Download size={24} style={{ color: '#8B5CF6' }} />
-        <h1 className="text-2xl md:text-3xl font-bold text-white">Lịch sử Download</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-white">Download History</h1>
       </div>
 
       {isLoading ? (
@@ -25,8 +25,8 @@ export function DownloadHistoryPage() {
         </div>
       ) : !history || history.length === 0 ? (
         <EmptyState
-          message="Chưa có lịch sử download"
-          description="Mua sản phẩm và tải xuống để xem lịch sử tại đây"
+          message="No download history"
+          description="Purchase and download products to see history here"
           icon={<Download size={24} style={{ color: '#A1A1A1' }} />}
         />
       ) : (
@@ -86,7 +86,7 @@ export function DownloadHistoryPage() {
                     border: `1px solid ${item.success ? '#10B98140' : '#EF444440'}`
                   }}
                 >
-                  {item.success ? 'Thành công' : 'Thất bại'}
+                  {item.success ? 'Success' : 'Failed'}
                 </span>
                 
                 {item.failureReason && (
