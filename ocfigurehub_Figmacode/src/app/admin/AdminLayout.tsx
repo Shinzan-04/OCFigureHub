@@ -204,14 +204,7 @@ function AdminLayoutInner() {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Notification */}
-            <button className="relative p-2 rounded-lg" style={{ background: '#1A1A1A', color: '#999' }}>
-              <Bell size={18} />
-              <span
-                className="absolute top-1 right-1 w-2 h-2 rounded-full"
-                style={{ background: '#8B5CF6' }}
-              />
-            </button>
+
 
             {/* Admin avatar */}
             <div className="flex items-center gap-2 px-2 py-1 rounded-lg" style={{ background: '#1A1A1A' }}>
