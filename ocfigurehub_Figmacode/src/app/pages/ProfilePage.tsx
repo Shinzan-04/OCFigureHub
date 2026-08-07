@@ -248,7 +248,7 @@ export function ProfilePage() {
               style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
             >
               {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-              {saving ? 'Saving...' : 'Save changes'}
+              <span>{saving ? 'Saving...' : 'Save changes'}</span>
             </button>
           </div>
         ) : (
@@ -302,7 +302,7 @@ export function ProfilePage() {
               style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
             >
               {changingPw ? <Loader2 size={16} className="animate-spin" /> : <Lock size={16} />}
-              {changingPw ? 'Changing...' : 'Change password'}
+              <span>{changingPw ? 'Changing...' : 'Change password'}</span>
             </button>
           </form>
         )}

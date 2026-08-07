@@ -45,7 +45,7 @@ export function ProductDetailPage() {
   const navigate = useNavigate();
   const { toggleSaved, isSaved } = useSavedStore();
   const { user, isLoggedIn } = useAuthStore();
-  const { data: product, isLoading } = useProductDetail(id);
+  const { data: product, isLoading, refetch } = useProductDetail(id);
   const [isModelLoading, setIsModelLoading] = useState(true);
   const [loadPercentage, setLoadPercentage] = useState(0);
   const [buying, setBuying] = useState(false);
@@ -153,6 +153,7 @@ export function ProductDetailPage() {
       window.location.href = downloadUrl;
       
       toast.success('Đang chuẩn bị file...');
+      refetch();
     } catch (err: any) {
       toast.error(err.response?.data?.error || 'Tải xuống thất bại. Bạn cần mua sản phẩm trước.');
     } finally {
@@ -337,7 +338,7 @@ export function ProductDetailPage() {
                         style={{ backgroundColor: '#10B981', color: '#fff' }}
                       >
                         {downloading ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
-                        {downloading ? 'Downloading...' : 'Download Now'}
+                        <span>{downloading ? 'Downloading...' : 'Download Now'}</span>
                       </button>
                     ) : (
                       <>
@@ -349,7 +350,7 @@ export function ProductDetailPage() {
                             style={{ backgroundColor: '#10B981', color: '#fff' }}
                           >
                             {downloading ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
-                            {downloading ? 'Downloading...' : `Download with Plan (${product.remainingDownloads} left)`}
+                            <span>{downloading ? 'Downloading...' : `Download with Plan (${product.remainingDownloads} left)`}</span>
                           </button>
                         ) : null}
 
@@ -365,7 +366,7 @@ export function ProductDetailPage() {
                           }}
                         >
                           {buying ? <Loader2 size={18} className="animate-spin" /> : <ShoppingBag size={18} />}
-                          {buying ? 'Processing...' : `Buy Single — ${formatPrice(product.price)}`}
+                          <span>{buying ? 'Processing...' : `Buy Single — ${formatPrice(product.price)}`}</span>
                         </button>
 
                         {!product.hasActiveSubscription && (

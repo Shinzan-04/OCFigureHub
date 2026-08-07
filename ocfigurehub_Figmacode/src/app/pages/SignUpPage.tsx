@@ -85,7 +85,7 @@ export function SignUpPage() {
               className="w-full py-3 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 disabled:opacity-50 mb-3"
               style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
             >
-              {resendLoading ? 'Resending...' : 'Resend verification email'}
+              <span>{resendLoading ? 'Resending...' : 'Resend verification email'}</span>
             </button>
             <Link to="/sign-in" className="text-sm font-medium hover:opacity-80" style={{ color: '#A1A1A1' }}>
               Back to login
@@ -213,7 +213,7 @@ export function SignUpPage() {
               className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 mt-1 disabled:opacity-50"
               style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
             >
-              {loading ? 'Creating account...' : 'Sign Up'}
+              <span>{loading ? 'Creating account...' : 'Sign Up'}</span>
               {!loading && <ArrowRight size={16} />}
             </button>
           </form>

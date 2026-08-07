@@ -217,7 +217,7 @@ export function MembershipPage() {
                 }}
               >
                 {processingId === plan.id ? <Loader2 className="animate-spin" size={18} /> : null}
-                {isCurrent ? 'Current Plan' : (plan.monthlyPrice === 0 ? 'Get Started' : 'Upgrade Now')}
+                <span>{isCurrent ? 'Current Plan' : (plan.monthlyPrice === 0 ? 'Get Started' : 'Upgrade Now')}</span>
               </button>
 
               <ul className="flex flex-col gap-3 mt-4">

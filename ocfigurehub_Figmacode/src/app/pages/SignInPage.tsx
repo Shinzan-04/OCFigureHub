@@ -113,7 +113,7 @@ export function SignInPage() {
               className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 mt-1 disabled:opacity-50"
               style={{ backgroundColor: '#8B5CF6', color: '#fff' }}
             >
-              {loading ? 'Logging in...' : 'Log in'}
+              <span>{loading ? 'Logging in...' : 'Log in'}</span>
               {!loading && <ArrowRight size={16} />}
             </button>
           </form>
