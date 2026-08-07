@@ -46,7 +46,8 @@ public class ProductRepository : IProductRepository
         // Apply filters (non-search filters first to narrow down)
         if (!string.IsNullOrWhiteSpace(request.Category))
         {
-            query = query.Where(x => EF.Functions.Like(x.Category, request.Category));
+            var lowerCat = request.Category.ToLower();
+            query = query.Where(x => x.Category.ToLower() == lowerCat);
         }
 
         if (request.MinPrice.HasValue)
@@ -60,7 +61,8 @@ public class ProductRepository : IProductRepository
 
         if (!string.IsNullOrWhiteSpace(request.Format))
         {
-            query = query.Where(x => x.Files.Any(f => EF.Functions.Like(f.Format, request.Format)));
+            var lowerFormat = request.Format.ToLower();
+            query = query.Where(x => x.Files.Any(f => f.Format.ToLower() == lowerFormat));
         }
 
         if (!string.IsNullOrWhiteSpace(request.License))
@@ -83,12 +85,12 @@ public class ProductRepository : IProductRepository
                 searchLicense = parsedLicense;
             }
 
-            // Broad filter in DB to avoid loading too many
+            var lowerSearch = search.ToLower();
             query = query.Where(x =>
-                EF.Functions.Like(x.Name, $"%{search}%") ||
-                EF.Functions.Like(x.Tags, $"%{search}%") ||
-                EF.Functions.Like(x.Description, $"%{search}%") ||
-                EF.Functions.Like(x.Creator, $"%{search}%") ||
+                x.Name.ToLower().Contains(lowerSearch) ||
+                x.Tags.ToLower().Contains(lowerSearch) ||
+                x.Description.ToLower().Contains(lowerSearch) ||
+                x.Creator.ToLower().Contains(lowerSearch) ||
                 (analysis.IsFree == true && x.Price == 0) ||
                 (analysis.IsPro == true && x.IsPro) ||
                 (analysis.Categories.Count > 0 && analysis.Categories.Contains(x.Category)) ||
@@ -124,13 +126,13 @@ public class ProductRepository : IProductRepository
             return (items, totalCount);
         }
 
-        // BASIC SEARCH LOGIC (Logic for non-smart or no search query)
         if (!string.IsNullOrWhiteSpace(search))
         {
+            var lowerSearch = search.ToLower();
             query = query.Where(x =>
-                EF.Functions.Like(x.Name, $"%{search}%") ||
-                EF.Functions.Like(x.Description, $"%{search}%") ||
-                EF.Functions.Like(x.Tags, $"%{search}%")
+                x.Name.ToLower().Contains(lowerSearch) ||
+                x.Description.ToLower().Contains(lowerSearch) ||
+                x.Tags.ToLower().Contains(lowerSearch)
             );
         }
 

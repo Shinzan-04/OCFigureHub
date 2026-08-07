@@ -37,7 +37,13 @@ public class UserRepository : IUserRepository
     {
         var q = _db.Users.AsQueryable();
         if (!string.IsNullOrWhiteSpace(search))
-            q = q.Where(u => u.Email.Contains(search) || u.DisplayName.Contains(search));
+        {
+            var lowerSearch = search.ToLower();
+            q = q.Where(u => 
+                (u.Email != null && u.Email.ToLower().Contains(lowerSearch)) || 
+                (u.DisplayName != null && u.DisplayName.ToLower().Contains(lowerSearch))
+            );
+        }
         return await q.OrderByDescending(u => u.CreatedAt)
                       .Skip((page - 1) * pageSize)
                       .Take(pageSize)
@@ -48,7 +54,13 @@ public class UserRepository : IUserRepository
     {
         var q = _db.Users.AsQueryable();
         if (!string.IsNullOrWhiteSpace(search))
-            q = q.Where(u => u.Email.Contains(search) || u.DisplayName.Contains(search));
+        {
+            var lowerSearch = search.ToLower();
+            q = q.Where(u => 
+                (u.Email != null && u.Email.ToLower().Contains(lowerSearch)) || 
+                (u.DisplayName != null && u.DisplayName.ToLower().Contains(lowerSearch))
+            );
+        }
         return await q.CountAsync(ct);
     }
 

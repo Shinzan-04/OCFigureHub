@@ -90,6 +90,7 @@ export function Footer() {
                   className="text-sm transition-colors duration-200 hover:text-white w-fit flex items-center gap-2"
                   style={{ color: '#3b5998' }}
                 >
+                  <Facebook size={16} />
                   Facebook Fanpage
                 </a>
               </div>

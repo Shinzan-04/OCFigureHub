@@ -5,8 +5,7 @@ import { adminApi } from '../../api/admin';
 import type { Product } from '../../types/product';
 import { Plus, Search, Edit2, Trash2, X, Upload, Loader2, Tag } from 'lucide-react';
 import toast from 'react-hot-toast';
-
-const CATEGORIES = ['anime', 'monsters'] as const;
+import { categoriesApi } from '../../api/analytics';
 
 interface ResourceFormData {
   name: string;
@@ -22,7 +21,7 @@ interface ResourceFormData {
 const defaultForm: ResourceFormData = {
   name: '',
   creator: '',
-  category: 'anime',
+  category: '',
   price: 0,
   isFree: false,
   isPro: false,
@@ -32,6 +31,16 @@ const defaultForm: ResourceFormData = {
 
 export function AdminResources() {
   const queryClient = useQueryClient();
+  const [categoriesList, setCategoriesList] = useState<string[]>([]);
+
+  useEffect(() => {
+    categoriesApi.getAll().then(res => {
+      if (res && Array.isArray(res)) {
+        setCategoriesList(res.map((c: any) => c.name));
+      }
+    }).catch(console.error);
+  }, []);
+
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
@@ -140,7 +149,7 @@ export function AdminResources() {
   const finishSave = () => {
     queryClient.invalidateQueries({ queryKey: ['admin-products'] });
     setShowModal(false);
-    setForm(defaultForm);
+    setForm({ ...defaultForm, category: categoriesList.length > 0 ? categoriesList[0] : '' });
     setModelFile(null);
     setPreviewFile(null);
     setThumbnailFile(null);
@@ -148,29 +157,34 @@ export function AdminResources() {
 
   const openAdd = () => {
     setEditingProduct(null);
-    setForm(defaultForm);
+    setForm({ ...defaultForm, category: categoriesList.length > 0 ? categoriesList[0] : '' });
     setModelFile(null);
     setPreviewFile(null);
     setThumbnailFile(null);
     setShowModal(true);
   };
 
-  const openEdit = (p: Product) => {
-    setEditingProduct(p);
-    setForm({
-      name: p.name,
-      creator: p.creator,
-      category: p.category,
-      price: p.price,
-      isFree: p.price === 0,
-      isPro: p.isPro,
-      tags: p.tags || '',
-      description: '', 
-    });
-    setModelFile(null);
-    setPreviewFile(null);
-    setThumbnailFile(null);
-    setShowModal(true);
+  const openEdit = async (p: Product) => {
+    try {
+      const detail = await productsApi.getDetail(p.id);
+      setEditingProduct(p);
+      setForm({
+        name: p.name,
+        creator: p.creator,
+        category: p.category,
+        price: p.price,
+        isFree: p.price === 0,
+        isPro: p.isPro,
+        tags: p.tags || '',
+        description: detail.description || '',
+      });
+      setModelFile(null);
+      setPreviewFile(null);
+      setThumbnailFile(null);
+      setShowModal(true);
+    } catch (err) {
+      toast.error('Failed to load product details');
+    }
   };
 
   const handleSave = () => {
@@ -188,7 +202,6 @@ export function AdminResources() {
     }
   };
 
-  if (isLoading) return <div className="p-20 text-center"><Loader2 className="animate-spin mx-auto" stroke="#8B5CF6" /></div>;
 
   return (
     <div className="space-y-4 pb-20 md:pb-0">
@@ -218,8 +231,8 @@ export function AdminResources() {
             style={{ background: '#1A1A1A', border: '1px solid #262626', color: '#fff', fontSize: 13 }}
           />
         </div>
-        <div className="flex gap-2">
-          {['all', 'anime', 'monsters', 'free'].map(cat => (
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1">
+          {['all', ...categoriesList, 'free'].map(cat => (
             <button
               key={cat}
               onClick={() => setCategoryFilter(cat)}
@@ -249,7 +262,20 @@ export function AdminResources() {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((p) => (
+            {isLoading ? (
+              <tr>
+                <td colSpan={7} className="py-10 text-center">
+                  <Loader2 className="animate-spin mx-auto" size={24} style={{ color: '#8B5CF6' }} />
+                </td>
+              </tr>
+            ) : filtered.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="py-10 text-center" style={{ color: '#666', fontSize: 13 }}>
+                  Không tìm thấy resource nào
+                </td>
+              </tr>
+            ) : (
+              filtered.map((p) => (
               <tr key={p.id} className="transition-all" style={{ borderBottom: '1px solid #1A1A1A' }}>
                 <td className="px-4 py-3">
                   {p.thumbnailUrl ? (
@@ -300,7 +326,7 @@ export function AdminResources() {
                   </div>
                 </td>
               </tr>
-            ))}
+            )))}
           </tbody>
         </table>
       </div>
@@ -368,7 +394,7 @@ export function AdminResources() {
                     className="w-full px-3 py-2 rounded-lg outline-none"
                     style={{ background: '#1A1A1A', border: '1px solid #262626', color: '#fff', fontSize: 13 }}
                   >
-                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                    {categoriesList.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
                 <div>

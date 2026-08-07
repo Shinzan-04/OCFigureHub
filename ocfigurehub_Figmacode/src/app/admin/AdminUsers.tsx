@@ -24,6 +24,7 @@ const ROLE_ICONS: Record<string, React.ElementType> = {
 export function AdminUsers() {
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -34,7 +35,7 @@ export function AdminUsers() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const data = await adminApi.getUsers(page, 20, search || undefined);
+      const data = await adminApi.getUsers(page, 20, debouncedSearch || undefined);
       setUsers(data.items);
       setTotalPages(data.totalPages);
       setTotalItems(data.totalItems);
@@ -46,8 +47,15 @@ export function AdminUsers() {
   };
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  useEffect(() => {
     fetchUsers();
-  }, [page, search]);
+  }, [page, debouncedSearch]);
 
   const toggleBan = async (u: AdminUser) => {
     const newStatus = u.status === 'Locked' ? 'Active' : 'Locked';
@@ -66,13 +74,6 @@ export function AdminUsers() {
     return matchRole && matchStatus;
   });
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <Loader2 className="animate-spin" size={36} style={{ color: '#8B5CF6' }} />
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-4 pb-20 md:pb-0">
@@ -130,108 +131,129 @@ export function AdminUsers() {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((u) => {
-              const RoleIcon = ROLE_ICONS[u.role] || User;
-              const roleColor = ROLE_COLORS[u.role] || ROLE_COLORS.Customer;
-              const statusColor = STATUS_COLORS[u.status] || STATUS_COLORS.Active;
-              return (
-                <tr key={u.id} style={{ borderBottom: '1px solid #1A1A1A' }}>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="w-9 h-9 rounded-full flex items-center justify-center text-xs flex-shrink-0"
-                        style={{ background: 'rgba(139,92,246,0.2)', color: '#8B5CF6', fontWeight: 700 }}
-                      >
-                        {u.displayName.substring(0, 2).toUpperCase()}
+            {loading ? (
+              <tr>
+                <td colSpan={6} className="py-10 text-center">
+                  <Loader2 className="animate-spin mx-auto" size={24} style={{ color: '#8B5CF6' }} />
+                </td>
+              </tr>
+            ) : filtered.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="py-10 text-center" style={{ color: '#666', fontSize: 13 }}>
+                  Không tìm thấy user nào
+                </td>
+              </tr>
+            ) : (
+              filtered.map((u) => {
+                const RoleIcon = ROLE_ICONS[u.role] || User;
+                const roleColor = ROLE_COLORS[u.role] || ROLE_COLORS.Customer;
+                const statusColor = STATUS_COLORS[u.status] || STATUS_COLORS.Active;
+                return (
+                  <tr key={u.id} style={{ borderBottom: '1px solid #1A1A1A' }}>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="w-9 h-9 rounded-full flex items-center justify-center text-xs flex-shrink-0"
+                          style={{ background: 'rgba(139,92,246,0.2)', color: '#8B5CF6', fontWeight: 700 }}
+                        >
+                          {u.displayName.substring(0, 2).toUpperCase()}
+                        </div>
+                        <span style={{ color: '#fff', fontSize: 13, fontWeight: 500 }}>{u.displayName}</span>
                       </div>
-                      <span style={{ color: '#fff', fontSize: 13, fontWeight: 500 }}>{u.displayName}</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3" style={{ color: '#888', fontSize: 13 }}>{u.email}</td>
-                  <td className="px-4 py-3">
-                    <span className="flex items-center gap-1 w-fit px-2 py-0.5 rounded-full text-xs"
-                      style={{ background: roleColor.bg, color: roleColor.text }}>
-                      <RoleIcon size={11} />
-                      {u.role}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className="px-2 py-0.5 rounded-full text-xs"
-                      style={{ background: statusColor.bg, color: statusColor.text }}>
-                      {u.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3" style={{ color: '#666', fontSize: 12 }}>
-                    {new Date(u.createdAt).toLocaleDateString('vi-VN')}
-                  </td>
-                  <td className="px-4 py-3">
-                    <button
-                      onClick={() => toggleBan(u)}
-                      className="p-1.5 rounded-lg text-xs transition-all"
-                      style={{
-                        background: u.status === 'Locked' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)',
-                        color: u.status === 'Locked' ? '#10B981' : '#EF4444',
-                      }}
-                      title={u.status === 'Locked' ? 'Activate' : 'Lock'}
-                    >
-                      {u.status === 'Locked' ? <CheckCircle size={14} /> : <Ban size={14} />}
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                    <td className="px-4 py-3" style={{ color: '#888', fontSize: 13 }}>{u.email}</td>
+                    <td className="px-4 py-3">
+                      <span className="flex items-center gap-1 w-fit px-2 py-0.5 rounded-full text-xs"
+                        style={{ background: roleColor.bg, color: roleColor.text }}>
+                        <RoleIcon size={11} />
+                        {u.role}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="px-2 py-0.5 rounded-full text-xs"
+                        style={{ background: statusColor.bg, color: statusColor.text }}>
+                        {u.status}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3" style={{ color: '#666', fontSize: 12 }}>
+                      {new Date(u.createdAt).toLocaleDateString('vi-VN')}
+                    </td>
+                    <td className="px-4 py-3">
+                      <button
+                        onClick={() => toggleBan(u)}
+                        className="p-1.5 rounded-lg text-xs transition-all"
+                        style={{
+                          background: u.status === 'Locked' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)',
+                          color: u.status === 'Locked' ? '#10B981' : '#EF4444',
+                        }}
+                        title={u.status === 'Locked' ? 'Activate' : 'Lock'}
+                      >
+                        {u.status === 'Locked' ? <CheckCircle size={14} /> : <Ban size={14} />}
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
-        {filtered.length === 0 && (
-          <div className="py-12 text-center" style={{ color: '#666' }}>No users found</div>
-        )}
       </div>
 
       {/* Mobile Card Layout */}
       <div className="md:hidden space-y-3">
-        {filtered.map((u) => {
-          const RoleIcon = ROLE_ICONS[u.role] || User;
-          const roleColor = ROLE_COLORS[u.role] || ROLE_COLORS.Customer;
-          const statusColor = STATUS_COLORS[u.status] || STATUS_COLORS.Active;
-          return (
-            <div key={u.id} className="rounded-xl p-4" style={{ background: '#111111', border: '1px solid #262626' }}>
-              <div className="flex items-center gap-3 mb-3">
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-sm flex-shrink-0"
-                  style={{ background: 'rgba(139,92,246,0.2)', color: '#8B5CF6', fontWeight: 700 }}
+        {loading ? (
+          <div className="py-10 text-center">
+            <Loader2 className="animate-spin mx-auto" size={24} style={{ color: '#8B5CF6' }} />
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="py-10 text-center" style={{ color: '#666', fontSize: 13 }}>
+            Không tìm thấy user nào
+          </div>
+        ) : (
+          filtered.map((u) => {
+            const RoleIcon = ROLE_ICONS[u.role] || User;
+            const roleColor = ROLE_COLORS[u.role] || ROLE_COLORS.Customer;
+            const statusColor = STATUS_COLORS[u.status] || STATUS_COLORS.Active;
+            return (
+              <div key={u.id} className="rounded-xl p-4" style={{ background: '#111111', border: '1px solid #262626' }}>
+                <div className="flex items-center gap-3 mb-3">
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-sm flex-shrink-0"
+                    style={{ background: 'rgba(139,92,246,0.2)', color: '#8B5CF6', fontWeight: 700 }}
+                  >
+                    {u.displayName.substring(0, 2).toUpperCase()}
+                  </div>
+                  <div className="flex-1">
+                    <p style={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>{u.displayName}</p>
+                    <p style={{ color: '#666', fontSize: 12 }}>{u.email}</p>
+                  </div>
+                  <div className="flex flex-col gap-1 items-end">
+                    <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs"
+                      style={{ background: roleColor.bg, color: roleColor.text }}>
+                      <RoleIcon size={10} />
+                      {u.role}
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full text-xs"
+                      style={{ background: statusColor.bg, color: statusColor.text }}>
+                      {u.status}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => toggleBan(u)}
+                  className="w-full py-1.5 rounded-lg flex items-center justify-center gap-1 text-xs"
+                  style={{
+                    background: u.status === 'Locked' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)',
+                    color: u.status === 'Locked' ? '#10B981' : '#EF4444',
+                  }}
                 >
-                  {u.displayName.substring(0, 2).toUpperCase()}
-                </div>
-                <div className="flex-1">
-                  <p style={{ color: '#fff', fontSize: 13, fontWeight: 600 }}>{u.displayName}</p>
-                  <p style={{ color: '#666', fontSize: 12 }}>{u.email}</p>
-                </div>
-                <div className="flex flex-col gap-1 items-end">
-                  <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs"
-                    style={{ background: roleColor.bg, color: roleColor.text }}>
-                    <RoleIcon size={10} />
-                    {u.role}
-                  </span>
-                  <span className="px-2 py-0.5 rounded-full text-xs"
-                    style={{ background: statusColor.bg, color: statusColor.text }}>
-                    {u.status}
-                  </span>
-                </div>
+                  {u.status === 'Locked' ? <CheckCircle size={13} /> : <Ban size={13} />}
+                  {u.status === 'Locked' ? 'Activate' : 'Lock'}
+                </button>
               </div>
-              <button
-                onClick={() => toggleBan(u)}
-                className="w-full py-1.5 rounded-lg flex items-center justify-center gap-1 text-xs"
-                style={{
-                  background: u.status === 'Locked' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)',
-                  color: u.status === 'Locked' ? '#10B981' : '#EF4444',
-                }}
-              >
-                {u.status === 'Locked' ? <CheckCircle size={13} /> : <Ban size={13} />}
-                {u.status === 'Locked' ? 'Activate' : 'Lock'}
-              </button>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
 
       {/* Pagination */}

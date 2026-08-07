@@ -12,23 +12,14 @@ import { productsApi } from '../../api/products';
 import type { Product } from '../../types/product';
 import API from '../../api/client';
 import Hero3D from '../components/Hero3D';
+import { categoriesApi } from '../../api/analytics';
 
 interface Hero3dData {
   titleLine1: string;
   titleLine2: string;
   subtitle: string;
 }
-const CATEGORIES = [
-  { key: '', label: 'All' },
-  { key: 'Anime', label: 'Anime' },
-  { key: 'Game', label: 'Game' },
-  { key: 'Figure', label: 'Figure' },
-  { key: 'Chibi', label: 'Chibi' },
-  { key: 'Monster', label: 'Monster' },
-  { key: 'Robot', label: 'Robot' },
-  { key: 'Weapon', label: 'Weapon' },
-  { key: 'Accessory', label: 'Accessory' },
-];
+
 
 const PRICE_RANGES = [
   { key: 'all', label: 'All', min: undefined, max: undefined },
@@ -67,6 +58,7 @@ export function HomePage() {
     titleLine2: 'OC Figure HUB',
     subtitle: 'Kho tàng mô hình 3D anime chất lượng cao — khám phá, tải về và sáng tạo.',
   });
+  const [categoriesList, setCategoriesList] = useState<{key: string, label: string}[]>([{ key: '', label: 'All' }]);
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [category, setCategory] = useState('');
@@ -135,7 +127,7 @@ export function HomePage() {
   }, [search]);
 
   const matchingCategories = search.trim().length >= 1
-    ? CATEGORIES.filter(c => c.key && c.label.toLowerCase().includes(search.toLowerCase().trim())).slice(0, 3)
+    ? categoriesList.filter(c => c.key && c.label.toLowerCase().includes(search.toLowerCase().trim())).slice(0, 3)
     : [];
 
   // Fetch platform stats and hero content
@@ -148,6 +140,12 @@ export function HomePage() {
           titleLine2: res.data[0].ctaText || 'OC Figure HUB',
           subtitle: res.data[0].subtitle || 'Kho tàng mô hình 3D anime chất lượng cao — khám phá, tải về và sáng tạo.',
         });
+      }
+    }).catch(console.error);
+    categoriesApi.getAll().then(res => {
+      if (res && Array.isArray(res)) {
+        const fetchedCats = res.map((c: any) => ({ key: c.name, label: c.name }));
+        setCategoriesList([{ key: '', label: 'All' }, ...fetchedCats]);
       }
     }).catch(console.error);
   }, []);
@@ -494,7 +492,7 @@ export function HomePage() {
 
           {/* Category chips – horizontal scroll on mobile */}
           <div className="flex items-center gap-1 p-1 rounded-xl border w-full sm:w-auto overflow-x-auto scrollbar-hide" style={{ borderColor: '#262626', backgroundColor: '#0d0d0d' }}>
-            {CATEGORIES.map((cat) => (
+            {categoriesList.map((cat) => (
               <button
                 key={cat.key}
                 onClick={() => { setCategory(cat.key); handleFilterChange(); }}

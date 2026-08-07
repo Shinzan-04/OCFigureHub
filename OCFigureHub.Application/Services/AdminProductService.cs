@@ -134,6 +134,7 @@ public class AdminProductService
             FileSize = size
         };
 
+        await _files.DeleteByProductAndTypeAsync(productId, fileType, ct);
         await _files.AddAsync(pf, ct);
 
         if (fileType == FileType.Thumbnail)

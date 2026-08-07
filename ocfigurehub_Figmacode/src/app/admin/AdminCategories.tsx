@@ -14,7 +14,11 @@ interface Category {
   isEnabled: boolean;
 }
 
-const colorOptions = ['#8B5CF6', '#10B981', '#F59E0B', '#06B6D4', '#EF4444', '#EC4899'];
+const colorOptions = [
+  '#8B5CF6', '#10B981', '#F59E0B', '#06B6D4', '#EF4444', '#EC4899',
+  '#3B82F6', '#6366F1', '#14B8A6', '#EAB308', '#84CC16', '#F43F5E',
+  '#A855F7', '#D946EF', '#F97316', '#22C55E', '#0EA5E9', '#64748B'
+];
 
 export function AdminCategories() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -287,7 +291,7 @@ export function AdminCategories() {
               </div>
               <div>
                 <label style={{ color: '#ccc', fontSize: 12, display: 'block', marginBottom: 8 }}>Color</label>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                   {colorOptions.map(c => (
                     <button
                       key={c}
@@ -300,6 +304,23 @@ export function AdminCategories() {
                       }}
                     />
                   ))}
+                  {/* Custom color picker */}
+                  <div 
+                    className="relative w-8 h-8 rounded-full transition-all cursor-pointer flex items-center justify-center overflow-hidden"
+                    style={{
+                      background: !colorOptions.includes(form.color) ? form.color : 'conic-gradient(red, yellow, green, cyan, blue, magenta, red)',
+                      outline: !colorOptions.includes(form.color) ? `3px solid #fff` : 'none',
+                      outlineOffset: 2,
+                    }}
+                    title="Chọn màu tùy ý"
+                  >
+                    <input
+                      type="color"
+                      value={form.color}
+                      onChange={e => setForm(f => ({ ...f, color: e.target.value }))}
+                      className="absolute inset-0 w-[200%] h-[200%] -top-1/2 -left-1/2 opacity-0 cursor-pointer"
+                    />
+                  </div>
                 </div>
               </div>
               <div className="flex gap-3 pt-2">
