@@ -23,7 +23,7 @@ interface ProfileData {
 }
 
 export function ProfilePage() {
-  const { user, logout } = useAuthStore();
+  const { user, logout, refreshProfile } = useAuthStore();
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<'info' | 'password'>('info');
@@ -60,6 +60,7 @@ export function ProfilePage() {
       await API.put('/profile', { displayName: displayName.trim() });
       toast.success('Cập nhật hồ sơ thành công');
       setProfile(prev => prev ? { ...prev, displayName: displayName.trim() } : prev);
+      await refreshProfile();
     } catch {
       toast.error('Cập nhật thất bại');
     } finally {
