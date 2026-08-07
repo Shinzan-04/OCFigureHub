@@ -62,6 +62,7 @@ public class OrderRepository : IOrderRepository
         => await _db.Orders
                 .Include(o => o.User)
                 .Include(o => o.Items)
+                    .ThenInclude(i => i.Product)
                 .Include(o => o.Plan)
                 .OrderByDescending(o => o.CreatedAt)
                 .Skip((page - 1) * pageSize)

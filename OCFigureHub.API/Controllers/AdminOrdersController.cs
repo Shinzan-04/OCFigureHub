@@ -41,6 +41,7 @@ public class AdminOrdersController : ControllerBase
                     : o.Status.ToString(),
                 o.TotalAmount,
                 PlanName = o.Plan?.Name,
+                ProductName = o.Items?.FirstOrDefault()?.Product?.Name,
                 o.CreatedAt,
                 o.PaidAt,
                 ItemCount = o.Items?.Count ?? 0

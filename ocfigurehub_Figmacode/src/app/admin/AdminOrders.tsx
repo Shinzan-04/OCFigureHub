@@ -88,7 +88,7 @@ export function AdminOrders() {
         <table className="w-full">
           <thead>
             <tr style={{ borderBottom: '1px solid #262626' }}>
-              {['Order ID', 'User', 'Amount', 'Plan', 'Status', 'Created', 'Paid At'].map(col => (
+              {['Product', 'User', 'Amount', 'Plan', 'Status', 'Created', 'Paid At'].map(col => (
                 <th key={col} className="text-left px-4 py-3" style={{ color: '#666', fontSize: 12, fontWeight: 600 }}>{col}</th>
               ))}
             </tr>
@@ -100,8 +100,8 @@ export function AdminOrders() {
               return (
                 <tr key={o.id} style={{ borderBottom: '1px solid #1A1A1A' }}>
                   <td className="px-4 py-3">
-                    <span style={{ color: '#8B5CF6', fontSize: 12, fontFamily: 'monospace' }}>
-                      {o.id.substring(0, 8)}...
+                    <span style={{ color: '#8B5CF6', fontSize: 13, fontWeight: 600 }} className="line-clamp-1 max-w-[150px]" title={o.productName || o.planName || o.id}>
+                      {o.productName || o.planName || o.id.substring(0, 8)}
                     </span>
                   </td>
                   <td className="px-4 py-3">

@@ -17,6 +17,7 @@ export interface AdminOrder {
   status: string;
   totalAmount: number;
   planName?: string;
+  productName?: string;
   createdAt: string;
   paidAt?: string;
   itemCount: number;
