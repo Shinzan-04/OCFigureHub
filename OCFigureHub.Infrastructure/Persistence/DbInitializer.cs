@@ -28,6 +28,7 @@ public static class DbInitializer
         admin.Role = Role.Admin;
         admin.PasswordHash = HashPassword("Admin@123");
         admin.Status = UserStatus.Active;
+        admin.IsEmailVerified = true;
 
         // Seed subscription plans
         var targetPlans = new List<SubscriptionPlan>

@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight, AlertCircle, Copy, Check, ExternalLink } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { GoogleLogin } from '@react-oauth/google';
+import { isZaloBrowser } from '../components/ZaloWarningBanner';
 
 export function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,9 +11,16 @@ export function SignInPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
   const login = useAuthStore((s) => s.login);
   const googleLogin = useAuthStore((s) => s.googleLogin);
   const navigate = useNavigate();
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +39,8 @@ export function SignInPage() {
       setLoading(false);
     }
   };
+
+  const isZalo = isZaloBrowser();
 
   return (
     <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 sm:px-6 py-8 sm:py-12">
@@ -128,6 +138,29 @@ export function SignInPage() {
           </div>
 
           <div className="flex flex-col gap-3">
+            {isZalo && (
+              <div
+                className="p-3.5 rounded-xl text-xs flex flex-col gap-2 border"
+                style={{ backgroundColor: '#312E8115', borderColor: '#6366F140', color: '#C7D2FE' }}
+              >
+                <div className="flex items-center gap-1.5 font-semibold text-indigo-300">
+                  <ExternalLink size={14} />
+                  <span>Đang mở trong trình duyệt Zalo</span>
+                </div>
+                <p style={{ color: '#A5B4FC' }}>
+                  Google không hỗ trợ đăng nhập trực tiếp trên Zalo. Vui lòng bấm góc trên <strong>(...)</strong> ➔ <strong>Mở bằng trình duyệt</strong> (Safari/Chrome).
+                </p>
+                <button
+                  type="button"
+                  onClick={handleCopyLink}
+                  className="mt-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium bg-indigo-600/30 hover:bg-indigo-600/50 text-white transition-colors"
+                >
+                  {copied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
+                  <span>{copied ? 'Đã sao chép liên kết!' : 'Sao chép liên kết để dán vào Safari/Chrome'}</span>
+                </button>
+              </div>
+            )}
+
             <div className="w-full flex justify-center">
               <GoogleLogin
                 onSuccess={async (credentialResponse) => {
@@ -158,3 +191,4 @@ export function SignInPage() {
     </div>
   );
 }
+
