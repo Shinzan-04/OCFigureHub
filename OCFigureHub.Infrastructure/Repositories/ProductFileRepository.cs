@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using OCFigureHub.Application.Abstractions;
 using OCFigureHub.Domain.Entities;
 using OCFigureHub.Infrastructure.Persistence;
@@ -14,9 +15,9 @@ public class ProductFileRepository : IProductFileRepository
 
     public async Task DeleteByProductAndTypeAsync(Guid productId, OCFigureHub.Domain.Enums.FileType fileType, CancellationToken ct)
     {
-        var existingFiles = _db.ProductFiles.Where(f => f.ProductId == productId && f.FileType == fileType);
-        _db.ProductFiles.RemoveRange(existingFiles);
-        await Task.CompletedTask;
+        await _db.ProductFiles
+            .Where(f => f.ProductId == productId && f.FileType == fileType)
+            .ExecuteDeleteAsync(ct);
     }
 
     public Task SaveChangesAsync(CancellationToken ct)
